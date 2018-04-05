@@ -22,6 +22,9 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 	}
 
 	public function add_actions() {
+		if ( is_admin() ) {
+			new WMN_Form_Workbook;
+		}
 		parent::add_actions();
 	}
 
