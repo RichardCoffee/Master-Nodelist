@@ -12,6 +12,7 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 #		add_action( 'tcc_load_form_page',      array( $this, 'wmn_load_form_page' ) );
 #		add_filter( "form_text_{$this->slug}", array( $this, 'form_trans_text' ), 10, 2 );
 #		parent::__construct();
+#		add_action('wp_ajax_excel_to_dbtable',  array($this, 'excel_to_dbtable') );
 	}
 
 	public function add_menu_option() {
@@ -32,6 +33,10 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 		$paths = wmn_paths();
 		wp_enqueue_style(  'workbook-form.css', $paths->get_plugin_file_uri( 'css/admin-form.css' ), null, $paths->version );
 #		wp_enqueue_script( 'workbook-form.js',  $paths->get_plugin_file_uri( 'js/admin-form.js' ), array( 'jquery' ), $paths->version, true );
+
+
+#wp_enqueue_script( 'wp-excel-2-db-public', plugin_dir_url( __FILE__ ) . 'js/wp-excel-2-db-public.js', array( 'jquery' ), $this->version, false );
+
 	}
 /*
 	public function enqueue_theme_scripts() {
@@ -53,7 +58,19 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 	} //*/
 
 	public function show_import_form() {
-		echo '<h1 class="centered">Hello World!</h1>';
+		wp_enqueue_media(); ?>
+		<h1 class="centered">
+			<?php esc_html_e( 'Import Master Node List', 'wmn-workbook' ); ?>
+		</h1>
+		<form method='post'>
+			<p id="file_status">No file selected</p>
+			<div id="file_log">
+			</div>
+			<input id="upload_image_button" type="button" class="button" value="<?php _e( 'Choose file to upload' ); ?>" />
+		</form><?php
+}
+
+
 	}
 
 }
