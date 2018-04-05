@@ -12,7 +12,7 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 #		add_action( 'tcc_load_form_page',      array( $this, 'wmn_load_form_page' ) );
 #		add_filter( "form_text_{$this->slug}", array( $this, 'form_trans_text' ), 10, 2 );
 #		parent::__construct();
-#		add_action('wp_ajax_excel_to_dbtable',  array($this, 'excel_to_dbtable') );
+		add_action('wp_ajax_wmn_import_nodelist',  array($this, 'import_nodelist') );
 	}
 
 	public function add_menu_option() {
@@ -31,12 +31,8 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 
 	public function admin_enqueue_scripts( $hook ) {
 		$paths = wmn_paths();
-		wp_enqueue_style(  'workbook-form.css', $paths->get_plugin_file_uri( 'css/admin-form.css' ), null, $paths->version );
-#		wp_enqueue_script( 'workbook-form.js',  $paths->get_plugin_file_uri( 'js/admin-form.js' ), array( 'jquery' ), $paths->version, true );
-
-
-#wp_enqueue_script( 'wp-excel-2-db-public', plugin_dir_url( __FILE__ ) . 'js/wp-excel-2-db-public.js', array( 'jquery' ), $this->version, false );
-
+		wp_enqueue_style(  'wmn-workbook-form.css',  $paths->get_plugin_file_uri( 'css/admin-form.css' ),                 null, $paths->version );
+		wp_enqueue_script( 'wmn-import-nodelist.js', $paths->get_plugin_file_uri( 'js/import-nodelist.js' ), array( 'jquery' ), $paths->version, true );
 	}
 /*
 	public function enqueue_theme_scripts() {
@@ -68,6 +64,9 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 			</div>
 			<input id="upload_image_button" type="button" class="button" value="<?php _e( 'Choose file to upload' ); ?>" />
 		</form><?php
+	}
+
+	public function import_nodelist() {
 	}
 
 
