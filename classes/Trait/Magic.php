@@ -61,4 +61,4 @@ trait WMN_Trait_Magic {
 	}
 
 
-}                                                                                                            }
+}
