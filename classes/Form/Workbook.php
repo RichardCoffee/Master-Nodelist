@@ -68,9 +68,7 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 			</div>
 			<input id="upload_image_button" type="button" class="button" value="<?php _e( 'Choose file to upload' ); ?>" />
 		</form><?php
-}
-
-
 	}
+
 
 }
