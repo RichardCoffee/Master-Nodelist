@@ -43,7 +43,7 @@ trait WMN_Trait_Magic {
 				self::$magic__call[ $alias ] = $method;
 			} else {
 				$key = ( is_array( $method ) ) ? $method[1] : $method;
-				self::$magic__call[ $method ] = $method;
+				self::$magic__call[ $key ] = $method;
 			}
 			return true;
 		}
