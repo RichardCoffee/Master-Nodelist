@@ -38,11 +38,16 @@ trait WMN_Trait_Magic {
 	} //*/
 
 	public static function register__call( $method, $alias = false ) {
-		if ( $alias ) {
-			self::$magic__call[ $alias ] = $method;
-		} else {
-			self::$magic__call[] = $method;
+		if ( is_callable( $method ) ) {
+			if ( $alias ) {
+				self::$magic__call[ $alias ] = $method;
+			} else {
+				$key = ( is_array( $method ) ) ? $method[1] : $method;
+				self::$magic__call[ $method ] = $method;
+			}
+			return true;
 		}
+		return false;
 	} //*/
 
 	public function set( $property, $value ) {
@@ -55,4 +60,5 @@ trait WMN_Trait_Magic {
 		}
 	}
 
-                                                                                                            }
+
+}                                                                                                            }

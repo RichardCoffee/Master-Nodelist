@@ -13,7 +13,7 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Workbook {
 
 	public function initialize() {
 		if ( ( ! WMN_Register_Workbook::php_version_check() ) || ( ! WMN_Register_Workbook::wp_version_check() ) ) {
-			return
+			return;
 		}
 		register_deactivation_hook( $this->paths->file, array( 'WMN_Register_Workbook', 'deactivate' ) );
 		register_uninstall_hook(    $this->paths->file, array( 'WMN_Register_Workbook', 'uninstall'  ) );
