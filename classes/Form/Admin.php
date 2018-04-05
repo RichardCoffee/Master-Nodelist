@@ -8,7 +8,7 @@
  *  I sure hope that Fields API thing works out, cause then I can get rid of this monstrosity.
  */
 
-abstract class TCC_Form_Admin {
+abstract class WMN_Form_Admin {
 
 	protected $current   = '';
 	protected $form      =  array();
@@ -24,8 +24,8 @@ abstract class TCC_Form_Admin {
 	protected $type      = 'single'; # two values: single, tabbed
 	protected $validate;
 
-	use TCC_Trait_Attributes;
-	use TCC_Trait_Logging;
+	use WMN_Trait_Attributes;
+	use WMN_Trait_Logging;
 
 	abstract protected function form_layout( $option );
 	public function description() { return ''; }
@@ -818,7 +818,7 @@ abstract class TCC_Form_Admin {
 	}
 
 
-}	#	end of TCC_Form_Admin class
+}
 
 
 if ( ! function_exists('e_esc_html') ) {
