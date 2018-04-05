@@ -7,7 +7,7 @@
  * Main plugin class
  *
  */
-class WMN_Plugin_Workbook extends WMN_Plugin_Workbook {
+class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 
 	use WMN_Trait_Singleton;
 
