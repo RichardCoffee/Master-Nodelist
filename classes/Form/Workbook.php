@@ -12,7 +12,8 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 #		add_action( 'tcc_load_form_page',      array( $this, 'wmn_load_form_page' ) );
 #		add_filter( "form_text_{$this->slug}", array( $this, 'form_trans_text' ), 10, 2 );
 #		parent::__construct();
-		add_action('wp_ajax_wmn_import_nodelist',  array($this, 'import_nodelist') );
+		add_action( 'wp_ajax_wmn_import_nodelist',  array( $this, 'import_nodelist' ) );
+wmn()->log($this);
 	}
 
 	public function add_menu_option() {

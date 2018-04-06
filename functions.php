@@ -20,6 +20,7 @@ function wmn() {
 	}
 	return $library;
 }
+wmn();
 
 # http://stackoverflow.com/questions/14348470/is-ajax-in-wordpress
 if ( ! function_exists( 'is_ajax' ) ) {
