@@ -13,7 +13,7 @@ trait WMN_Trait_Magic {
 	protected static $magic__call   = array();
 	protected static $set__callable = false;
 
-
+	# do not use is_callable() within this function
 	public function __call( $string, $args ) {
 		$return = false;
 		if ( isset( self::$magic__call[ $string ] ) ) {
@@ -23,7 +23,7 @@ trait WMN_Trait_Magic {
 		} else if ( property_exists( $this, $string ) ) {
 			$return = $this->$string;
 		}
-		return $return;
+		return 'non-callable function';
 	}
 
 	public function __get( $name ) {
@@ -37,7 +37,7 @@ trait WMN_Trait_Magic {
 		return isset( $this->$name ); #  Allow read access to private/protected variables
 	} //*/
 
-	public static function register__call( $method, $alias = false ) {
+	public function register__call( $method, $alias = false ) {
 		if ( is_callable( $method ) ) {
 			if ( $alias ) {
 				self::$magic__call[ $alias ] = $method;
