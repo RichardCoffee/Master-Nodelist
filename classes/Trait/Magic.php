@@ -45,6 +45,7 @@ trait WMN_Trait_Magic {
 				$key = ( is_array( $method ) ) ? $method[1] : $method;
 				self::$magic__call[ $key ] = $method;
 			}
+wmn()->log( self::$magic__call );
 			return true;
 		}
 		return false;

@@ -4,9 +4,9 @@
  *
  * @package   Workbook Node List
  * @author    Richard Coffee <richard.coffee@rtcenterprises.net>
- * @copyright 2018 Richard Coffee
+ * @copyright 2018 Richard Coffee <richard.coffee@rtcenterprises.net>
  * @license   GPLv2  <need uri here>
- * @link      link
+ * @link      rtcenterprises.net
  *
  * @wordpress-plugin
  * Plugin Name:       Workbook Node List
@@ -25,7 +25,11 @@
  * Tags:              excel
  */
 
-# https://github.com/helgatheviking/Nav-Menu-Roles/blob/master/nav-menu-roles.php
+/**
+ * check to see if wp is running
+ *
+ * @link https://github.com/helgatheviking/Nav-Menu-Roles/blob/master/nav-menu-roles.php
+ */
 if ( ! defined('ABSPATH') || ! function_exists( 'is_admin' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
