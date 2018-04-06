@@ -25,5 +25,9 @@ class WMN_Plugin_Library {
 		$called = true;
 	}
 
+	public function magic__call() {
+		return self::$magic__call;
+	}
+
 
 }
