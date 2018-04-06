@@ -19,6 +19,8 @@ class WMN_Plugin_Library {
 				add_action( 'deprecated_hook_run',        array( $this, 'logging_log_deprecated' ), 10, 4 );
 				add_action( 'doing_it_wrong_run',         array( $this, 'logging_log_deprecated' ), 10, 3 );
 			}
+		} else {
+			$this->log( self::$magic__call );
 		}
 		$called = true;
 	}
