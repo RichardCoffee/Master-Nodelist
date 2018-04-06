@@ -11,7 +11,6 @@ class WMN_Plugin_Library {
 		if ( ! $called ) {
 			self::register_call( array( $this, 'logging_get_calling_function_name' ), 'get_calling_function' );
 			self::register_call( array( $this, 'logging_was_called_by' ),             'was_called_by' );
-wmn()->log(self::$magic__call);
 			if ( WP_DEBUG ) {
 				add_action( 'deprecated_function_run',    array( $this, 'logging_log_deprecated' ), 10, 3 );
 				add_action( 'deprecated_constructor_run', array( $this, 'logging_log_deprecated' ), 10, 3 );
