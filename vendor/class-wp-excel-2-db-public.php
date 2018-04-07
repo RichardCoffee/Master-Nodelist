@@ -157,17 +157,17 @@ class Wp_Excel_2_Db_Public {
 				$delete = $wpdb->query("DROP TABLE IF EXISTS `".strtolower($tableName)."`");
 			}
 		}
-		
+
 		$objReader = PHPExcel_IOFactory::createReader('Excel2007');
 		$objReader->setReadDataOnly(true);
 		$objPHPExcel = $objReader->load($file_path);
 		$objWorksheet = $objPHPExcel->getActiveSheet();
 		//get latest row
-		$highestRow = $objWorksheet->getHighestRow(); 
+		$highestRow = $objWorksheet->getHighestRow();
 		//get last column
-		$highestColumn = $objWorksheet->getHighestColumn(); 
+		$highestColumn = $objWorksheet->getHighestColumn();
 		//get last column index
-		$highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn); 
+		$highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
 		$headers=array();
 		if($start_index>1){
 			$headers=$_SESSION[$table_name."_headers"];
@@ -193,15 +193,15 @@ class Wp_Excel_2_Db_Public {
 
 			     //table not in database. Create new table
 			     $charset_collate = $wpdb->get_charset_collate();
-			 
+
 			     $sql = "CREATE TABLE ".strtolower($tableName)." (
 			           id int(11) NOT NULL AUTO_INCREMENT,";
 
-			  	foreach ($headers as $header)
-			  		   $sql.="`$header` text,";
+				foreach ($headers as $header)
+					   $sql.="`$header` text,";
 
-	  			$sql .= "`insertionDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-		  				   PRIMARY KEY (id)
+				$sql .= "`insertionDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+						   PRIMARY KEY (id)
 				     ) $charset_collate;";
 			    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 			    dbDelta( $sql );
@@ -219,10 +219,10 @@ class Wp_Excel_2_Db_Public {
 					echo json_encode($response);
 					wp_die();
 				}
-			}		
+			}
 
-		} 
-			unset($_SESSION[$table_name."_headers"]); 
+		}
+			unset($_SESSION[$table_name."_headers"]);
 			$response=array('status'=>'success','index'=>$row,'type'=>'complete');
 			echo json_encode($response);
 			wp_die();

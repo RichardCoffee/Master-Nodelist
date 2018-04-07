@@ -55,7 +55,17 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 	}
 
 	public function import_nodelist() {
+/*
 
+dbf creation
+
+upload file / pick file
+
+read file
+
+cycle through all sheets
+
+*/
 	}
 
 
