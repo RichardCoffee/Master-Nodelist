@@ -8,7 +8,7 @@
  *  I sure hope that Fields API thing works out, cause then I can get rid of this monstrosity.
  */
 
-abstract class TCC_Form_Admin {
+abstract class WMN_Form_Admin {
 
 	protected $current   = '';
 	protected $form      =  array();
@@ -24,8 +24,8 @@ abstract class TCC_Form_Admin {
 	protected $type      = 'single'; # two values: single, tabbed
 	protected $validate;
 
-	use TCC_Trait_Attributes;
-	use TCC_Trait_Logging;
+	use WMN_Trait_Attributes;
+	use WMN_Trait_Logging;
 
 	abstract protected function form_layout( $option );
 	public function description() { return ''; }
@@ -98,20 +98,20 @@ abstract class TCC_Form_Admin {
 	private function form_text() {
 	$text = array(
 		'error'  => array(
-			'render'    => _x( 'ERROR: Unable to locate function %s', 'string - a function name', 'tcc-plugin' ),
-			'subscript' => _x( 'ERROR: Not able to locate form data subscript:  %s', 'placeholder will be an ASCII character string', 'tcc-plugin' )
+			'render'    => _x( 'ERROR: Unable to locate function %s', 'string - a function name', 'wmn-workbook' ),
+			'subscript' => _x( 'ERROR: Not able to locate form data subscript:  %s', 'placeholder will be an ASCII character string', 'wmn-workbook' )
 		),
 		'submit' => array(
-			'save'      => __( 'Save Changes', 'tcc-plugin' ),
-			'object'    => __( 'Form', 'tcc-plugin' ),
-			'reset'     => _x( 'Reset %s', 'placeholder is a noun, may be plural', 'tcc-plugin' ),
-			'subject'   => __( 'Form', 'tcc-plugin' ),
-			'restore'   => _x( 'Default %s options restored.', 'placeholder is a noun, probably singular', 'tcc-plugin' )
+			'save'      => __( 'Save Changes', 'wmn-workbook' ),
+			'object'    => __( 'Form', 'wmn-workbook' ),
+			'reset'     => _x( 'Reset %s', 'placeholder is a noun, may be plural', 'wmn-workbook' ),
+			'subject'   => __( 'Form', 'wmn-workbook' ),
+			'restore'   => _x( 'Default %s options restored.', 'placeholder is a noun, probably singular', 'wmn-workbook' )
 		),
 		'media'  => array(
-			'title'     => __( 'Assign/Upload Image', 'tcc-plugin' ),
-			'button'    => __( 'Assign Image', 'tcc-plugin' ),
-			'delete'    => __( 'Unassign Image', 'tcc-plugin' )
+			'title'     => __( 'Assign/Upload Image', 'wmn-workbook' ),
+			'button'    => __( 'Assign Image', 'wmn-workbook' ),
+			'delete'    => __( 'Unassign Image', 'wmn-workbook' )
 		)
 	);
 	$this->form_text = apply_filters( 'form_text_' . $this->slug, $text, $text );
@@ -577,8 +577,8 @@ abstract class TCC_Form_Admin {
 				<?php e_esc_html( $pre_text ); ?>
 			</div>
 			<div class="radio-multiple-header">
-				<span class="radio-multiple-yes"><?php esc_html_e( 'Yes', 'tcc-plugin' ); ?></span>&nbsp;
-				<span class="radio-multiple-no" ><?php esc_html_e( 'No', 'tcc-plugin' ); ?></span>
+				<span class="radio-multiple-yes"><?php esc_html_e( 'Yes', 'wmn-workbook' ); ?></span>&nbsp;
+				<span class="radio-multiple-no" ><?php esc_html_e( 'No', 'wmn-workbook' ); ?></span>
 			</div><?php
 			foreach( $layout['source'] as $key => $text ) {
 				$check  = ( isset( $value[ $key ] ) ) ? $value[ $key ] : $preset; ?>
