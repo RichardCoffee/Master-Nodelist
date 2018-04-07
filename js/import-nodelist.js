@@ -1,6 +1,7 @@
 /*
  *
- * source: https://plugins.trac.wordpress.org/browser/wp-excel-2-db/trunk/admin/js/wp-excel-2-db-admin.js
+ * sources: https://mikejolley.com/2012/12/21/using-the-new-wordpress-3-5-media-uploader-in-plugins/
+ *          https://plugins.trac.wordpress.org/browser/wp-excel-2-db/trunk/admin/js/wp-excel-2-db-admin.js
  *
  */
 
@@ -11,11 +12,11 @@ jQuery( document ).ready( function( $ ) {
 	if( typeof wp.media != 'undefined' ) {
 		var wp_media_post_id = wp.media.model.settings.post.id; // Store the old id
 
-		jQuery( '#upload_image_button' ).on( 'click', function( event ) {
+		jQuery( '#upload_nodelist_button' ).on( 'click', function( event ) {
 
 			event.preventDefault();
 			// Create the media frame.
-			file_frame = wp.media.frames.file_frame = wp.media( {
+			file_frame = wp.media( {
 				title: 'Select excel file',
 				button: {
 					text: 'Use this file',
