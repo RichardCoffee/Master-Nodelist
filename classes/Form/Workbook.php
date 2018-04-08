@@ -76,10 +76,14 @@ dbf creation
 upload file / pick file
 */
 
+$row = 1;
+$sheet_index = 0;
+
 $nodelist = get_attached_file( $_POST['attachment_id'] ); // Full path
+
 #$nodelist = ABSPATH . 'wp-content/uploads/2018/04/master-masterMaster-Node-Released-WIP-4.2.18.xlsx';
 
-$helper = fluid();
+$helper = wmn();
 
 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 $reader->setReadDataOnly( true );
