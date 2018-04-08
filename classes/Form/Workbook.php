@@ -52,7 +52,14 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 			<div class="centered">
 				<input id="upload_nodelist_button" type="button" class="button" value="<?php _e( 'Choose file to upload', 'wmn-workbook' ); ?>" />
 			</div>
-		</form><?php
+		</form>
+		<div>
+			<?php phpinfo(); ?>
+		</div>
+
+
+<?php
+
 	}
 
 	public function import_nodelist() {
