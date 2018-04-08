@@ -28,5 +28,5 @@ if ( ! function_exists( 'is_ajax' ) ) {
 		return ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ? true : false;
 	}
 }
-
+session_start();
 wmn()->log( $_SESSION );
