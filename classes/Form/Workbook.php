@@ -25,7 +25,6 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 	}
 
 	public function admin_enqueue_scripts( $hook ) {
-wmn()->log('admin_enqueue_scripts');
 		$paths = wmn_paths();
 		wp_enqueue_media();
 		wp_enqueue_style(  'wmn-workbook-form.css',  $paths->get_plugin_file_uri( 'css/admin-form.css' ),                 null, $paths->version );
@@ -69,9 +68,10 @@ dbf creation
 
 upload file / pick file
 */
-/*
-#$nodelist = get_attached_file( $_POST['attachment_id'] ); // Full path
-$nodelist = ABSPATH . 'wp-content/uploads/2018/04/master-masterMaster-Node-Released-WIP-4.2.18.xlsx';
+
+$nodelist = get_attached_file( $_POST['attachment_id'] ); // Full path
+#$nodelist = ABSPATH . 'wp-content/uploads/2018/04/master-masterMaster-Node-Released-WIP-4.2.18.xlsx';
+
 $helper = fluid();
 
 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
@@ -86,11 +86,18 @@ $helper->log('Reading the names of Worksheets in the WorkBook');
 // Use the PhpSpreadsheet object's getSheetNames() method to get an array listing the names/titles of the WorkSheets in the WorkBook
 $sheetNames = $spreadsheet->getSheetNames();
 foreach ($sheetNames as $sheetIndex => $sheetName) {
-    $helper->log('WorkSheet #' . $sheetIndex . ' is named "' . $sheetName . '"');
+    $helper->log(0,'WorkSheet #' . $sheetIndex . ' is named "' . $sheetName . '"');
 }
-*/
 
 
+		$response = array(
+			'status' => 'success',
+			'index'  => $row,
+			'sheet'  => $sheet_index,
+			'type'   => 'complete',
+		);
+		echo json_encode( $response );
+		wp_die();
 	}
 
 
