@@ -31,9 +31,9 @@ jQuery( document ).ready( function( $ ) {
 			file_frame.on( 'select', function() {
 				// We set multiple to false so only get one image from the uploader
 				attachment = file_frame.state().get( 'selection' ).first().toJSON();
-				convertFile( attachment.id, 1, 0 );
+				convertFile( attachment.id, 0 );
 				// Do something with attachment.id and/or attachment.url here
-				$( '#file_status' ).html( 'Please Wait Until Processing ...' );
+				$( '#file_status' ).html( 'Please Wait Until Processing ... <i class="fa fa-spinner fa-spin"></i>' );
 
 				// Restore the main post ID
 				wp.media.model.settings.post.id = wp_media_post_id;
@@ -52,7 +52,7 @@ jQuery( document ).ready( function( $ ) {
 } );
 
 
-function convertFile( attachment_id, start_index, sheet_index ) {
+function convertFile( attachment_id, start_index ) {
 	jQuery.ajax( {
 		type: "POST",
 		url: ajaxurl,
@@ -60,22 +60,21 @@ function convertFile( attachment_id, start_index, sheet_index ) {
 			action: "wmn_import_nodelist",
 			attachment_id: attachment_id,
 			start_index: start_index,
-			sheet_index: sheet_index,
 		},
 		success: function ( response ) {
 			var result = JSON.parse( response );
 			if( ( result['status'] == 'success' ) && ( result['type'] == 'incomplete' ) ) {
-				jQuery( "#file_log" ).html( '<p> ' + result['index'] + ' rows inserted to database successfullly. Please Wait .. </p>' );
+				jQuery( "#file_log" ).html( result['message'] );
 				var index = parseInt( result['index'] );
 				convertFile( attachment_id, index + 1, result['sheet'] );
 				return false;
 			} else if( ( result['status'] == 'success' ) && ( result['type'] == 'complete' ) ) {
-				jQuery( "#file_log" ).html( '<p> ' + result['index'] + ' rows inserted to database successfullly. Done </p>' );
+				jQuery( "#file_log" ).html( result['message'] );
 				return true;
 			} else {
 				var index = parseInt( result['index'] );
 				index = index - 1;
-				jQuery( "#file_log" ).append( '<p> ' + index + ' rows inserted to database successfullly. Done </p>' );
+				jQuery( "#file_log" ).append( result['message'] );
 				return true;
 			}
 		}

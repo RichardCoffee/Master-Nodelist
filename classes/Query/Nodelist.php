@@ -14,14 +14,30 @@ class WMN_Query_Nodelist {
 #		global $wpdb;
 	}
 
-	public function create( $headers ) {
+	public function base_headers() {
+		return array(
+			'account',
+			'house',
+			'ticket',
+			'name',
+			'type',
+			'phone',
+			'node',
+			'desc',
+			'address',
+		);
+	}
+
+	public function create() {
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
 		$sql = "CREATE TABLE workbook_nodelist ( id int(11) NOT NULL AUTO_INCREMENT,";
-		foreach ($headers as $header) {
+		$headers = $this->base_headers();
+		$headers[] = 'tech';
+		foreach ( $headers as $header ) {
 			$sql .= "'$header' text,";
 		}
-#		$sql .= "'insertionDate' datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id)";
+		$sql .= "'insertionDate' datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id)";
 		$sql .= " ) $charset_collate;";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql );

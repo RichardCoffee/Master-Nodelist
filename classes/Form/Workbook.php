@@ -11,8 +11,6 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 		add_action( 'admin_enqueue_scripts',       array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_menu',                  array( $this, 'add_menu_option' ) );
 		add_action( 'wp_ajax_wmn_import_nodelist', array( $this, 'import_nodelist' ) );
-#		add_filter( "form_text_{$this->slug}",     array( $this, 'form_trans_text' ), 10, 2 );
-#		parent::__construct();
 	}
 
 	public function add_menu_option() {
@@ -34,12 +32,6 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 	protected function form_layout( $form = array() ) {
 		return $form;
 	}
-/*
-	public function form_trans_text( $text, $orig ) {
-#		$text['submit']['object']  = __( 'Privacy', 'tcc-privacy' );
-#		$text['submit']['subject'] = __( 'Privacy', 'tcc-privacy' );
-		return $text;
-	} //*/
 
 	public function show_import_form() { ?>
 		<h1 class="centered">
@@ -50,61 +42,67 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 			<div id="file_log" class="centered">
 			</div>
 			<div class="centered">
-				<input id="upload_nodelist_button" type="button" class="button" value="<?php _e( 'Choose file to upload', 'wmn-workbook' ); ?>" />
+				<input id="upload_nodelist_button" type="button" class="button" value="<?php _e( 'Choose file to import', 'wmn-workbook' ); ?>" />
 			</div>
 		</form>
 		<div>
 			<?php #phpinfo(); ?>
-		</div>
-
-
-<?php
-
+		</div><?php
 	}
 
 	public function import_nodelist() {
 		@session_start();
 		require_once( wmn_paths()->dir . 'vendor/autoload.php' );
-/*
+
+		if ( isset( $_SESSION['import_nodelist'] ) ) {
+			$data = $_SESSION['import_nodelist'];
+			$data['index'] = $_POST['start_index'];
+		} else {
+			$data = array(
+				'count' => 0,
+				'file'  => get_attached_file( $_POST['attachment_id'] ), // full path
+				'index' => 0,
+				'names' => array(),
+			);
+		}
+
+		$import = new WMN_Query_Nodelist;
+		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+		$reader->setReadDataOnly( true );
+		if ( empty( $data['names'] ) ) {
+			$import->create();
+			$data['names'] = $reader->listWorksheetNames( $data['file'] );
+			$data['count'] = count( $data['names'] );
+		}
+		$reader->setLoadSheetsOnly( $data['names'][$data['index']] );
+		$spreadsheet = $reader->load( $data['file'] );
 
 
-check for session var
 
 
-dbf creation
-
-upload file / pick file
-*/
-
-$row = 1;
-$sheet_index = 0;
-
-$nodelist = get_attached_file( $_POST['attachment_id'] ); // Full path
-
-#$nodelist = ABSPATH . 'wp-content/uploads/2018/04/master-masterMaster-Node-Released-WIP-4.2.18.xlsx';
-
-$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-$reader->setReadDataOnly( true );
-$spreadsheet = $reader->load( $nodelist );
-
-// Use the PhpSpreadsheet object's getSheetCount() method to get a count of the number of WorkSheets in the WorkBook
-$sheetCount = $spreadsheet->getSheetCount();
-wmn(1)->log('There ' . (($sheetCount == 1) ? 'is' : 'are') . ' ' . $sheetCount . ' WorkSheet' . (($sheetCount == 1) ? '' : 's') . ' in the WorkBook');
-
-wmn(1)->log('Reading the names of Worksheets in the WorkBook');
-// Use the PhpSpreadsheet object's getSheetNames() method to get an array listing the names/titles of the WorkSheets in the WorkBook
-$sheetNames = $spreadsheet->getSheetNames();
-foreach ($sheetNames as $sheetIndex => $sheetName) {
-    wmn(1)->log(0,'WorkSheet #' . $sheetIndex . ' is named "' . $sheetName . '"');
-}
-
+$had_error = false;
+$skipped = false;
 
 		$response = array(
-			'status' => 'success',
-			'index'  => $row,
-			'sheet'  => $sheet_index,
-			'type'   => 'complete',
+			'status'  => 'success',
+			'index'   => $data['index'],
+			'type'    => 'complete',
+			'message' => '<p>Master Nodelist successfully import.</p>',
 		);
+		$_SESSION['import_nodelist'] = $data;
+		if ( $had_error ) {
+			$response['status']  = 'error';
+			$response['message'] = "ERROR: Worksheet {$data['names'][$data['index']]} was not imported.  Operation aborted.";
+			unset( $_SESSION['import_nodelist'] );
+		} else if ( $skipped ) {
+			$response['type']    = 'incomplete';
+			$response['message'] = "Worksheet {$data['names'][$data['index']]} skipped.";
+		} else if ( ( $data['index'] + 1 ) < $data['count'] ) {
+			$response['type']    = 'incomplete';
+			$response['message'] = "Worksheet {$data['names'][$data['index']]} imported.";
+		} else {
+			unset( $_SESSION['import_nodelist'] );
+		}
 		echo json_encode( $response );
 		wp_die();
 	}
