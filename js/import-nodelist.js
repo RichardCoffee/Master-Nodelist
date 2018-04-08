@@ -68,7 +68,7 @@ function convertFile( attachment_id, start_index ) {
 				var index = parseInt( result['index'] );
 				convertFile( attachment_id, index+ 1 );
 				return false;
-			} else if( ( result['status'] == 'success' ) && ( result['type'] == 'ncomplete' ) ) {
+			} else if( ( result['status'] == 'success' ) && ( result['type'] == 'incomplete' ) ) {
 				jQuery( "#file_log" ).html( '<p> ' + result['index'] + ' rows inserted to database successfullly. Done </p>' );
 				return true;
 			} else {

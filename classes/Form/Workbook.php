@@ -56,10 +56,16 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 
 	public function import_nodelist() {
 /*
+global $wpdb;
 
 dbf creation
 
 upload file / pick file
+$nodelist = file name and path
+
+$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+$reader->setReadDataOnly( true );
+$spreadsheet = $reader->load( $nodelist );
 
 read file
 
