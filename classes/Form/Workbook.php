@@ -24,6 +24,7 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 	}
 
 	public function admin_enqueue_scripts( $hook ) {
+wmn()->log('admin_enqueue_scripts');
 		$paths = wmn_paths();
 		wp_enqueue_media();
 		wp_enqueue_style(  'wmn-workbook-form.css',  $paths->get_plugin_file_uri( 'css/admin-form.css' ),                 null, $paths->version );
@@ -55,15 +56,21 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 	}
 
 	public function import_nodelist() {
+		session_start();
+		require_once( 'vendor/autoload.php' );
 /*
-global $wpdb;
+
+
+check for session var
+
 
 dbf creation
 
 upload file / pick file
 */
 /*
-$nodelist = get_attached_file( $_POST['attachment_id'] ); // Full path
+#$nodelist = get_attached_file( $_POST['attachment_id'] ); // Full path
+$nodelist = ABSPATH . 'wp-content/uploads/2018/04/master-masterMaster-Node-Released-WIP-4.2.18.xlsx';
 $helper = fluid();
 
 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
