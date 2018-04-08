@@ -8,6 +8,7 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 
 
 	public function __construct() {
+		add_action( 'admin_enqueue_scripts',       array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_menu',                  array( $this, 'add_menu_option' ) );
 		add_action( 'wp_ajax_wmn_import_nodelist', array( $this, 'import_nodelist' ) );
 #		add_filter( "form_text_{$this->slug}",     array( $this, 'form_trans_text' ), 10, 2 );
