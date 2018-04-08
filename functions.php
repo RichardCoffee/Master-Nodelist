@@ -13,10 +13,13 @@ function wmn_workbook_class_loader( $class ) {
 }
 spl_autoload_register( 'wmn_workbook_class_loader' ); //*/
 
-function wmn() {
+function wmn( $force_log ) {
 	static $library;
 	if ( empty( $library ) ) {
 		$library = new WMN_Plugin_Library;
+	}
+	if ( $force_log ) {
+		$library->logging_force = true;
 	}
 	return $library;
 }

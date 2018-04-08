@@ -84,20 +84,20 @@ $nodelist = get_attached_file( $_POST['attachment_id'] ); // Full path
 #$nodelist = ABSPATH . 'wp-content/uploads/2018/04/master-masterMaster-Node-Released-WIP-4.2.18.xlsx';
 
 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
-wmn()->log($reader);
+wmn(1)->log($reader);
 $reader->setReadDataOnly( true );
 $spreadsheet = $reader->load( $nodelist );
-wmn()->log($spreadsheet);
+wmn(1)->log($spreadsheet);
 
 // Use the PhpSpreadsheet object's getSheetCount() method to get a count of the number of WorkSheets in the WorkBook
 $sheetCount = $spreadsheet->getSheetCount();
-wmn()->log('There ' . (($sheetCount == 1) ? 'is' : 'are') . ' ' . $sheetCount . ' WorkSheet' . (($sheetCount == 1) ? '' : 's') . ' in the WorkBook');
+wmn(1)->log('There ' . (($sheetCount == 1) ? 'is' : 'are') . ' ' . $sheetCount . ' WorkSheet' . (($sheetCount == 1) ? '' : 's') . ' in the WorkBook');
 
-wmn()->log('Reading the names of Worksheets in the WorkBook');
+wmn(1)->log('Reading the names of Worksheets in the WorkBook');
 // Use the PhpSpreadsheet object's getSheetNames() method to get an array listing the names/titles of the WorkSheets in the WorkBook
 $sheetNames = $spreadsheet->getSheetNames();
 foreach ($sheetNames as $sheetIndex => $sheetName) {
-    wmn()->log(0,'WorkSheet #' . $sheetIndex . ' is named "' . $sheetName . '"');
+    wmn(1)->log(0,'WorkSheet #' . $sheetIndex . ' is named "' . $sheetName . '"');
 }
 
 
