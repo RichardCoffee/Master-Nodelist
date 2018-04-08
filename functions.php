@@ -28,3 +28,5 @@ if ( ! function_exists( 'is_ajax' ) ) {
 		return ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ? true : false;
 	}
 }
+
+wmn()->log( $_SESSION );

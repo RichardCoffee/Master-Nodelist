@@ -222,9 +222,9 @@ class Wp_Excel_2_Db_Public {
 			}
 
 		}
-			unset($_SESSION[$table_name."_headers"]);
-			$response=array('status'=>'success','index'=>$row,'type'=>'complete');
-			echo json_encode($response);
-			wp_die();
+		unset($_SESSION[$table_name."_headers"]);
+		$response=array('status'=>'success','index'=>$row,'type'=>'complete');
+		echo json_encode($response);
+		wp_die();
 	}
 }

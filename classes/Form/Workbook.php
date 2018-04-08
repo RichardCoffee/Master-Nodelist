@@ -61,17 +61,28 @@ global $wpdb;
 dbf creation
 
 upload file / pick file
-$nodelist = file name and path
+*/
+/*
+$nodelist = get_attached_file( $_POST['attachment_id'] ); // Full path
+$helper = fluid();
 
 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 $reader->setReadDataOnly( true );
 $spreadsheet = $reader->load( $nodelist );
 
-read file
+// Use the PhpSpreadsheet object's getSheetCount() method to get a count of the number of WorkSheets in the WorkBook
+$sheetCount = $spreadsheet->getSheetCount();
+$helper->log('There ' . (($sheetCount == 1) ? 'is' : 'are') . ' ' . $sheetCount . ' WorkSheet' . (($sheetCount == 1) ? '' : 's') . ' in the WorkBook');
 
-cycle through all sheets
-
+$helper->log('Reading the names of Worksheets in the WorkBook');
+// Use the PhpSpreadsheet object's getSheetNames() method to get an array listing the names/titles of the WorkSheets in the WorkBook
+$sheetNames = $spreadsheet->getSheetNames();
+foreach ($sheetNames as $sheetIndex => $sheetName) {
+    $helper->log('WorkSheet #' . $sheetIndex . ' is named "' . $sheetName . '"');
+}
 */
+
+
 	}
 
 
