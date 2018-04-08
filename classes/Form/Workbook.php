@@ -56,8 +56,8 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 	}
 
 	public function import_nodelist() {
-		session_start();
-		require_once( 'vendor/autoload.php' );
+		@session_start();
+		require_once( wmn_paths()->dir . 'vendor/autoload.php' );
 /*
 
 
