@@ -121,7 +121,7 @@ trait WMN_Trait_Logging {
 		}
 		$message = $log_me;
 		if ( is_array( $log_me ) || is_object( $log_me ) ) {
-			$message = print_r( $log_me, true );
+			$message = print_r( $log_me, true ); // PHP Fatal error:  Allowed memory size of 268435456 bytes exhausted (tried to allocate 33226752 bytes)
 		} else if ( $log_me === 'stack' ) {
 			$message = print_r( debug_backtrace(), true );
 		}
