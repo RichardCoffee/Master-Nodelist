@@ -29,7 +29,7 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 	}
 
 	public function add_filters() {
-		parent::add_filters();
+#		parent::add_filters();
 	}
 
 }
