@@ -75,7 +75,15 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 			$data['count'] = count( $data['names'] );
 		}
 		$reader->setLoadSheetsOnly( $data['names'][$data['index']] );
+
+
+$worksheetData = $reader->listWorksheetInfo( $data['file'] );
+wmn()->log($$worksheetData);
+
+
 		$spreadsheet = $reader->load( $data['file'] );
+
+#		$rows = 
 
 
 
@@ -87,7 +95,7 @@ $skipped = false;
 			'status'  => 'success',
 			'index'   => $data['index'],
 			'type'    => 'complete',
-			'message' => '<p>Master Nodelist successfully import.</p>',
+			'message' => '<p>Master Nodelist successfully imported.</p>',
 		);
 		$_SESSION['import_nodelist'] = $data;
 		if ( $had_error ) {
