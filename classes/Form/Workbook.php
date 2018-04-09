@@ -65,6 +65,8 @@ wmn(1)->log( $_SESSION );
 				'names' => array(),
 			);
 		}
+		$had_error = false;
+		$skipped   = false;
 
 		$import = new WMN_Query_Nodelist;
 		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
@@ -77,19 +79,13 @@ wmn(1)->log( $_SESSION );
 		$reader->setLoadSheetsOnly( $data['names'][$data['index']] );
 
 
-$worksheetData = $reader->listWorksheetInfo( $data['file'] );
-wmn(1)->log('worksheetData',$worksheetData);
-
-
-		$spreadsheet = $reader->load( $data['file'] );
-
-#		$rows = 
-
-
-
-
-$had_error = false;
-$skipped = false;
+		$worksheets = $reader->listWorksheetInfo( $data['file'] );
+#wmn(1)->log('worksheets',$worksheets);
+		if ( $worksheet[ $data['index'] ]['totalRows'] === 0 ) {
+			$skipped = true;
+		} else {
+			$spreadsheet = $reader->load( $data['file'] );
+		}
 
 		$response = array(
 			'status'  => 'success',
