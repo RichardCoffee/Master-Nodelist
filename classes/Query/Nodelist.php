@@ -15,7 +15,7 @@ class WMN_Query_Nodelist {
 	}
 
 	public function base_headers() {
-		return array(
+		$base = array(
 			'account',
 			'house',
 			'ticket',
@@ -23,8 +23,53 @@ class WMN_Query_Nodelist {
 			'type',
 			'phone',
 			'node',
-			'desc',
+			'descrip',
 			'address',
+			10 => 'viya',
+			11 => 'subscriber',
+			18 => 'install',
+			19 => 'complete',
+			28 => 'comments',
+		);
+		return $base;
+	}
+
+	public function top_header() {
+		return 'Node Information Detail';
+	}
+
+	public function proper_headers() {
+		return array(
+#			'this is a placeholder for the zero',
+			'Account #',
+			'House ID',
+			'Ticket#',
+			'Account Name',
+			'Account Type',
+			'Phone',
+			'Node',
+			'Node Description',
+			'Service Address',
+			'Island',
+			'Viya Tag',
+			'Subscriber GPS Tag',
+			'Tagging Company Assigned To:',
+			'Tagging Crew ID',
+			'Date Tag Assigned to Tech',
+			'Date Tagged',
+			'Coax Type',
+			'Company Drop Assigned to',
+			'Drop Install Crew ID',
+			'Date: Drop Assigned to Crew',
+			'Drop Installed Yes/ Not Required',
+			'Drop Complete Date',
+			'Install Company Assigned',
+			'Install Crew Assigned',
+			'Install Date Assigned',
+			'Install Yes / Not Required',
+			'Install Complete',
+			'Docsis 3.0 Upgrade Y / N',
+			'Comments/Notes',
 		);
 	}
 
@@ -51,10 +96,14 @@ class WMN_Query_Nodelist {
 	}
 
 	public function import( $data ) {
-wmn(1)->log( 'count: ' . count( $data ) );
-$i = 0;
+#wmn(1)->log( 'count: ' . count( $data ) );
 		foreach( $data as $index => $row ) {
-if ( $i < 9 ) wmn(1)->log( 'index: ' . $index, 'i: ' . $i++, $row );
+			if ( $index < 2 ) { continue; }
+
+
+
+			if ( $index > 5 ) { continue; }
+			wmn(1)->log( 'index: ' . $index, $row );
 		}
 		return true;
 	}
