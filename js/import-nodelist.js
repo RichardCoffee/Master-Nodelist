@@ -49,6 +49,26 @@ jQuery( document ).ready( function( $ ) {
 			wp.media.model.settings.post.id = wp_media_post_id;
 		} );
 
+		jQuery( '#upload_nodelist_button' ).on( 'click', function( event ) {
+			event.preventDefault();
+			jQuery.ajax( {
+				type: "POST",
+				url: ajaxurl,
+				data: {
+					action: "wmn_reset_nodelist"
+				},
+				success: function( response ) {
+					var result = JSON.parse( response );
+					if ( result['status'] == 'success' ) {
+						jQuery( '#file_log' ).html( '<p>' + result['message'] + '</p>' );
+					} else {
+						jQuery( '#file_log' ).html( '<p>ERROR! Unable to reset master nodelist file!</p>' );
+					}
+					jQuery( '#file_status' ).html( '' );
+				}
+			} );
+		}
+
 	}
 } );
 
@@ -65,19 +85,19 @@ function convertFile( attachment_id, start_index ) {
 		success: function ( response ) {
 			var result = JSON.parse( response );
 			if( ( result['status'] == 'success' ) && ( result['type'] == 'incomplete' ) ) {
-				jQuery( "#file_log" ).html( result['message'] );
+				jQuery( "#file_log" ).html( '<p>' + result['message'] + '</p>' );
 				var index = parseInt( result['index'] );
 				convertFile( attachment_id, index + 1, result['sheet'] );
 				return false;
 			} else if( ( result['status'] == 'success' ) && ( result['type'] == 'complete' ) ) {
 				jQuery( '#file_status' ).html( '' );
-				jQuery( "#file_log" ).html( result['message'] );
+				jQuery( "#file_log" ).html( '<p>' + result['message'] + '</p>' );
 				return true;
 			} else {
 				var index = parseInt( result['index'] );
 				index = index - 1;
 				jQuery( '#file_status' ).html( '' );
-				jQuery( "#file_log" ).append( result['message'] );
+				jQuery( "#file_log" ).append( '<p>' + result['message'] + '</p>' );
 				return true;
 			}
 		}

@@ -11,6 +11,7 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 		add_action( 'admin_enqueue_scripts',       array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'admin_menu',                  array( $this, 'add_menu_option' ) );
 		add_action( 'wp_ajax_wmn_import_nodelist', array( $this, 'import_nodelist' ) );
+		add_action( 'wp_ajax_wmn_reset_nodelist',  array( $this, 'reset_nodelist' ) );
 	}
 
 	public function add_menu_option() {
@@ -41,8 +42,13 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 			<p id="file_status" class="centered">No file selected</p>
 			<div id="file_log" class="centered">
 			</div>
-			<div class="centered">
-				<input id="upload_nodelist_button" type="button" class="button" value="<?php _e( 'Choose file to import', 'wmn-workbook' ); ?>" />
+			<div>
+				<div class="centered">
+					<input id="upload_nodelist_button" type="button" class="button" value="<?php _e( 'Choose file to import', 'wmn-workbook' ); ?>" />
+				</div>
+				<div class="pull-right">
+					<input id="reset_nodelist_button" type="button" class="button" value="<?php _e( 'Reset nodelist', 'wmn-workbook' ); ?>" />
+				</div>
 			</div>
 		</form>
 		<div>
@@ -51,7 +57,7 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 	}
 
 	public function import_nodelist() {
-		@session_start();
+		session_start();
 		require_once( wmn_paths()->dir . 'vendor/autoload.php' );
 #wmn(1)->log( $_SESSION );
 		if ( isset( $_SESSION['import_nodelist'] ) ) {
@@ -72,23 +78,20 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
 		$reader->setReadDataOnly( true );
 		if ( empty( $data['names'] ) ) {
-			$import->create();
 			$data['names'] = $reader->listWorksheetNames( $data['file'] );
 			$data['count'] = count( $data['names'] );
 		}
-		$reader->setLoadSheetsOnly( $data['names'][$data['index']] );
-
 
 		$worksheets = $reader->listWorksheetInfo( $data['file'] );
-wmn(1)->log(
-	'worksheets',
-	'index:  ' . $data['index'],
-	$worksheets[ $data['index'] ]
-);
 		if ( $worksheets[ $data['index'] ]['totalRows'] === 0 ) {
 			$skipped = true;
 		} else {
+			$reader->setLoadSheetsOnly( $data['names'][$data['index']] );
 			$spreadsheet = $reader->load( $data['file'] );
+			$sheet_data  = $spreadsheet->getActiveSheet()->toArray( null, false, false, false );
+			if ( ! $import->import( $sheet_data ) ) {
+				$had_error = true;
+			}
 		}
 
 		$response = array(
@@ -111,6 +114,18 @@ wmn(1)->log(
 		} else {
 			unset( $_SESSION['import_nodelist'] );
 		}
+		echo json_encode( $response );
+		wp_die();
+	}
+
+	public function reset_nodelist() {
+		$import = new WMN_Query_Nodelist;
+		$import->destroy();
+		$import->create();
+		$response = array(
+			'status'  => 'success',
+			'message' => __( 'Master nodelist has been reset.', 'wmn-workbook' )
+		);
 		echo json_encode( $response );
 		wp_die();
 	}

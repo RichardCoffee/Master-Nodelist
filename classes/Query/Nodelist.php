@@ -50,4 +50,9 @@ class WMN_Query_Nodelist {
 		}
 	}
 
+	public function import( $data ) {
+wmn(1)->log( 'count: ' . count( $data ) );
+		return true;
+	}
+
 }
