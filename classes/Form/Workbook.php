@@ -53,7 +53,7 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 	public function import_nodelist() {
 		@session_start();
 		require_once( wmn_paths()->dir . 'vendor/autoload.php' );
-wmn(1)->log( $_SESSION );
+#wmn(1)->log( $_SESSION );
 		if ( isset( $_SESSION['import_nodelist'] ) ) {
 			$data = $_SESSION['import_nodelist'];
 			$data['index'] = $_POST['start_index'];
@@ -83,10 +83,9 @@ wmn(1)->log( $_SESSION );
 wmn(1)->log(
 	'worksheets',
 	'index:  ' . $data['index'],
-	' rows:  ' . $worksheet[ $data['index'] ]['totalRows'],
-	$worksheets
+	$worksheets[ $data['index'] ],
 );
-		if ( $worksheet[ $data['index'] ]['totalRows'] === 0 ) {
+		if ( $worksheets[ $data['index'] ]['totalRows'] === 0 ) {
 			$skipped = true;
 		} else {
 			$spreadsheet = $reader->load( $data['file'] );

@@ -34,6 +34,7 @@ jQuery( document ).ready( function( $ ) {
 				convertFile( attachment.id, 0 );
 				// Do something with attachment.id and/or attachment.url here
 				$( '#file_status' ).html( 'Please Wait Until Processing ... <i class="fa fa-spinner fa-spin"></i>' );
+				jQuery( '#file_log' ).html( '' );
 
 				// Restore the main post ID
 				wp.media.model.settings.post.id = wp_media_post_id;
