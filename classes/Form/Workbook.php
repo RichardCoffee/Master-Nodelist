@@ -80,7 +80,12 @@ wmn(1)->log( $_SESSION );
 
 
 		$worksheets = $reader->listWorksheetInfo( $data['file'] );
-#wmn(1)->log('worksheets',$worksheets);
+wmn(1)->log(
+	'worksheets',
+	'index:  ' . $data['index'],
+	' rows:  ' . $worksheet[ $data['index'] ]['totalRows'],
+	$worksheets
+);
 		if ( $worksheet[ $data['index'] ]['totalRows'] === 0 ) {
 			$skipped = true;
 		} else {
