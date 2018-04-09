@@ -67,7 +67,7 @@ jQuery( document ).ready( function( $ ) {
 					jQuery( '#file_status' ).html( '' );
 				}
 			} );
-		}
+		} );
 
 	}
 } );
