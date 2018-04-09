@@ -40,7 +40,6 @@ class WMN_Query_Nodelist {
 
 	public function proper_headers() {
 		return array(
-#			'this is a placeholder for the zero',
 			'Account #',
 			'House ID',
 			'Ticket#',
@@ -90,7 +89,7 @@ class WMN_Query_Nodelist {
 	public function destroy() {
 		global $wpdb;
 		if ( $wpdb->get_var( "SHOW TABLES LIKE 'workbook_nodelist'") === 'workbook_nodelist') {
-			$delete = $wpdb->query( "DROP TABLE IF EXISTS 'workbook_nodelist'" );
+			$delete = $wpdb->query( "DROP TABLE IF EXISTS workbook_nodelist" );
 		}
 	}
 
