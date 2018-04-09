@@ -78,7 +78,7 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 
 
 $worksheetData = $reader->listWorksheetInfo( $data['file'] );
-wmn()->log($$worksheetData);
+wmn()->log($worksheetData);
 
 
 		$spreadsheet = $reader->load( $data['file'] );
