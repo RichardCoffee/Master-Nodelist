@@ -34,7 +34,7 @@ class WMN_Query_Nodelist {
 		$sql = "CREATE TABLE workbook_nodelist ( id int(11) NOT NULL AUTO_INCREMENT,";
 		$headers = $this->base_headers();
 		$headers[] = 'tech';
-		foreach ( $headers as $header ) {
+		foreach( $headers as $header ) {
 			$sql .= "`$header` text,";
 		}
 		$sql .= "`insertionDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id)";
@@ -52,6 +52,10 @@ class WMN_Query_Nodelist {
 
 	public function import( $data ) {
 wmn(1)->log( 'count: ' . count( $data ) );
+$i = 0;
+		foreach( $data as $index => $row ) {
+if ( $i < 9 ) wmn(1)->log( 'index: ' . $index, 'i: ' . $i++, $row );
+		}
 		return true;
 	}
 

@@ -59,7 +59,7 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 	public function import_nodelist() {
 		session_start();
 		require_once( wmn_paths()->dir . 'vendor/autoload.php' );
-#wmn(1)->log( $_SESSION );
+
 		if ( isset( $_SESSION['import_nodelist'] ) ) {
 			$data = $_SESSION['import_nodelist'];
 			$data['index'] = $_POST['start_index'];
@@ -71,8 +71,6 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 				'names' => array(),
 			);
 		}
-		$had_error = false;
-		$skipped   = false;
 
 		$import = new WMN_Query_Nodelist;
 		$reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
@@ -82,11 +80,14 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 			$data['count'] = count( $data['names'] );
 		}
 
+		$had_error  = false;
+		$skipped    = false;
+		$sheet_name = $data['names'][$data['index']];
 		$worksheets = $reader->listWorksheetInfo( $data['file'] );
 		if ( $worksheets[ $data['index'] ]['totalRows'] === 0 ) {
 			$skipped = true;
 		} else {
-			$reader->setLoadSheetsOnly( $data['names'][$data['index']] );
+			$reader->setLoadSheetsOnly( $sheet_name );
 			$spreadsheet = $reader->load( $data['file'] );
 			$sheet_data  = $spreadsheet->getActiveSheet()->toArray( null, false, false, false );
 			if ( ! $import->import( $sheet_data ) ) {
@@ -94,23 +95,23 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 			}
 		}
 
+		$_SESSION['import_nodelist'] = $data;
 		$response = array(
 			'status'  => 'success',
 			'index'   => $data['index'],
 			'type'    => 'complete',
 			'message' => '<p>Master Nodelist successfully imported.</p>',
 		);
-		$_SESSION['import_nodelist'] = $data;
 		if ( $had_error ) {
 			$response['status']  = 'error';
-			$response['message'] = "ERROR: Worksheet {$data['names'][$data['index']]} was not imported.  Operation aborted.";
+			$response['message'] = "ERROR: Worksheet $sheet_name was not imported.  Operation aborted.";
 			unset( $_SESSION['import_nodelist'] );
 		} else if ( $skipped ) {
 			$response['type']    = 'incomplete';
-			$response['message'] = "Worksheet {$data['names'][$data['index']]} skipped.";
+			$response['message'] = "Worksheet $sheet_name skipped.";
 		} else if ( ( $data['index'] + 1 ) < $data['count'] ) {
 			$response['type']    = 'incomplete';
-			$response['message'] = "Worksheet {$data['names'][$data['index']]} imported.";
+			$response['message'] = "Worksheet $sheet_name imported.";
 		} else {
 			unset( $_SESSION['import_nodelist'] );
 		}
