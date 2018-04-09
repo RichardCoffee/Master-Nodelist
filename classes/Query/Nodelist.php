@@ -35,9 +35,9 @@ class WMN_Query_Nodelist {
 		$headers = $this->base_headers();
 		$headers[] = 'tech';
 		foreach ( $headers as $header ) {
-			$sql .= "'$header' text,";
+			$sql .= "`$header` text,";
 		}
-		$sql .= "'insertionDate' datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id)";
+		$sql .= "`insertionDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id)";
 		$sql .= " ) $charset_collate;";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql );
