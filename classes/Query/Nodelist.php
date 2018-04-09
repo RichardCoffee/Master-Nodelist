@@ -78,7 +78,6 @@ class WMN_Query_Nodelist {
 		$charset_collate = $wpdb->get_charset_collate();
 		$sql = "CREATE TABLE workbook_nodelist ( id int(11) NOT NULL AUTO_INCREMENT,";
 		$headers = $this->base_headers();
-		$headers[] = 'tech';
 		foreach( $headers as $header ) {
 			$sql .= "`$header` text,";
 		}
