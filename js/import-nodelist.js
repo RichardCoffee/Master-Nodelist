@@ -69,11 +69,13 @@ function convertFile( attachment_id, start_index ) {
 				convertFile( attachment_id, index + 1, result['sheet'] );
 				return false;
 			} else if( ( result['status'] == 'success' ) && ( result['type'] == 'complete' ) ) {
+				jQuery( '#file_status' ).html( '' );
 				jQuery( "#file_log" ).html( result['message'] );
 				return true;
 			} else {
 				var index = parseInt( result['index'] );
 				index = index - 1;
+				jQuery( '#file_status' ).html( '' );
 				jQuery( "#file_log" ).append( result['message'] );
 				return true;
 			}
