@@ -53,7 +53,7 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 	public function import_nodelist() {
 		@session_start();
 		require_once( wmn_paths()->dir . 'vendor/autoload.php' );
-
+wmn(1)->log( $_SESSION );
 		if ( isset( $_SESSION['import_nodelist'] ) ) {
 			$data = $_SESSION['import_nodelist'];
 			$data['index'] = $_POST['start_index'];
@@ -78,7 +78,7 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 
 
 $worksheetData = $reader->listWorksheetInfo( $data['file'] );
-wmn()->log($worksheetData);
+wmn(1)->log('worksheetData',$worksheetData);
 
 
 		$spreadsheet = $reader->load( $data['file'] );
