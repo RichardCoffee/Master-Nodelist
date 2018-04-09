@@ -83,7 +83,7 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 wmn(1)->log(
 	'worksheets',
 	'index:  ' . $data['index'],
-	$worksheets[ $data['index'] ],
+	$worksheets[ $data['index'] ]
 );
 		if ( $worksheets[ $data['index'] ]['totalRows'] === 0 ) {
 			$skipped = true;
