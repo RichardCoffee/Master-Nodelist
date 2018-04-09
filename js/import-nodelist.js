@@ -49,7 +49,7 @@ jQuery( document ).ready( function( $ ) {
 			wp.media.model.settings.post.id = wp_media_post_id;
 		} );
 
-		jQuery( '#upload_nodelist_button' ).on( 'click', function( event ) {
+		jQuery( '#reset_nodelist_button' ).on( 'click', function( event ) {
 			event.preventDefault();
 			jQuery.ajax( {
 				type: "POST",
