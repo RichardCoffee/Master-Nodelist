@@ -99,7 +99,7 @@ wmn(1)->log('show_nodelist');
 	public function build_nodelist( $node ) {
 		$html  = wmn()->get_apply_attrs_element( 'h3', [ 'class' => 'centered' ], 'Node selected was ' . $node );
 		$data  = $this->retrieve_nodelist( $node );
-		$html .= print_r($data);
+		$html .= print_r( $data, true );
 		return $html;
 	}
 
@@ -119,6 +119,7 @@ wmn(1)->log('show_nodelist');
 				break;
 			}
 		}
+		return compact( 'start', 'limit', 'i', 'data' );
 		return $data;
 	}
 
