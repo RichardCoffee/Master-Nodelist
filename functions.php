@@ -2,6 +2,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+include+once( 'includes/wpfep.php' );
+
 function wmn_workbook_class_loader( $class ) {
 	if ( substr( $class, 0, 4 ) === 'WMN_' ) {
 		$load = str_replace( '_', '/', substr( $class, ( strpos( $class, '_' ) + 1 ) ) );
