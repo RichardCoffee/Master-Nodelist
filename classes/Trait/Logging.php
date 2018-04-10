@@ -5,7 +5,7 @@ trait WMN_Trait_Logging {
 	protected $logging_debug  =  WP_DEBUG;       #  boolean - enable/disable logging
 	public    $logging_force  =  false;          #  boolean - for debugging, can be used to force a single log entry
 	protected $logging_func   = 'logging_entry'; #  string/array - logging function: must be able to accept a variable number of parameters
-	protected $logging_prefix = 'wmn';           #  string - log file prefix
+	protected $logging_prefix = 'rtc';           #  string - log file prefix
 
 
 /***   Action functions   ***/
@@ -17,8 +17,8 @@ trait WMN_Trait_Logging {
 		$this->logging_force = false;
 	}
 
-	protected function logging() {
-		if ( $this->logging_func && is_callable( $this->logging_func ) && ( $this->logging_debug || $this->logging_force ) ) {
+	public function logg() {
+		if ( is_callable( $this->logging_func ) && ( $this->logging_debug || $this->logging_force ) ) {
 			call_user_func_array( $this->logging_func, func_get_args() );
 		}
 		$this->logging_force = false;
@@ -108,8 +108,8 @@ trait WMN_Trait_Logging {
 			$destination = WP_CONTENT_DIR . '/debug.log';
 		} else if ( is_writable( '../logs' ) && ( is_dir( '../logs' ) ) ) {
 			$destination = '../logs/' . $this->logging_prefix . '-' . date( 'Ymd' ) . '.log';
-#		} else if ( function_exists( 'pbl_raw_path' ) ) {
-#			$destination = pbl_raw_path() . '/error_log';
+		} else {
+			$destination = 'error_log';
 		}
 		return $destination;
 	}

@@ -43,12 +43,12 @@ abstract class WMN_Form_Admin {
 					$this->tab = sanitize_key( $_POST['tab'] );
 				} else if ( isset( $_GET['tab'] ) )  {
 					$this->tab = sanitize_key( $_GET['tab'] );
-				} else if ( $trans = get_transient( 'TCC_TAB' ) ) {
+				} else if ( $trans = get_transient( 'WMN_TAB' ) ) {
 					$this->tab = $trans;
-				} else if ( defined( 'TCC_TAB' ) ) {
-					$this->tab = TCC_TAB;
+				} else if ( defined( 'WMN_TAB' ) ) {
+					$this->tab = WMN_TAB;
 				}
-				set_transient( 'TCC_TAB', $this->tab, ( DAY_IN_SECONDS * 5 ) );
+				set_transient( 'WMN_TAB', $this->tab, ( DAY_IN_SECONDS * 5 ) );
 			}
 			$this->form_text();
 			$this->form = $this->form_layout();
@@ -535,7 +535,7 @@ abstract class WMN_Form_Admin {
 			if ( isset( $layout['text'] ) ) {
 				$uniq = uniqid(); ?>
 				<div id="<?php echo $uniq; ?>">
-					<?php e_esc_html( $before_text ); ?>
+					<?php e_esc_html( $layout['text'] ); ?>
 				</div><?php
 				$radio_attrs['aria-describedby'] = $uniq;
 			}
@@ -548,7 +548,7 @@ abstract class WMN_Form_Admin {
 							// FIXME:  this is here so I can display font awesome icons - it needs to be done differently
 							echo $text;
 						} else {
-							echo esc_html( $text );
+							e_esc_html( $text );
 						}
 						if ( isset( $layout['extra_html'][ $key ] ) ) {
 							echo $layout['extra_html'][ $key ];
@@ -558,7 +558,7 @@ abstract class WMN_Form_Admin {
 			}
 			if ( isset( $layout['postext'] ) ) { ?>
 				<div>
-					<?php echo esc_html( $layout['postext'] ) ; ?>
+					<?php e_esc_html( $layout['postext'] ) ; ?>
 				</div><?php
 			} ?>
 		</div><?php
@@ -820,7 +820,7 @@ abstract class WMN_Form_Admin {
 	}
 
 
-}	#	end of TCC_Form_Admin class
+}	#	end of WMN_Form_Admin class
 
 
 if ( ! function_exists('e_esc_html') ) {

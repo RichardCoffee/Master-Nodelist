@@ -6,7 +6,7 @@ class WMN_Register_Register {
 
 	protected static $options  = 'about';
 	protected static $php_vers = '5.3.6';         #  trait feature added
-	protected static $prefix   = 'wmn_options_';  #  Option slug prefix
+	protected static $prefix   = 'tcc_options_';  #  Option slug prefix
 	protected static $title    = 'This plugin';
 	protected static $wp_vers  = '4.7.0';         #  get_theme_file_uri function added
 
@@ -215,4 +215,4 @@ class WMN_Register_Register {
 	}
 
 
-}
+}  #  End of class WMN_Register_Register

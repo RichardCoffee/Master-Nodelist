@@ -8,6 +8,7 @@ class WMN_Plugin_Library {
 
 	public function __construct() {
 		$this->initialize();
+		$this->logging_check_function();
 	}
 
 	protected function initialize() {

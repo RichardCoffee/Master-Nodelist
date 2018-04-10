@@ -13,9 +13,10 @@ trait WMN_Trait_Magic {
 	protected static $magic__call   = array();
 	protected static $set__callable = false;
 
+
 	# do not use is_callable() within this function
 	public function __call( $string, $args ) {
-		$return = false;
+		$return = 'non-callable function';
 		if ( isset( self::$magic__call[ $string ] ) ) {
 			$return = call_user_func_array( self::$magic__call[ $string ], $args );
 		} else if ( in_array( $string, self::$magic__call, true ) ) {
@@ -23,7 +24,7 @@ trait WMN_Trait_Magic {
 		} else if ( property_exists( $this, $string ) ) {
 			$return = $this->$string;
 		}
-		return 'non-callable function';
+		return $return;
 	}
 
 	public function __get( $name ) {
@@ -60,5 +61,4 @@ trait WMN_Trait_Magic {
 		}
 	}
 
-
-}
+                                                                                                            }
