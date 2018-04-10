@@ -22,7 +22,7 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 		if ( is_admin() ) {
 			new WMN_Form_Workbook;
 		} else {
-			add_shortcode( 'wmn-nodelist', array( $this, 'nodelist_form' );
+			add_shortcode( 'wmn-nodelist', array( $this, 'nodelist_form' ) );
 		}
 	}
 
