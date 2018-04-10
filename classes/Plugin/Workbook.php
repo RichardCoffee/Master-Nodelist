@@ -67,7 +67,7 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 			'field_name' => 'active_node',
 			'field_css'  => 'margint1e',
 			'choices'    => $nodes,
-			'onchange'   => 'load_nodelist'
+			'onchange'   => 'load_nodelist();'
 		);
 		$select = new WMN_Form_Field_Select( $args );
 		$select->select();
