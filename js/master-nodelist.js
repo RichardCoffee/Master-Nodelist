@@ -3,10 +3,19 @@
 jQuery( document ).ready( function( $ ) {
 
 console.log('doc ready');
+
 	jQuery( '#active_nodelist' ).on( 'change', function( event ) {
+
 		var text = jQuery( "#active_nodelist option:selected" ).val();
+
 console.log(jQuery( "#active_nodelist option:selected" ));
+
 		jQuery( '#master-nodelist' ).html( '<h1>Node selected was '+text+'</h1>' );
+
 	} );
 
 } );
+
+function load_nodelist() {
+	jQuery( '#master-nodelist' ).html( '<h1>A node was selected</h1>' );
+}
