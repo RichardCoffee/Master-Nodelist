@@ -24,6 +24,7 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 		} else {
 			add_shortcode( 'wmn-nodelist', array( $this, 'nodelist_form' ) );
 			add_action( 'wp_ajax_wmn_show_nodelist', array( $this, 'show_nodelist' ) );
+wmn()->log('loaded ajax action');
 		}
 	}
 
@@ -76,6 +77,7 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 	}
 
 	public function show_nodelist() {
+wmn()->log('show_nodelist');
 		$html = 'No nodelist received';
 		if ( ! empty( $_POST['active'] ) ) {
 			$node = $this->nodelist_select_form()->sanitize( $_POST['active'] );
