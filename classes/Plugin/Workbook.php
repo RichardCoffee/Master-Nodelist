@@ -115,8 +115,9 @@ wmn(1)->log('show_nodelist');
 		$start = $limit - $this->page_size;
 		$data  = array();
 		for ( $i = $start ; $i < $limit ; $i++ ) {
-			if ( $row = $wpdb->get_row( $prep, ARRAY_A, $i ) ) {
-				$data[] = $row;
+			$data[] = $wpdb->get_row( $prep, ARRAY_A, $i );
+#			if ( $row = $wpdb->get_row( $prep, ARRAY_A, $i ) ) {
+#				$data[] = $row;
 #			} else {
 #				break;
 			}
