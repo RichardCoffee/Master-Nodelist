@@ -94,16 +94,37 @@ class WMN_Query_Nodelist {
 	}
 
 	public function import( $data ) {
-#wmn(1)->log( 'count: ' . count( $data ) );
+		global $wpdb;
+		$columns = $this->base_headers();
 		foreach( $data as $index => $row ) {
-			if ( $index < 2 ) { continue; }
-
-
-
-			if ( $index > 5 ) { continue; }
-			wmn(1)->log( 'index: ' . $index, $row );
+			$record = array();
+			if ( $index < 2 ) {
+				continue;
+			}
+			if ( $this->is_duplicate( $row ) ) {
+				continue;
+			}
+			foreach( $columns as $key => $col ) {
+				if ( $row[ $key ] ) {
+					$record[ $col ] = $row[ $key ];
+				}
+			}
+			$wpdb->insert( 'workbook_nodelist', $record );
 		}
 		return true;
 	}
+
+	protected function is_duplicate( $data ) {
+		global $wpdb;
+		return $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT ID FROM workbook_nodelist WHERE account = %s AND house = %s AND ticket = %s",
+				$data[0],
+				$data[1],
+				$data[2]
+			)
+		);
+	}
+
 
 }
