@@ -78,7 +78,7 @@ wmn()->log('show_nodelist');
 		if ( ! empty( $_POST['active'] ) ) {
 			$node = $this->nodelist_select_form()->sanitize( $_POST['active'] );
 			if ( ! empty( $node ) ) {
-				$this->build_nodelist();
+				$html = $this->build_nodelist();
 			}
 		}
 		echo $html;
