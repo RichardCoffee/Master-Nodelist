@@ -9,6 +9,9 @@
  */
 class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 
+	protected $ajax = array();
+	protected $page_size = 50;
+
 	use WMN_Trait_Singleton;
 
 	public function initialize() {
@@ -24,6 +27,11 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 		} else {
 			add_shortcode( 'wmn-nodelist', array( $this, 'nodelist_form' ) );
 		}
+		$this->ajax = array(
+			'ajaxurl'  => admin_url( 'admin-ajax.php' ),
+			'nodepage' => 1,
+			'security' => wp_create_nonce( __CLASS__ )
+		);
 	}
 
 	public function add_actions() {
@@ -39,7 +47,7 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 	public function nodelist_scripts() {
 		if ( get_page_slug() === 'master-nodelist' ) {
 			wp_enqueue_script( 'wmn-master-nodelist', wmn_paths()->get_plugin_file_uri( 'js/master-nodelist.js' ), array( 'jquery' ), wmn_paths()->version, true );
-			wp_localize_script( 'wmn-master-nodelist', 'nodelist_ajax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+			wp_localize_script( 'wmn-master-nodelist', 'nodelist_ajax', $this->ajax );
 		}
 	}
 
@@ -51,6 +59,8 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
 				<?php $this->nodelist_select_form()->select(); ?>
 			</div>
+		</div>
+		<div id="tech-nodelist">
 		</div>
 		<div id="master-nodelist">
 		</div><?php
@@ -73,7 +83,8 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 	}
 
 	public function show_nodelist() {
-wmn()->log('show_nodelist');
+		check_ajax_referer( __CLASS__, 'security' );
+wmn(1)->log('show_nodelist');
 		$html = 'No nodelist received';
 		if ( ! empty( $_POST['active'] ) ) {
 			$node = $this->nodelist_select_form()->sanitize( $_POST['active'] );
@@ -86,8 +97,29 @@ wmn()->log('show_nodelist');
 	}
 
 	public function build_nodelist( $node ) {
-		$html = wmn()->get_apply_attrs_element( 'h3', [ 'class' => 'centered' ], 'Node selected was ' . $node );
+		$html  = wmn()->get_apply_attrs_element( 'h3', [ 'class' => 'centered' ], 'Node selected was ' . $node );
+		$data  = $this->retrieve_nodelist( $node );
+		$html .= print_r($data);
 		return $html;
+	}
+
+	public function retrieve_nodelist( $node ) {
+		global $wpdb;
+		$sql  = "SELECT account, house, ticket, address, viya, subscriber, install, complete, comments";
+		$sql .= " FROM workbook_nodelist WHERE node = %s ORDER BY address";
+		$prep = $wpdb->prepare( $sql, $node );
+
+		$limit = ( ! empty( $_POST['nodepage'] ) ) ? ( intval( $_POST['nodepage'], 10 ) * $this->page_size ) : $this->page_size;
+		$start = $limit - $this->page_size;
+		$data  = array();
+		for ( $i = $start ; $i < $limit ; $i++ ) {
+			if ( $row = $wpdb->get_row( $prep, ARRAY_A, $i ) ) {
+				$data[] = $row;
+			} else {
+				break;
+			}
+		}
+		return $data;
 	}
 
 }

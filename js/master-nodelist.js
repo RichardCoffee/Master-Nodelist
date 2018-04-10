@@ -5,8 +5,10 @@
 
 function load_nodelist() {
 	var outdata = {
-		action: "wmn_show_nodelist",
-		active: jQuery( "#active_node option:selected" ).val()
+		action:  "wmn_show_nodelist",
+		active:   jQuery( "#active_node option:selected" ).val(),
+		nodepage: nodelist_ajax.nodepage,
+		security: nodelist_ajax.security
 	};
 	contact_server( '#master-nodelist', outdata );
 }

@@ -95,6 +95,7 @@ class WMN_Query_Nodelist {
 
 	public function import( $data ) {
 		global $wpdb;
+$dups = $new = 0;
 		$columns = $this->base_headers();
 		foreach( $data as $index => $row ) {
 			$record = array();
@@ -102,6 +103,7 @@ class WMN_Query_Nodelist {
 				continue;
 			}
 			if ( $this->is_duplicate( $row ) ) {
+$dups++;
 				continue;
 			}
 			foreach( $columns as $key => $col ) {
@@ -109,8 +111,13 @@ class WMN_Query_Nodelist {
 					$record[ $col ] = $row[ $key ];
 				}
 			}
+$new++;
 			$wpdb->insert( 'workbook_nodelist', $record );
 		}
+wmn(1)->log(
+	"Dups: $dups",
+	" New: $new"
+);
 		return true;
 	}
 
