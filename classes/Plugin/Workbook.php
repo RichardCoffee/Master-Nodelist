@@ -42,6 +42,8 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
 				<?php $this->nodelist_select_form(); ?>
 			</div>
+		</div>
+		<div id="master-nodelist">
 		</div><?php
 	}
 
@@ -56,6 +58,7 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 		$args  = array(
 			'library'    => 'wmn',
 			'field_name' => 'active_node',
+			'field_css'  => 'centered',
 			'choices'    => $nodes
 		);
 		$select = new WMN_Form_Field_Select( $args );
