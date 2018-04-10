@@ -6,7 +6,7 @@
 function load_nodelist() {
 	var outdata = {
 		action: "wmn_show_nodelist",
-		active: jQuery( "#active_node option:selected" ).text()
+		active: jQuery( "#active_node option:selected" ).val()
 	};
 	var data = contact_server( outdata );
 	jQuery( '#master-nodelist' ).html( data );
