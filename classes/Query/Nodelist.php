@@ -104,6 +104,7 @@ class WMN_Query_Nodelist {
 			if ( $this->is_duplicate( $row ) ) {
 				continue;
 			}
+if ( $index > 4 ) { break; }
 			foreach( $columns as $key => $col ) {
 				if ( $row[ $key ] ) {
 					$record[ $col ] = $row[ $key ];
@@ -116,14 +117,10 @@ class WMN_Query_Nodelist {
 
 	protected function is_duplicate( $data ) {
 		global $wpdb;
-		return $wpdb->get_var(
-			$wpdb->prepare(
-				"SELECT ID FROM workbook_nodelist WHERE account = %s AND house = %s AND ticket = %s",
-				$data[0],
-				$data[1],
-				$data[2]
-			)
-		);
+		$sql    = "SELECT ID FROM workbook_nodelist WHERE account = %s AND house = %s AND ticket = %s";
+		$prep   = $wpdb->prepare( $sql, $data[0], $data[1], $data[2] );
+		$exists = $wpdb->get_var( $prep );
+		return $exists;
 	}
 
 
