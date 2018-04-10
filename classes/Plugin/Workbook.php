@@ -27,11 +27,18 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 	}
 
 	public function add_actions() {
+		add_action( 'wp_enqueue_scripts', array( $this, 'nodelist_scripts' ) );
 		parent::add_actions();
 	}
 
 	public function add_filters() {
 #		parent::add_filters(); // adds settings link
+	}
+
+	public function nodelist_scripts() {
+		if ( get_page_slug() === 'master-nodelist' ) {
+			wp_enqueue_script( 'wmn-master-nodelist', wmn_paths()->get_plugin_file_uri( 'js/master-nodelist.js' ), array( 'jquery' ), wmn_paths()->version, true );
+		}
 	}
 
 	public function nodelist_form() { ?>
@@ -58,7 +65,7 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 		$args  = array(
 			'library'    => 'wmn',
 			'field_name' => 'active_node',
-			'field_css'  => 'centered',
+			'field_css'  => 'margint1e',
 			'choices'    => $nodes
 		);
 		$select = new WMN_Form_Field_Select( $args );
