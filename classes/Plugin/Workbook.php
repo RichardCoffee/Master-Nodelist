@@ -120,7 +120,7 @@ wmn(1)->log('show_nodelist');
 #				$data[] = $row;
 #			} else {
 #				break;
-			}
+#			}
 		}
 		return compact( 'start', 'limit', 'i', 'data' ); //*/
 		return $data;
