@@ -78,14 +78,14 @@ wmn()->log('show_nodelist');
 		if ( ! empty( $_POST['active'] ) ) {
 			$node = $this->nodelist_select_form()->sanitize( $_POST['active'] );
 			if ( ! empty( $node ) ) {
-				$html = $this->build_nodelist();
+				$html = $this->build_nodelist( $node );
 			}
 		}
 		echo $html;
 		wp_die();
 	}
 
-	public function build_nodelist() {
+	public function build_nodelist( $node ) {
 		$html = wmn()->get_apply_attrs_element( 'h3', [ 'class' => 'centered' ], 'Node selected was ' . $node );
 		return $html;
 	}
