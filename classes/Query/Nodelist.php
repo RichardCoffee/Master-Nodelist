@@ -122,10 +122,14 @@ wmn(1)->log(
 	}
 
 	protected function is_duplicate( $data ) {
-		global $wpdb;
-		$sql    = "SELECT ID FROM workbook_nodelist WHERE account = %s AND house = %s AND ticket = %s";
-		$prep   = $wpdb->prepare( $sql, $data[0], $data[1], $data[2] );
-		$exists = $wpdb->get_var( $prep );
+		$exists = false;
+wmn()->log($data);
+		if ( $data ) {
+			global $wpdb;
+			$sql    = "SELECT ID FROM workbook_nodelist WHERE account = %s AND house = %s AND ticket = %s";
+			$prep   = $wpdb->prepare( $sql, $data[0], $data[1], $data[2] );
+			$exists = $wpdb->get_var( $prep );
+		}
 		return $exists;
 	}
 
