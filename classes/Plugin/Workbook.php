@@ -58,10 +58,7 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 
 	public function nodelist_select_form() {
 		global $wpdb;
-		$sql   = "SELECT DISTINCT(node) FROM workbook_nodelist";
-#		$prep  = $wpdb->prepare( $sql );
-#		$nodes = $wpdb->get_col( $prep );
-		$nodes = $wpdb->get_col( $sql );
+		$nodes = $wpdb->get_col( 'SELECT DISTINCT(node) FROM workbook_nodelist' );
 		sort( $nodes );
 		array_unshift( $nodes, 'Select Node' );
 		$args  = array(
@@ -81,11 +78,16 @@ wmn()->log('show_nodelist');
 		if ( ! empty( $_POST['active'] ) ) {
 			$node = $this->nodelist_select_form()->sanitize( $_POST['active'] );
 			if ( ! empty( $node ) ) {
-				$html = '<h2>Node selected was ' . $node . '</h2>';
+				$this->build_nodelist();
 			}
 		}
 		echo $html;
 		wp_die();
+	}
+
+	public function build_nodelist() {
+		$html = wmn()->get_apply_attrs_element( 'h3', [ 'class' => 'centered' ], 'Node selected was ' . $node );
+		return $html;
 	}
 
 }
