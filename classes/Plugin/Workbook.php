@@ -48,8 +48,9 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 	public function nodelist_select_form() {
 		global $wpdb;
 		$sql   = "SELECT DISTINCT(node) FROM workbook_nodelist";
-		$prep  = $wpdb->prepare( $sql );
-		$nodes = $wpdb->get_col( $prep );
+#		$prep  = $wpdb->prepare( $sql );
+#		$nodes = $wpdb->get_col( $prep );
+		$nodes = $wpdb->get_col( $sql );
 		array_unshift( $nodes, 'Select Node' );
 		$args  = array(
 			'library'    => 'wmn',
