@@ -100,7 +100,7 @@ abstract class WMN_Plugin_Plugin {
 		return $files;
 	}
 
-	public function get_stylesheet( $file = 'css/tcc-plugin.css', $path = '/' ) {
+	public function get_stylesheet( $file = 'css/wmn-workbook.css', $path = '/' ) {
 		return $this->paths->get_plugin_file_path( $file );
 	}
 
@@ -138,7 +138,7 @@ abstract class WMN_Plugin_Plugin {
 
 /*
   public function check_update() {
-    $addr = 'tcc_options_'.$this->tab;
+    $addr = 'wmn_options_'.$this->tab;
     $data = get_option($addr);
     if (!isset($data['dbvers'])) return;
     if (intval($data['dbvers'],10)>=intval($this->dbvers)) return;

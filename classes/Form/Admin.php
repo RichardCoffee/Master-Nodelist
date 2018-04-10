@@ -16,7 +16,7 @@ abstract class WMN_Form_Admin {
 	protected $form_text =  array();
 	protected $hook_suffix;
 	protected $options;
-	protected $prefix    = 'tcc_options_';
+	protected $prefix    = 'wmn_options_';
 	protected $register;
 	protected $render;
 	protected $slug      = 'default_page_slug';
@@ -251,7 +251,7 @@ abstract class WMN_Form_Admin {
 					$defaults[ $key ] = $item['default'];
 				}
 			} else {
-				$this->logging( sprintf( $this->form_text['error']['subscript'], $option ), 'stack' );
+				$this->logg( sprintf( $this->form_text['error']['subscript'], $option ), 'stack' );
 			}
 		}
 		return $defaults;
@@ -356,7 +356,7 @@ abstract class WMN_Form_Admin {
 			} else if ( function_exists( $func ) ) {
 				$func( $fargs );
 			} else {
-				$this->logging( sprintf( $this->form_text['error']['render'], $func ) );
+				$this->logg( sprintf( $this->form_text['error']['render'], $func ) );
 			}
 		}
 		echo '</div>';
@@ -380,7 +380,7 @@ abstract class WMN_Form_Admin {
       } elseif (function_exists($func)) {
         $func($fargs);
       } else {
-        $this->logging( sprintf( $this->form_text['error']['render'], $func ) );
+        $this->logg( sprintf( $this->form_text['error']['render'], $func ) );
       }
     }
     echo "</div>"; //*/
@@ -757,7 +757,7 @@ abstract class WMN_Form_Admin {
 			$output = $func( $input );
 		} else { // FIXME:  test for data type?
 			$output = $this->validate_text( $input );
-			$this->logging( 'missing validation function: ' . $func, $item, $input );
+			$this->logg( 'missing validation function: ' . $func, $item, $input );
 		}
 		return $output;
 	}
@@ -775,7 +775,7 @@ abstract class WMN_Form_Admin {
 	}
 
 	private function validate_font( $input ) {
-		$this->logging( $input );
+		$this->logg( $input );
 		return $input; // FIXME NOW!
 	}
 
