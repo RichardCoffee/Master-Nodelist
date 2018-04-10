@@ -108,7 +108,8 @@ wmn(1)->log('show_nodelist');
 		$sql  = "SELECT account, house, ticket, address, viya, subscriber, install, complete, comments";
 		$sql .= " FROM workbook_nodelist WHERE node = %s ORDER BY address";
 		$prep = $wpdb->prepare( $sql, $node );
-		$data = $wpdb->get_results( $prep, ARRAY_A );
+		$data = $wpdb->query( $prep );
+#		$data = $wpdb->get_results( $prep, ARRAY_A );
 
 /*		$limit = ( ! empty( $_POST['nodepage'] ) ) ? ( intval( $_POST['nodepage'], 10 ) * $this->page_size ) : $this->page_size;
 		$start = $limit - $this->page_size;
