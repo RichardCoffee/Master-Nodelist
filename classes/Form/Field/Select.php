@@ -1,6 +1,6 @@
 <?php
 
-class WMN_Form_Field_Radio extends WMN_Form_Field_Field {
+class WMN_Form_Field_Select extends WMN_Form_Field_Field {
 
 	protected $choices = array();
 	protected $type    = 'select';
