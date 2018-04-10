@@ -51,6 +51,7 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 #		$prep  = $wpdb->prepare( $sql );
 #		$nodes = $wpdb->get_col( $prep );
 		$nodes = $wpdb->get_col( $sql );
+		sort( $nodes );
 		array_unshift( $nodes, 'Select Node' );
 		$args  = array(
 			'library'    => 'wmn',
