@@ -21,6 +21,8 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 		$this->add_filters();
 		if ( is_admin() ) {
 			new WMN_Form_Workbook;
+		} else {
+			add_shortcode( 'wmn-nodelist', array( $this, 'nodelist_form' );
 		}
 	}
 
@@ -29,7 +31,11 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 	}
 
 	public function add_filters() {
-#		parent::add_filters();
+#		parent::add_filters(); // adds settings link
+	}
+
+	public function nodelist_form() {
+		echo '<h1 class="centered">Master Nodelist</h1>';
 	}
 
 }
