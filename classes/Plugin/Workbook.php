@@ -23,13 +23,12 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 			new WMN_Form_Workbook;
 		} else {
 			add_shortcode( 'wmn-nodelist', array( $this, 'nodelist_form' ) );
-			add_action( 'wp_ajax_wmn_show_nodelist', array( $this, 'show_nodelist' ) );
-wmn()->log('loaded ajax action');
 		}
 	}
 
 	public function add_actions() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'nodelist_scripts' ) );
+		add_action( 'wp_enqueue_scripts',        array( $this, 'nodelist_scripts' ) );
+		add_action( 'wp_ajax_wmn_show_nodelist', array( $this, 'show_nodelist' ) );
 		parent::add_actions();
 	}
 
