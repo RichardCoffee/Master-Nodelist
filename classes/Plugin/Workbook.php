@@ -23,6 +23,7 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 			new WMN_Form_Workbook;
 		} else {
 			add_shortcode( 'wmn-nodelist', array( $this, 'nodelist_form' ) );
+			add_action( 'wp_ajax_wmn_show_nodelist', array( $this, 'show_nodelist' ) );
 		}
 	}
 
@@ -38,6 +39,7 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 	public function nodelist_scripts() {
 		if ( get_page_slug() === 'master-nodelist' ) {
 			wp_enqueue_script( 'wmn-master-nodelist', wmn_paths()->get_plugin_file_uri( 'js/master-nodelist.js' ), array( 'jquery' ), wmn_paths()->version, true );
+			wp_localize_script( 'wmn-master-nodelist', 'nodelist_ajax', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 		}
 	}
 
@@ -47,7 +49,7 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 				<h1 class="centered">Master Nodelist</h1>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-				<?php $this->nodelist_select_form(); ?>
+				<?php $this->nodelist_select_form()->select(); ?>
 			</div>
 		</div>
 		<div id="master-nodelist">
@@ -70,7 +72,19 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 			'onchange'   => 'load_nodelist();'
 		);
 		$select = new WMN_Form_Field_Select( $args );
-		$select->select();
+		return $select;
+	}
+
+	public function show_nodelist() {
+		$html = 'No nodelist received';
+		if ( ! empty( $_POST['active'] ) ) {
+			$node = $this->nodelist_select_form()->sanitize( $_POST['active'] );
+			if ( ! empty( $node ) ) {
+				$html = '<h2>Node selected was ' . $node . '</h2>';
+			}
+		}
+		echo $html;
+		wp_die();
 	}
 
 }

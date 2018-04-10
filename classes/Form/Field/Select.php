@@ -46,6 +46,11 @@ class WMN_Form_Field_Select extends WMN_Form_Field_Field {
 		}
 	}
 
+	public function sanitize( $input ) {
+		$input = sanitize_text_field( $input );
+		return ( in_array( $input, $this->choices ) || array_key_exists( $input, $this->choices ) ) ? $input : $this->field_default;
+	}
+
 
 }
 
