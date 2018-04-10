@@ -8,35 +8,29 @@ function load_nodelist() {
 		action: "wmn_show_nodelist",
 		active: jQuery( "#active_node option:selected" ).val()
 	};
-	var data = contact_server( outdata );
-	jQuery( '#master-nodelist' ).html( data );
+	contact_server( '#master-nodelist', outdata );
 }
 
-function contact_server( outData, wait ) {
-  var aSync = !wait;
-  var value = false;
-  jQuery.ajax({
-    url:   nodelist_ajax.ajaxurl,
-    type: 'post',
-    data:  outData,
-    async: aSync, // wtf chrome?  aSync, // jQuery default is true
-    success: function(result,textStatus,jqXHR) {
-      value = true;
-      if (result) {
-        try { // was json returned?
-          value = JSON.parse(result);
-        } catch (e) { // assume a string was returned
-          value = result;
-          alert(value);
-        }
-      }
-    },
-    error: function(jqXHR,textStatus,errorThrown) {
-      alert('Server Error: '+errorThrown+' '+textStatus);
-      console.log('server error: '+errorThrown);
-      console.log(nodelist_ajax.ajaxurl);
-      console.log(outData);
-    }
-  });
-  return value;
+function contact_server( contentDiv, outData, wait ) {
+	var aSync = !wait;
+	var value = false;
+	jQuery.ajax({
+		url:   nodelist_ajax.ajaxurl,
+		type: 'post',
+		data:  outData,
+		async: aSync, // wtf chrome?  aSync, // jQuery default is true
+		success: function(result,textStatus,jqXHR) {
+			if (result) {
+				$(contentDiv).html(result);
+				value = true;
+			}
+		},
+		error: function(jqXHR,textStatus,errorThrown) {
+			alert('Server Error: '+errorThrown+' '+textStatus);
+			console.log('server error: '+errorThrown);
+			console.log(nodelist_ajax.ajaxurl);
+			console.log(outData);
+		}
+	});
+	return value;
 }
