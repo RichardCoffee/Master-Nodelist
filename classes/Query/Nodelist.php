@@ -104,7 +104,6 @@ class WMN_Query_Nodelist {
 			if ( $this->is_duplicate( $row ) ) {
 				continue;
 			}
-if ( $index > 4 ) { break; }
 			foreach( $columns as $key => $col ) {
 				if ( $row[ $key ] ) {
 					$record[ $col ] = $row[ $key ];
