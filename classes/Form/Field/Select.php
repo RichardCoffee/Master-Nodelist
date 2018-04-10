@@ -17,8 +17,9 @@ class WMN_Form_Field_Select extends WMN_Form_Field_Field {
 				echo '<div class="form-select-text"> ' . esc_attr( $layout['text'] ) . '</div>';
 			}
 			$select = array(
-				'id'   => $this->field_id,
-				'name' => $this->field_name
+				'id'    => $this->field_id,
+				'name'  => $this->field_name,
+				'class' => $this->field_css
 			);
 			if ( strpos( '[]', $this->field_name ) ) {
 				$select['multiple'] = 'multiple';
