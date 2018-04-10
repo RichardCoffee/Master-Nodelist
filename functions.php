@@ -2,7 +2,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-include+once( 'includes/wpfep.php' );
+include_once( 'includes/wpfep.php' );
 
 function wmn_workbook_class_loader( $class ) {
 	if ( substr( $class, 0, 4 ) === 'WMN_' ) {
