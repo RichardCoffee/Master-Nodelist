@@ -40,7 +40,3 @@ function contact_server( outData, wait ) {
   });
   return value;
 }
-
-
-
-}
