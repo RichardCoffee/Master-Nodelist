@@ -21,7 +21,7 @@ function contact_server( contentDiv, outData, wait ) {
 		async: aSync, // wtf chrome?  aSync, // jQuery default is true
 		success: function(result,textStatus,jqXHR) {
 			if (result) {
-				$(contentDiv).html(result);
+				jQuery(contentDiv).html(result);
 				value = true;
 			}
 		},
