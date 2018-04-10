@@ -24,9 +24,31 @@ function wmn( $force_log = false ) {
 	return $library;
 }
 
+if ( ! function_exists( 'wmn_paths' ) ) {
+	function wmn_paths() {
+		static $instance = null;
+		if ( empty( $instance ) ) {
+			$instance = WMN_Plugin_Paths::instance();
+		}
+		return $instance;
+	}
+}
+
 # http://stackoverflow.com/questions/14348470/is-ajax-in-wordpress
 if ( ! function_exists( 'is_ajax' ) ) {
 	function is_ajax() {
 		return ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ? true : false;
 	}
 }
+
+function wmn_plugin_load_first() {
+	$path = str_replace( WP_PLUGIN_DIR . '/', '', wmn_paths()->file );
+	if ( $plugins = get_option( 'active_plugins' ) ) {
+		if ( $key = array_search( $path, $plugins ) ) {
+			array_splice( $plugins, $key, 1 );
+			array_unshift( $plugins, $path );
+			update_option( 'active_plugins', $plugins );
+		}
+	}
+}
+add_action( 'activated_plugin', 'wmn_plugin_load_first' );
