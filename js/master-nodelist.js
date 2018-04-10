@@ -2,6 +2,7 @@
 
 jQuery( document ).ready( function( $ ) {
 
+console.log('doc ready');
 	jQuery( '#active_nodelist' ).on( 'change', function( event ) {
 		var text = jQuery( "#active_nodelist option:selected" ).val();
 console.log(jQuery( "#active_nodelist option:selected" ));
