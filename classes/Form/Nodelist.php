@@ -136,8 +136,8 @@ class WMN_Form_Nodelist {
 		ob_start(); ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered"><?php
-				echo $this->back_button()
-				echo $this->next_button()
+				echo $this->back_button();
+				echo $this->next_button();
 				$this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], sprintf( __( 'Listing for node %s', 'wmn-workbook' ), $this->node ) ); ?>
 			</div>
 			<table class="table">
