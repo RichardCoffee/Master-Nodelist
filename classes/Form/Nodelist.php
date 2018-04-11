@@ -98,12 +98,21 @@ wmn(1)->log($this);
 		return $html;
 	}
 
+	protected function build_footer() {
+		$html  = '<div class="row">';
+		$html .= $this->back_button();
+		$html .= $this->next_button();
+		$html .= '</div>';
+		return $html;
+	}
+
 	protected function back_button() {
 		$html = '';
 		if ( $this->page > 1 ) {
 			$attrs = array(
 				'class'    => 'btn btn-fluidity pull-left previous-nodepage margint1e',
-				'onchange' => 'changePage(' . ( $this->page - 1 ) . ')'
+				'onchange' => 'changePage(' . ( $this->page - 1 ) . ');',
+				'title'    => __( 'go to previous page', 'wmn-workbook' )
 			);
 			$html = $this->get_apply_attrs_element( 'button', $attrs, __( 'Previous', 'wmn-workbook' ) );
 		}
@@ -116,7 +125,8 @@ wmn(1)->log($this);
 		if ( $this->page < $max_pages ) {
 			$attrs = array(
 				'class'    => 'btn btn-fluidity pull-right next-nodepage margint1e',
-				'onchange' => 'changePage(' . ( $this->page + 1 ) . ')'
+				'onchange' => 'changePage(' . ( $this->page + 1 ) . ');',
+				'title'    => __( 'go to next page', 'wmn-workbook' )
 			);
 			$html = $this->get_apply_attrs_element( 'button', $attrs, __( 'Next', 'wmn-workbook' ) );
 		}
@@ -124,20 +134,12 @@ wmn(1)->log($this);
 	}
 
 	protected function build_nodelist() {
-		$data = $this->retrieve_nodelist();
+		$data = $this->retrieve_nodelist_data();
 		$html = print_r( $data, true );
 		return $html;
 	}
 
-	protected function build_footer() {
-		$html  = '<div class="row">';
-		$html .= $this->back_button();
-		$html .= $this->next_button();
-		$html .= '</div>';
-		return $html;
-	}
-
-	protected function retrieve_nodelist() {
+	protected function retrieve_nodelist_data() {
 		global $wpdb;
 		$sql   = "SELECT account, house, ticket, address, viya, subscriber, install, complete, comments";
 		$sql  .= " FROM workbook_nodelist WHERE node = %s ORDER BY address";
