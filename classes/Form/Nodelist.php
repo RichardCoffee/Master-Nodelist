@@ -1,27 +1,37 @@
 <?php
 /**
- * classes/Plugin/Workbook.php
+ * classes/Form/Nodelist.php
  *
  */
 /**
- * Main plugin class
+ * Handles nodelist on front end
  *
  */
 class WMN_Form_Nodelist {
 
-	protected $ajax = array();
+	protected $ajax      = array();
+	protected $node      = '';
+	protected $page      = 1;
 	protected $page_size = 50;
+
+	use WMN_Trait_Attributes;
 
 	public function __construct() {
 		$this->add_actions();
+		if ( ! empty( $_POST['nodepage'] ) ) {
+			$this->page = intval( $_POST['nodepage'], 10 );
+		}
 		$this->ajax = array(
 			'ajaxurl'  => admin_url( 'admin-ajax.php' ),
-			'nodepage' => ( ! empty( $_POST['nodepage'] ) ) ? intval( $_POST['nodepage'], 10 ) : 1,
+			'nodepage' => $this->page,
 			'security' => wp_create_nonce( __CLASS__ )
 		);
+		if ( ! empty( $_POST['active'] ) ) {
+			$this->node = $this->nodelist_select_field()->sanitize( $_POST['active'] );
+		}
 	}
 
-	public function add_actions() {
+	protected function add_actions() {
 		add_action( 'wp_enqueue_scripts',        array( $this, 'nodelist_scripts' ) );
 		add_action( 'wp_ajax_wmn_show_nodelist', array( $this, 'show_nodelist' ) );
 	}
@@ -48,7 +58,7 @@ class WMN_Form_Nodelist {
 		</div><?php
 	}
 
-	public function nodelist_select_field() {
+	protected function nodelist_select_field() {
 		global $wpdb;
 		$nodes = $wpdb->get_col( 'SELECT DISTINCT(node) FROM workbook_nodelist' );
 		sort( $nodes );
@@ -67,37 +77,64 @@ class WMN_Form_Nodelist {
 	public function show_nodelist() {
 		check_ajax_referer( __CLASS__, 'security' );
 		$html = 'No nodelist received';
-		if ( ! empty( $_POST['active'] ) ) {
-			$node = $this->nodelist_select_field()->sanitize( $_POST['active'] );
-			if ( ! empty( $node ) ) {
-				$html  = $this->build_header( $node );
-				$html .= $this->build_nodelist( $node );
-				$html .= $this->build_footer( $node );
-			}
+		if ( ! empty( $this->node ) ) {
+			$nodes  = $this->build_nodelist();
+			$header = $this->build_header();
+			$footer = $this->build_footer();
+			$html = $header . $nodes . $footer;
 		}
 		echo $html;
 		wp_die();
 	}
 
-	public function build_header( $node ) {
-		$html  = wmn()->get_apply_attrs_element( 'h3', [ 'class' => 'centered' ], 'Node selected was ' . $node );
+	protected function build_header() {
+		$html  = '<div class="row">';
+		$html .= $this->back_button();
+		$html .= $this->next_button();
+		$html .= $this->get_apply_attrs_element( 'h3', [ 'class' => 'centered' ], 'Node selected was ' . $this->node );
+		$html .= '</div>';
 		return $html;
 	}
 
-	public function build_nodelist( $node ) {
-		$data = $this->retrieve_nodelist( $node );
+	protected function back_button() {
+		$html = '';
+		if ( $this->page > 1 ) {
+			$attrs = array(
+				'class'    => 'btn btn-fluidity pull-left previous-nodepage',
+				'onchange' => 'changePage(' . ( $this->page - 1 ) . ')'
+			);
+			$html = $this->get_apply_attrs_element( 'button', $attrs, __( 'Previous', 'wmn-workbook' ) );
+		}
+		return $html;
+	}
+
+	protected function next_button() {
+		$html = '';
+		$max_pages = intval( $this->count / $this->page_size ) + 1;
+		if ( $this->page < $max_pages ) {
+			$attrs = array(
+				'class'    => 'btn btn-fluidity pull-right next-nodepage',
+				'onchange' => 'changePage(' . ( $this->page + 1 ) . ')'
+			);
+			$html = $this->get_apply_attrs_element( 'button', $attrs, __( 'Next', 'wmn-workbook' ) );
+		}
+		return $html;
+	}
+
+	protected function build_nodelist() {
+		$data = $this->retrieve_nodelist();
 		$html = print_r( $data, true );
 		return $html;
 	}
 
-	public function build_footer( $node ) {
+	protected function build_footer() {
 	}
 
-	public function retrieve_nodelist( $node ) {
+	protected function retrieve_nodelist() {
 		global $wpdb;
 		$sql   = "SELECT account, house, ticket, address, viya, subscriber, install, complete, comments";
 		$sql  .= " FROM workbook_nodelist WHERE node = %s ORDER BY address";
-		$prep  = $wpdb->prepare( $sql, $node );
+		$prep  = $wpdb->prepare( $sql, $this->node );
 		$cnt   = $wpdb->query( $prep );
 		$limit = min( ( $this->ajax['nodepage'] * $this->page_size ), $cnt );
 		$start = $limit - $this->page_size;

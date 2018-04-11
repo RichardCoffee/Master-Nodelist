@@ -36,3 +36,8 @@ function contact_server( contentDiv, outData, wait ) {
 	});
 	return value;
 }
+
+function changePage( page ) {
+	nodelist_ajax.nodepage = page;
+	load_nodelist();
+}
