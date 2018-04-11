@@ -79,7 +79,7 @@ class WMN_Form_Nodelist {
 		$html = 'No nodelist received';
 		if ( ! empty( $this->node ) ) {
 			$nodes  = $this->build_nodelist();
-			$header = $this->build_header();
+			$header = '';//$this->build_header();
 			$footer = $this->build_footer();
 			$html   = $header . $nodes . $footer;
 		}
@@ -135,8 +135,10 @@ class WMN_Form_Nodelist {
 		$data  = $this->retrieve_nodelist_data();
 		ob_start(); ?>
 		<div class="panel panel-fluidity">
-			<div class="panel-heading centered">
-				<?php e_esc_html( sprintf( __( 'Listing for node %s', 'wmn-workbook' ), $this->node ) ); ?>
+			<div class="panel-heading centered"><?php
+				echo $this->back_button()
+				echo $this->next_button()
+				$this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], sprintf( __( 'Listing for node %s', 'wmn-workbook' ), $this->node ) ); ?>
 			</div>
 			<table class="table">
 				<thead>
