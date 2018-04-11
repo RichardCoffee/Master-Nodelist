@@ -43,6 +43,7 @@ if ( ! function_exists( 'is_ajax' ) ) {
 	}
 }
 
+# https://snippets.khromov.se/modify-wordpress-plugin-load-order/
 function wmn_plugin_load_first() {
 	$path = str_replace( WP_PLUGIN_DIR . '/', '', wmn_paths()->file );
 	if ( $plugins = get_option( 'active_plugins' ) ) {

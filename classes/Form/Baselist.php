@@ -35,6 +35,7 @@ class WMN_Form_Baselist {
 	protected function add_actions() {
 		add_action( 'wp_enqueue_scripts',        array( $this, 'nodelist_scripts' ) );
 		add_action( 'wp_ajax_wmn_show_nodelist', array( $this, 'show_nodelist' ) );
+		add_action( 'wp_ajax_nopriv_wmn_show_nodelist', array( $this, 'show_nodelist' ) );
 	}
 
 	public function nodelist_scripts() {
