@@ -107,11 +107,11 @@ class WMN_Query_Nodelist {
 				continue;
 			}
 			foreach( $columns as $key => $col ) {
-				if ( $row[ $key ] ) {
+				if ( ! empty( $row[ $key ] ) ) {
 					$record[ $col ] = $row[ $key ];
 				}
 			}
-			if ( ! empty( $record ) ) {
+			if ( ( ! empty( $record ) ) && ( ! empty( $record['node'] ) ) ) {
 				$wpdb->insert( 'workbook_nodelist', $record );
 				$new++;
 			}
