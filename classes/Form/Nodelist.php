@@ -130,6 +130,11 @@ wmn(1)->log($this);
 	}
 
 	protected function build_footer() {
+		$html  = '<div class="row">';
+		$html .= $this->back_button();
+		$html .= $this->next_button();
+		$html .= '</div>';
+		return $html;
 	}
 
 	protected function retrieve_nodelist() {
