@@ -102,7 +102,7 @@ wmn(1)->log($this);
 		$html = '';
 		if ( $this->page > 1 ) {
 			$attrs = array(
-				'class'    => 'btn btn-fluidity pull-left previous-nodepage',
+				'class'    => 'btn btn-fluidity pull-left previous-nodepage margint1e',
 				'onchange' => 'changePage(' . ( $this->page - 1 ) . ')'
 			);
 			$html = $this->get_apply_attrs_element( 'button', $attrs, __( 'Previous', 'wmn-workbook' ) );
@@ -115,7 +115,7 @@ wmn(1)->log($this);
 		$max_pages = intval( $this->count / $this->page_size ) + 1;
 		if ( $this->page < $max_pages ) {
 			$attrs = array(
-				'class'    => 'btn btn-fluidity pull-right next-nodepage',
+				'class'    => 'btn btn-fluidity pull-right next-nodepage margint1e',
 				'onchange' => 'changePage(' . ( $this->page + 1 ) . ')'
 			);
 			$html = $this->get_apply_attrs_element( 'button', $attrs, __( 'Next', 'wmn-workbook' ) );
