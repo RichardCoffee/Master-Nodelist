@@ -111,6 +111,7 @@ $dups++;
 					$record[ $col ] = $row[ $key ];
 				}
 			}
+wm(1)->log($record);
 $new++;
 			$wpdb->insert( 'workbook_nodelist', $record );
 		}
@@ -137,7 +138,7 @@ wmn(1)->log(
 			$prep   = $wpdb->prepare( $sql, $args );
 			$exists = $wpdb->get_var( $prep );
 		}
-else { wmn(1)->log($data); }
+#else { wmn(1)->log($data); }
 		return $exists;
 	}
 
