@@ -111,7 +111,7 @@ $dups++;
 					$record[ $col ] = $row[ $key ];
 				}
 			}
-wm(1)->log($record);
+wmn(1)->log($record);
 $new++;
 			$wpdb->insert( 'workbook_nodelist', $record );
 		}
