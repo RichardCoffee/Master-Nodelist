@@ -8,7 +8,6 @@
 
 abstract class WMN_Form_Field_Field {
 
-	protected $library    = 'fluid';    # library function call
 	protected $field_css  = '';         # field css
 	protected $field_default;           # default value
 	protected $field_help = '';         # used for tooltip text
@@ -24,7 +23,9 @@ abstract class WMN_Form_Field_Field {
 	protected $placeholder = '';        # placeholder text
 #	protected $post_id;                 # wordpress post id number
 	protected $sanitize   = 'esc_attr'; # default sanitize method
+	protected $see_label  = true;       # is the label visible?
 
+	use WMN_Trait_Attributes;
 	use WMN_Trait_Magic;
 	use WMN_Trait_ParseArgs;
 
@@ -39,7 +40,6 @@ abstract class WMN_Form_Field_Field {
 	}
 
 	public function input() {
-		$library = $this->library;
 		$attrs = array(
 			'id'          => $this->field_id,
 			'type'        => $this->type,
@@ -47,20 +47,20 @@ abstract class WMN_Form_Field_Field {
 			'name'        => $this->field_name,
 			'value'       => $this->field_value,
 			'placeholder' => $this->placeholder,
-		); ?>
-		<input <?php $library()->apply_attrs( $attrs ); ?> /><?php
+		);
+		$this->apply_attrs_tag( 'input', $attrs );
 	}
 
 	protected function label() {
-		$library = $this->library;
+		if ( empty( $this->description ) ) {
+			return '';
+		}
 		$attrs = array(
-			'class' => $this->label_css,
-			'for'   => $this->field_id,
+			'id'         => $this->field_id . '_label',
+			'class'      => $this->label_css . ( ! $this->see_label ) ? ' screen-reader-text' : '',
+			'for'        => $this->field_id,
 		);
-		$label  = '<label ' . $library()->get_apply_attrs( $attrs ) . '>';
-		$label .= esc_html( $this->description );
-		$label .= '</label>';
-		return $label;
+		return $this->get_apply_attrs_element( 'label', $attrs, $this->description );
 	}
 
 	public function sanitize( $input ) {

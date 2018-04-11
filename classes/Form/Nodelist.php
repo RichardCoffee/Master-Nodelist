@@ -19,6 +19,9 @@ class WMN_Form_Nodelist {
 
 	public function __construct() {
 		$this->add_actions();
+		if ( ! empty( $_POST['active'] ) ) {
+			$this->node = $this->node_select_field()->sanitize( $_POST['active'] );
+		}
 		if ( ! empty( $_POST['nodepage'] ) ) {
 			$this->page = intval( $_POST['nodepage'], 10 );
 		}
@@ -27,9 +30,6 @@ class WMN_Form_Nodelist {
 			'nodepage' => $this->page,
 			'security' => wp_create_nonce( __CLASS__ )
 		);
-		if ( ! empty( $_POST['active'] ) ) {
-			$this->node = $this->nodelist_select_field()->sanitize( $_POST['active'] );
-		}
 	}
 
 	protected function add_actions() {
@@ -50,16 +50,15 @@ class WMN_Form_Nodelist {
 				<h1 class="centered">Master Nodelist.</h1>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-				<?php $this->nodelist_select_field()->select(); ?>
+				<?php $this->node_select_field()->select(); ?>
 			</div>
 		</div>
-		<div id="tech-nodelist">
-		</div>
-		<div id="master-nodelist">
-		</div><?php
+		<div id="tech-nodelist"></div>
+		<div id="tech-editlist"></div>
+		<div id="master-nodelist"></div><?php
 	}
 
-	protected function nodelist_select_field() {
+	protected function node_select_field() {
 		global $wpdb;
 		$nodes = $wpdb->get_col( 'SELECT DISTINCT(node) FROM workbook_nodelist' );
 		sort( $nodes );
@@ -89,7 +88,6 @@ class WMN_Form_Nodelist {
 	}
 
 	protected function build_header() {
-wmn(1)->log($this);
 		$html  = '<div class="row">';
 		$html .= $this->back_button();
 		$html .= $this->next_button();
@@ -152,7 +150,6 @@ wmn(1)->log($this);
 			$data[] = $wpdb->get_row( $prep, ARRAY_A, $i );
 		}
 		$this->count = $count;
-		return compact( 'count', 'start', 'limit', 'i', 'data' );
 		return $data;
 	}
 
