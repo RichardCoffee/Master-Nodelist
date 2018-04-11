@@ -165,10 +165,10 @@ class WMN_Form_Nodelist {
 		$sql  .= " FROM workbook_nodelist WHERE node = %s ORDER BY address";
 		$prep  = $wpdb->prepare( $sql, $this->node );
 		$count = $wpdb->query( $prep );
-		$limit = min( ( $this->ajax['nodepage'] * $this->page_size ), $count );
+		$limit = $this->ajax['nodepage'] * $this->page_size;
 		$start = $limit - $this->page_size;
 		$data  = array();
-		for ( $i = $start ; $i < $limit ; $i++ ) {
+		for ( $i = $start ; $i < min( $limit, $count ) ; $i++ ) {
 			$data[] = $wpdb->get_row( $prep, ARRAY_A, $i );
 		}
 		$this->count = $count;
