@@ -45,7 +45,7 @@ class WMN_Form_Nodelist {
 	}
 
 	public function nodelist_form() { ?>
-		<div class="row">
+		<div class="row marginb1e">
 			<?php $this->node_select_field()->select(); ?>
 		</div>
 		<div id="tech-nodelist"></div>
@@ -61,7 +61,7 @@ class WMN_Form_Nodelist {
 		$args  = array(
 			'library'    => 'wmn',
 			'field_name' => 'active_node',
-			'field_css'  => 'pull-left marginb1e',
+			'field_css'  => 'pull-left',
 			'choices'    => $nodes,
 			'onchange'   => 'load_nodelist(1);'
 		);
