@@ -111,9 +111,11 @@ $dups++;
 					$record[ $col ] = $row[ $key ];
 				}
 			}
+			if ( ! empty( $record ) ) {
 wmn(1)->log($record);
 $new++;
-			$wpdb->insert( 'workbook_nodelist', $record );
+				$wpdb->insert( 'workbook_nodelist', $record );
+			}
 		}
 wmn(1)->log(
 	"Dups: $dups",
