@@ -133,7 +133,8 @@ class WMN_Form_Nodelist {
 
 	protected function build_nodelist() {
 		$query = new WMN_Query_Nodelist;
-		$data  = $this->retrieve_nodelist_data(); ?>
+		$data  = $this->retrieve_nodelist_data();
+		ob_start(); ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading">
 			</div>
@@ -151,7 +152,7 @@ class WMN_Form_Nodelist {
 				</tbody>
 			</table>
 		</div><?php
-		return $html;
+		return ob_get_clean();
 	}
 
 	protected function retrieve_nodelist_data() {
