@@ -46,12 +46,8 @@ class WMN_Form_Nodelist {
 
 	public function nodelist_form() { ?>
 		<div class="row">
-			<div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
-				<h1 class="centered">Master Nodelist.</h1>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-				<?php $this->node_select_field()->select(); ?>
-			</div>
+			<?php $this->node_select_field()->select(); ?>
+			<h1 class="centered">Master Nodelist</h1>
 		</div>
 		<div id="tech-nodelist"></div>
 		<div id="tech-editlist"></div>
@@ -66,7 +62,7 @@ class WMN_Form_Nodelist {
 		$args  = array(
 			'library'    => 'wmn',
 			'field_name' => 'active_node',
-			'field_css'  => 'margint1e',
+			'field_css'  => 'pull-left',
 			'choices'    => $nodes,
 			'onchange'   => 'load_nodelist(1);'
 		);
