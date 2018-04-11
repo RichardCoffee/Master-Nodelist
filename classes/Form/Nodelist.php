@@ -107,7 +107,7 @@ class WMN_Form_Nodelist {
 		$html = '';
 		if ( $this->page > 1 ) {
 			$attrs = array(
-				'class'   => 'btn btn-fluidity pull-left previous-nodepage margint1e',
+				'class'   => 'btn btn-fluidity pull-left previous-nodepage marginb1e',
 				'onclick' => 'load_nodelist(' . ( $this->page - 1 ) . ');',
 				'title'   => __( 'go to previous page', 'wmn-workbook' )
 			);
@@ -121,7 +121,7 @@ class WMN_Form_Nodelist {
 		$max_pages = intval( $this->count / $this->page_size ) + 1;
 		if ( $this->page < $max_pages ) {
 			$attrs = array(
-				'class'   => 'btn btn-fluidity pull-right next-nodepage margint1e',
+				'class'   => 'btn btn-fluidity pull-right next-nodepage marginb1e',
 				'onclick' => 'load_nodelist(' . ( $this->page + 1 ) . ');',
 				'title'   => __( 'go to next page', 'wmn-workbook' )
 			);
@@ -136,7 +136,7 @@ class WMN_Form_Nodelist {
 		ob_start(); ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading">
-				<?php esc_html( sprintf( __( 'Listing for node %s', 'wmn-workbook' ), $this->node ) ); ?>
+				<?php e_esc_html( sprintf( __( 'Listing for node %s', 'wmn-workbook' ), $this->node ) ); ?>
 			</div>
 			<table class="table">
 				<thead>
