@@ -137,14 +137,15 @@ wmn(1)->log($this);
 		$sql   = "SELECT account, house, ticket, address, viya, subscriber, install, complete, comments";
 		$sql  .= " FROM workbook_nodelist WHERE node = %s ORDER BY address";
 		$prep  = $wpdb->prepare( $sql, $this->node );
-		$this->count = $wpdb->query( $prep );
-		$limit = min( ( $this->ajax['nodepage'] * $this->page_size ), $this->count );
+		$count = $wpdb->query( $prep );
+		$limit = min( ( $this->ajax['nodepage'] * $this->page_size ), $count );
 		$start = $limit - $this->page_size;
 		$data  = array();
 		for ( $i = $start ; $i < $limit ; $i++ ) {
 			$data[] = $wpdb->get_row( $prep, ARRAY_A, $i );
 		}
-		return compact( 'cnt', 'start', 'limit', 'i', 'data' );
+		$this->count = $count;
+		return compact( 'count', 'start', 'limit', 'i', 'data' );
 		return $data;
 	}
 

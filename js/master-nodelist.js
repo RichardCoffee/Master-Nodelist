@@ -38,6 +38,7 @@ function contact_server( contentDiv, outData, wait ) {
 }
 
 function changePage( page ) {
+console.log('changePage: '+page);
 	nodelist_ajax.nodepage = page;
 	load_nodelist();
 }
