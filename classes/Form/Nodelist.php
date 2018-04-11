@@ -135,7 +135,7 @@ class WMN_Form_Nodelist {
 		$data  = $this->retrieve_nodelist_data();
 		ob_start(); ?>
 		<div class="panel panel-fluidity">
-			<div class="panel-heading">
+			<div class="panel-heading centered">
 				<?php e_esc_html( sprintf( __( 'Listing for node %s', 'wmn-workbook' ), $this->node ) ); ?>
 			</div>
 			<table class="table">
@@ -146,7 +146,7 @@ class WMN_Form_Nodelist {
 					foreach( $data as $entry ) { ?>
 						<tr><?php
 							$subscript = $query->subscript( 'address' );
-							$this->apply_attrs_element( 'td', [ 'class' => 'address' ], $data[ $subscript ] ); ?>
+							$this->apply_attrs_element( 'td', [ 'class' => 'address' ], $entry[ $subscript ] ); ?>
 						</tr><?php
 					} ?>
 				</tbody>
