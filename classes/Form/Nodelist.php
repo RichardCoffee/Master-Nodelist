@@ -16,7 +16,7 @@ class WMN_Form_Nodelist {
 		$this->add_actions();
 		$this->ajax = array(
 			'ajaxurl'  => admin_url( 'admin-ajax.php' ),
-			'nodepage' => ( ! empty( $_POST['nodepage'] ) ) ? intval( $_POST['nodelist'], 10 ) : 1,
+			'nodepage' => ( ! empty( $_POST['nodepage'] ) ) ? intval( $_POST['nodepage'], 10 ) : 1,
 			'security' => wp_create_nonce( __CLASS__ )
 		);
 	}
@@ -79,11 +79,18 @@ class WMN_Form_Nodelist {
 		wp_die();
 	}
 
-	public function build_nodelist( $node ) {
+	public function build_header( $node ) {
 		$html  = wmn()->get_apply_attrs_element( 'h3', [ 'class' => 'centered' ], 'Node selected was ' . $node );
-		$data  = $this->retrieve_nodelist( $node );
-		$html .= print_r( $data, true );
 		return $html;
+	}
+
+	public function build_nodelist( $node ) {
+		$data = $this->retrieve_nodelist( $node );
+		$html = print_r( $data, true );
+		return $html;
+	}
+
+	public function build_footer( $node ) {
 	}
 
 	public function retrieve_nodelist( $node ) {
@@ -92,7 +99,7 @@ class WMN_Form_Nodelist {
 		$sql  .= " FROM workbook_nodelist WHERE node = %s ORDER BY address";
 		$prep  = $wpdb->prepare( $sql, $node );
 		$cnt   = $wpdb->query( $prep );
-		$limit = $this->ajax['nodepage'] * $this->page_size;
+		$limit = min( ( $this->ajax['nodepage'] * $this->page_size ), $cnt );
 		$start = $limit - $this->page_size;
 		$data  = array();
 		for ( $i = $start ; $i < $limit ; $i++ ) {
