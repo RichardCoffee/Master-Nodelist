@@ -46,10 +46,7 @@ class WMN_Form_Nodelist {
 
 	public function nodelist_form() { ?>
 		<div class="row">
-			<h1 class="centered">
-				<?php $this->node_select_field()->select(); ?>
-				Master Nodelist
-			</h1>
+			<?php $this->node_select_field()->select(); ?>
 		</div>
 		<div id="tech-nodelist"></div>
 		<div id="tech-editlist"></div>
