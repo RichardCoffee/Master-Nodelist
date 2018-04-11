@@ -26,8 +26,8 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 	public function admin_enqueue_scripts( $hook ) {
 		$paths = wmn_paths();
 		wp_enqueue_media();
-		wp_enqueue_style(  'wmn-workbook-form.css',  $paths->get_plugin_file_uri( 'css/admin-form.css' ),                 null, $paths->version );
-		wp_enqueue_script( 'wmn-import-nodelist.js', $paths->get_plugin_file_uri( 'js/import-nodelist.js' ), array( 'jquery' ), $paths->version, true );
+		wp_enqueue_style(  'wmn-form-workbook.css', $paths->get_plugin_file_uri( 'css/form-workbook.css' ),            null, $paths->version );
+		wp_enqueue_script( 'wmn-form-workbook.js',  $paths->get_plugin_file_uri( 'js/form-workbook.js' ), array( 'jquery' ), $paths->version, true );
 	}
 
 	protected function form_layout( $form = array() ) {

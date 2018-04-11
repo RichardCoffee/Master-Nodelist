@@ -1,13 +1,13 @@
 <?php
 /**
- * classes/Form/Nodelist.php
+ * classes/Form/Baselist.php
  *
  */
 /**
  * Handles nodelist on front end
  *
  */
-class WMN_Form_Nodelist {
+class WMN_Form_Baselist {
 
 	protected $ajax      = array();
 	protected $count     = 0;
@@ -47,7 +47,7 @@ class WMN_Form_Nodelist {
 	public function nodelist_form() { ?>
 		<div class="row">
 			<div class="col-lg-10 col-md-10 col-sm-9 col-xs-12">
-				<h1 class="centered">Definitive Master Nodelist</h1>
+				<h1 class="centered">Master Nodelist</h1>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
 				<?php $this->nodelist_select_field()->select(); ?>
@@ -89,7 +89,6 @@ class WMN_Form_Nodelist {
 	}
 
 	protected function build_header() {
-wmn(1)->log($this);
 		$html  = '<div class="row">';
 		$html .= $this->back_button();
 		$html .= $this->next_button();

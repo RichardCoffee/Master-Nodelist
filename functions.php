@@ -54,3 +54,11 @@ function wmn_plugin_load_first() {
 	}
 }
 add_action( 'activated_plugin', 'wmn_plugin_load_first' );
+
+function required_form() {
+	if ( wmn_current() ) {
+		return new WMN_Form_Nodelist;
+	} else {
+		return new WMN_Form_Baselist;
+	}
+}

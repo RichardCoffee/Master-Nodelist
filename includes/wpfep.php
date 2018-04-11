@@ -23,3 +23,7 @@ function wmn_wpfep_tech_tab_meta_fields( $fields = array() ) {
 	return $fields;
 }
 add_filter('wpfep_fields_tech_tab','wmn_wpfep_tech_tab_meta_fields');
+
+function wmn_current() {
+	return ( get_current_user_id() == 2 ) ? true : false;
+}
