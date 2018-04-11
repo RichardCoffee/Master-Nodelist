@@ -95,7 +95,7 @@ class WMN_Query_Nodelist {
 
 	public function import( $data ) {
 		global $wpdb;
-$dups = $new = 0;
+		$dups = $new = 0;
 		$columns = $this->base_headers();
 		foreach( $data as $index => $row ) {
 			$record = array();
@@ -103,7 +103,7 @@ $dups = $new = 0;
 				continue;
 			}
 			if ( $this->is_duplicate( $row ) ) {
-$dups++;
+				$dups++;
 				continue;
 			}
 			foreach( $columns as $key => $col ) {
@@ -112,16 +112,11 @@ $dups++;
 				}
 			}
 			if ( ! empty( $record ) ) {
-wmn(1)->log($record);
-$new++;
 				$wpdb->insert( 'workbook_nodelist', $record );
+				$new++;
 			}
 		}
-wmn(1)->log(
-	"Dups: $dups",
-	" New: $new"
-);
-		return true;
+		return compact( 'dups', 'new' );
 	}
 
 	protected function is_duplicate( $data ) {

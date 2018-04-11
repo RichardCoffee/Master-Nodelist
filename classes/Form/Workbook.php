@@ -90,7 +90,8 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 			$reader->setLoadSheetsOnly( $sheet_name );
 			$spreadsheet = $reader->load( $data['file'] );
 			$sheet_data  = $spreadsheet->getActiveSheet()->toArray( null, false, false, false );
-			if ( ! $import->import( $sheet_data ) ) {
+			$results     = $import->import( $sheet_data );
+			if ( empty( $results ) ) {
 				$had_error = true;
 			}
 		}
@@ -111,7 +112,7 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 			$response['message'] = "Worksheet $sheet_name skipped.";
 		} else if ( ( $data['index'] + 1 ) < $data['count'] ) {
 			$response['type']    = 'incomplete';
-			$response['message'] = "Worksheet $sheet_name imported.";
+			$response['message'] = "Worksheet $sheet_name imported.  {$results['dups']} records skipped, {$results['new']} records imported.";
 		} else {
 			unset( $_SESSION['import_nodelist'] );
 		}
