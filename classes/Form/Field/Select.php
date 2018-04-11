@@ -15,7 +15,7 @@ class WMN_Form_Field_Select extends WMN_Form_Field_Field {
 			$select = array(
 				'id'    => $this->field_id,
 				'name'  => $this->field_name,
-				'class' => $this->field_css . ' form-control'
+				'class' => 'form-control ' . $this->field_css
 			);
 			if ( ! empty( $this->description ) ) {
 				$select['aria-labelledby'] = $this->field_id . '_label';
