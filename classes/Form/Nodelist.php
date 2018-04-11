@@ -61,7 +61,7 @@ class WMN_Form_Nodelist {
 		$args  = array(
 			'library'    => 'wmn',
 			'field_name' => 'active_node',
-			'field_css'  => 'pull-left',
+			'field_css'  => 'pull-left marginb1e',
 			'choices'    => $nodes,
 			'onchange'   => 'load_nodelist(1);'
 		);
