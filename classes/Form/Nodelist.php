@@ -132,8 +132,25 @@ class WMN_Form_Nodelist {
 	}
 
 	protected function build_nodelist() {
-		$data = $this->retrieve_nodelist_data();
-		$html = print_r( $data, true );
+		$query = new WMN_Query_Nodelist;
+		$data  = $this->retrieve_nodelist_data(); ?>
+		<div class="panel panel-fluidity">
+			<div class="panel-heading">
+			</div>
+			<table class="table">
+				<thead>
+					<tr><?php e_esc_html( $query->header_title( 'address' ) ); ?></tr>
+				</thead>
+				<tbody><?php
+					foreach( $data as $entry ) { ?>
+						<tr><?php
+							$subscript = $query->subscript( 'address' );
+							$this->apply_attrs_element( 'td', [ 'class' => 'address' ], $data[ $subscript ] ); ?>
+						</tr><?php
+					} ?>
+				</tbody>
+			</table>
+		</div><?php
 		return $html;
 	}
 

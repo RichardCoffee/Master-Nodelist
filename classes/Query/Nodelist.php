@@ -34,6 +34,11 @@ class WMN_Query_Nodelist {
 		return $base;
 	}
 
+	public function subscript( $search ) {
+		$fields = $this->base_headers();
+		return array_search( $search, $fields, true );
+	}
+
 	public function top_header() {
 		return 'Node Information Detail';
 	}
@@ -70,6 +75,16 @@ class WMN_Query_Nodelist {
 			'Docsis 3.0 Upgrade Y / N',
 			'Comments/Notes',
 		);
+	}
+
+	public function header_title( $search ) {
+		$title = '';
+		$subscript = $this->subscript( $search );
+		if ( $subscript ) {
+			$titles = $this->proper_headers();
+			$title  = $titles[ $subscript ];
+		}
+		return $title;
 	}
 
 	public function create( $file = 'workbook__nodelist' ) {
