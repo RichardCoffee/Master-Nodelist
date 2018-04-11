@@ -91,7 +91,6 @@ class WMN_Form_Nodelist {
 		$html  = '<div class="row">';
 		$html .= $this->back_button();
 		$html .= $this->next_button();
-		$html .= $this->get_apply_attrs_element( 'h3', [ 'class' => 'centered' ], 'Node selected was ' . $this->node );
 		$html .= '</div>';
 		return $html;
 	}
@@ -137,6 +136,7 @@ class WMN_Form_Nodelist {
 		ob_start(); ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading">
+				<?php esc_html( sprintf( __( 'Listing for node %s', 'wmn-workbook' ), $this->node ) ); ?>
 			</div>
 			<table class="table">
 				<thead>
