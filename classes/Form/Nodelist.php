@@ -10,6 +10,7 @@
 class WMN_Form_Nodelist {
 
 	protected $ajax      = array();
+	protected $count     = 0;
 	protected $node      = '';
 	protected $page      = 1;
 	protected $page_size = 50;
@@ -81,13 +82,14 @@ class WMN_Form_Nodelist {
 			$nodes  = $this->build_nodelist();
 			$header = $this->build_header();
 			$footer = $this->build_footer();
-			$html = $header . $nodes . $footer;
+			$html   = $header . $nodes . $footer;
 		}
 		echo $html;
 		wp_die();
 	}
 
 	protected function build_header() {
+wmn(1)->log($this);
 		$html  = '<div class="row">';
 		$html .= $this->back_button();
 		$html .= $this->next_button();
@@ -135,8 +137,8 @@ class WMN_Form_Nodelist {
 		$sql   = "SELECT account, house, ticket, address, viya, subscriber, install, complete, comments";
 		$sql  .= " FROM workbook_nodelist WHERE node = %s ORDER BY address";
 		$prep  = $wpdb->prepare( $sql, $this->node );
-		$cnt   = $wpdb->query( $prep );
-		$limit = min( ( $this->ajax['nodepage'] * $this->page_size ), $cnt );
+		$this->count = $wpdb->query( $prep );
+		$limit = min( ( $this->ajax['nodepage'] * $this->page_size ), $this->count );
 		$start = $limit - $this->page_size;
 		$data  = array();
 		for ( $i = $start ; $i < $limit ; $i++ ) {
