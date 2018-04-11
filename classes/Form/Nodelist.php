@@ -69,7 +69,7 @@ class WMN_Form_Nodelist {
 			'field_name' => 'active_node',
 			'field_css'  => 'margint1e',
 			'choices'    => $nodes,
-			'onchange'   => 'load_nodelist();'
+			'onchange'   => 'load_nodelist(1);'
 		);
 		$select = new WMN_Form_Field_Select( $args );
 		return $select;
@@ -111,7 +111,7 @@ wmn(1)->log($this);
 		if ( $this->page > 1 ) {
 			$attrs = array(
 				'class'   => 'btn btn-fluidity pull-left previous-nodepage margint1e',
-				'onclick' => 'changePage(' . ( $this->page - 1 ) . ');',
+				'onclick' => 'load_nodelist(' . ( $this->page - 1 ) . ');',
 				'title'   => __( 'go to previous page', 'wmn-workbook' )
 			);
 			$html = $this->get_apply_attrs_element( 'button', $attrs, __( 'Previous', 'wmn-workbook' ) );
@@ -125,7 +125,7 @@ wmn(1)->log($this);
 		if ( $this->page < $max_pages ) {
 			$attrs = array(
 				'class'   => 'btn btn-fluidity pull-right next-nodepage margint1e',
-				'onclick' => 'changePage(' . ( $this->page + 1 ) . ');',
+				'onclick' => 'load_nodelist(' . ( $this->page + 1 ) . ');',
 				'title'   => __( 'go to next page', 'wmn-workbook' )
 			);
 			$html = $this->get_apply_attrs_element( 'button', $attrs, __( 'Next', 'wmn-workbook' ) );

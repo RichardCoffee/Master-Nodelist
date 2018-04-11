@@ -3,11 +3,11 @@
 //jQuery( document ).ready( function( $ ) {
 //} );
 
-function load_nodelist() {
+function load_nodelist(page) {
 	var outdata = {
 		action:  "wmn_show_nodelist",
 		active:   jQuery( "#active_node option:selected" ).val(),
-		nodepage: nodelist_ajax.nodepage,
+		nodepage: page,
 		security: nodelist_ajax.security
 	};
 	contact_server( '#master-nodelist', outdata );
@@ -37,8 +37,3 @@ function contact_server( contentDiv, outData, wait ) {
 	return value;
 }
 
-function changePage( page ) {
-console.log('changePage: '+page);
-	nodelist_ajax.nodepage = page;
-	load_nodelist();
-}
