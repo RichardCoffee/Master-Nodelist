@@ -123,10 +123,18 @@ wmn(1)->log(
 
 	protected function is_duplicate( $data ) {
 		$exists = false;
-		if ( $data[0] && $data[1] && $data[2] ) {
+		$where  = array();
+		$args   = array();
+		foreach( array( 'account', 'house', 'ticket' ) as $key => $text ) {
+			if ( ! empty( $data[ $key ] ) ) {
+				$where[] = " $text = %s ";
+				$args[]  = $data[ $key ];
+			}
+		}
+		if ( count( $where ) > 0 ) {
 			global $wpdb;
-			$sql    = "SELECT ID FROM workbook_nodelist WHERE account = %s AND house = %s AND ticket = %s";
-			$prep   = $wpdb->prepare( $sql, $data[0], $data[1], $data[2] );
+			$sql    = "SELECT ID FROM workbook_nodelist WHERE" . implode( 'AND', $where );
+			$prep   = $wpdb->prepare( $sql, $args );
 			$exists = $wpdb->get_var( $prep );
 		}
 else { wmn(1)->log($data); }
