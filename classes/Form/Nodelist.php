@@ -149,6 +149,7 @@ class WMN_Form_Nodelist {
 				<tbody><?php
 					foreach( $data as $entry ) { ?>
 						<tr><?php
+							$this->apply_attrs_element( 'td', [ 'class' => 'hidden' ],  $entry['id'] );
 							$this->apply_attrs_element( 'td', [ 'class' => 'address' ], $entry['address'] ); ?>
 						</tr><?php
 					} ?>
@@ -160,7 +161,7 @@ class WMN_Form_Nodelist {
 
 	protected function retrieve_nodelist_data() {
 		global $wpdb;
-		$sql   = "SELECT account, house, ticket, address, viya, subscriber, install, complete, comments";
+		$sql   = "SELECT id, account, house, ticket, address, viya, subscriber, install, complete, comments";
 		$sql  .= " FROM workbook_nodelist WHERE node = %s ORDER BY address";
 		$prep  = $wpdb->prepare( $sql, $this->node );
 		$count = $wpdb->query( $prep );
