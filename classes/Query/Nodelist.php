@@ -72,10 +72,10 @@ class WMN_Query_Nodelist {
 		);
 	}
 
-	public function create() {
+	public function create( $file = 'workbook__nodelist' ) {
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
-		$sql = "CREATE TABLE workbook_nodelist ( id int(11) NOT NULL AUTO_INCREMENT,";
+		$sql = "CREATE TABLE $file ( id int(11) NOT NULL AUTO_INCREMENT,";
 		$headers = $this->base_headers();
 		foreach( $headers as $header ) {
 			$sql .= "`$header` text,";
@@ -86,10 +86,10 @@ class WMN_Query_Nodelist {
 		dbDelta( $sql );
 	}
 
-	public function destroy() {
+	public function destroy( $file = 'workbook__nodelist' ) {
 		global $wpdb;
-		if ( $wpdb->get_var( "SHOW TABLES LIKE 'workbook_nodelist'") === 'workbook_nodelist') {
-			$delete = $wpdb->query( "DROP TABLE IF EXISTS workbook_nodelist" );
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '$file'") === $file) {
+			$wpdb->query( "DROP TABLE IF EXISTS $file" );
 		}
 	}
 
@@ -120,23 +120,22 @@ class WMN_Query_Nodelist {
 	}
 
 	protected function is_duplicate( $data ) {
-		$exists = false;
+		$is_dup = false;
 		$where  = array();
 		$args   = array();
 		foreach( array( 'account', 'house', 'ticket' ) as $key => $text ) {
 			if ( ! empty( $data[ $key ] ) ) {
-				$where[] = " $text = %s ";
+				$where[] = "$text = %s";
 				$args[]  = $data[ $key ];
 			}
 		}
 		if ( count( $where ) > 0 ) {
 			global $wpdb;
-			$sql    = "SELECT ID FROM workbook_nodelist WHERE" . implode( 'AND', $where );
+			$sql    = "SELECT ID FROM workbook_nodelist WHERE " . implode( ' AND ', $where );
 			$prep   = $wpdb->prepare( $sql, $args );
-			$exists = $wpdb->get_var( $prep );
+			$is_dup = $wpdb->get_var( $prep );
 		}
-#else { wmn(1)->log($data); }
-		return $exists;
+		return $is_dup;
 	}
 
 
