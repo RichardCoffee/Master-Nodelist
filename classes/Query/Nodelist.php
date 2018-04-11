@@ -123,13 +123,13 @@ wmn(1)->log(
 
 	protected function is_duplicate( $data ) {
 		$exists = false;
-wmn(1)->log($data);
 		if ( $data[0] && $data[1] && $data[2] ) {
 			global $wpdb;
 			$sql    = "SELECT ID FROM workbook_nodelist WHERE account = %s AND house = %s AND ticket = %s";
 			$prep   = $wpdb->prepare( $sql, $data[0], $data[1], $data[2] );
 			$exists = $wpdb->get_var( $prep );
 		}
+else { wmn(1)->log($data); }
 		return $exists;
 	}
 
