@@ -140,14 +140,14 @@ class WMN_Form_Nodelist {
 			</div>
 			<table class="table">
 				<thead>
-					<tr class="centered"><?php e_esc_html( $query->header_title( 'address' ) ); ?></tr>
+					<tr>
+						<th class="centered"><?php e_esc_html( $query->header_title( 'address' ) ); ?></tr>
+					</tr>
 				</thead>
 				<tbody><?php
 					foreach( $data as $entry ) { ?>
 						<tr><?php
-							$subscript = $query->subscript( 'address' );
-wmn(1)->log($subscript,$entry);
-							$this->apply_attrs_element( 'td', [ 'class' => 'address' ], $entry[ $subscript ] ); ?>
+							$this->apply_attrs_element( 'td', [ 'class' => 'address' ], $entry['address'] ); ?>
 						</tr><?php
 					} ?>
 				</tbody>
