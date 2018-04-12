@@ -153,7 +153,7 @@ class WMN_Query_Nodelist {
 		return $is_dup;
 	}
 
-	protected function retrieve_nodelist_data() {
+	public function retrieve_nodelist_data() {
 		global $wpdb;
 		$sql   = "SELECT id, account, house, ticket, address, viya, subscriber, install, complete, comments";
 		$sql  .= " FROM workbook_nodelist WHERE node = %s ORDER BY address";
