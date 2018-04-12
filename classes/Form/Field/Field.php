@@ -37,7 +37,9 @@ abstract class WMN_Form_Field_Field {
 		if ( empty( $this->field_id ) ) {
 			$this->field_id = $this->field_name;
 		}
-		$this->add_form_control_css();
+		if ( $this->form_control ) {
+			$this->add_form_control_css();
+		}
 	}
 
 	public function input() {
