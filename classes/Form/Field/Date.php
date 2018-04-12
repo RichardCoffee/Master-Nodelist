@@ -9,7 +9,7 @@ class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 	}
 
 	public function date() { ?>
-		<div class="input-group"><?php
+		<div class="undef-input-group"><?php
 			$this->label();
 			$this->input(); ?>
 		</div><?php

@@ -27,7 +27,7 @@ class WMN_Form_Field_Select extends WMN_Form_Field_Field {
 			if ( $this->onchange ) {
 				$select['onchange'] = $this->onchange;
 			} ?>
-			<div class="input-group"><?php
+			<div class="undef-input-group"><?php
 				if ( ! empty( $this->description ) ) {
 					echo $this->label();
 				} ?>
