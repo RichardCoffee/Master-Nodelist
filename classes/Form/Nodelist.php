@@ -180,8 +180,21 @@ class WMN_Form_Nodelist {
 								'field_name'  => $item,
 								'field_value' => $entry[ $item ]
 							);
-							$input = new WMN_Form_Field_Text( $attrs );
-							$input->text(); ?>
+							switch( $item ) {
+								case 'install':
+									$attrs['description'] = 'Drop Installed';
+									$attrs['choices'] = array( '', 'Yes', 'Not Installed' );
+									$input = new WMN_Form_Field_Select( $attrs );
+									$input->select();
+									break;
+#								case 'complete':
+#									$input = new WMN_Form_Field_Date( $attrs );
+#									$input->date();
+#									break;
+								default:
+									$input = new WMN_Form_Field_Text( $attrs );
+									$input->text();
+							} ?>
 						</div><?php
 					}
 
