@@ -204,12 +204,14 @@ class WMN_Form_Nodelist {
 						wp_nonce_field( 'master-nodelist-edit-entry' );
 						foreach( $editus as $item ) { ?>
 							<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><?php
-								$attrs = array(
-									'description' => $query->header_title( $item ),
-									'field_id'    => "wmn_$item",
-									'field_name'  => $item,
-									'field_value' => $entry[ $item ]
-								);
+								if ( $item !== 'submit' ) {
+									$attrs = array(
+										'description' => $query->header_title( $item ),
+										'field_id'    => "wmn_$item",
+										'field_name'  => $item,
+										'field_value' => $entry[ $item ]
+									);
+								}
 								switch( $item ) {
 									case 'install':
 										$attrs['description'] = 'Drop Installed';
@@ -238,6 +240,7 @@ class WMN_Form_Nodelist {
 
 	protected function save_entry_button() {
 		$attrs = array(
+			'type'    => 'button',
 			'class'   => 'btn btn-fluidity centered',
 			'onclick' => 'save_entry();',
 			'title'   => __( 'Save this entry', 'wmn-workbook' )
