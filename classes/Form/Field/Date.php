@@ -23,6 +23,7 @@ class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 			'size'  => 10,
 			'class' => 'form-control inline date',
 			'value' => $this->form_date(),
+			'placeholder'   => $this->placeholder,
 			'data-altfield' => $this->field_name,
 			'onchange'      => 'fix_jquery_datepicker(this);'
 		);
