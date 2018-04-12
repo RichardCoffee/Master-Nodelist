@@ -56,14 +56,19 @@ function pick_entry( el, id ) {
 }
 
 function jquery_datepicker( selector ) {
+console.log('selector: '+selector);
 	jQuery( selector ).each( function() {
+console.log(this);
 		var field = jQuery( this ).attr( 'data-altfield' );
+console.log(field);
 		if ( field ) {
+console.log('altfield');
 			jQuery( this ).datepicker( {
 				altField:  '#'+field,
 				altFormat: '@'
 			} );
 		} else {
+console.log('plain');
 			$( this ).datepicker();
 		}
 	} ); //*/
