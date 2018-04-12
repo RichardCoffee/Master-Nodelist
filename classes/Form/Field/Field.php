@@ -55,6 +55,7 @@ abstract class WMN_Form_Field_Field {
 		if ( empty( $this->description ) ) {
 			return '';
 		}
+wmn(1)->log($this);
 		$attrs = array(
 			'id'         => $this->field_id . '_label',
 			'class'      => $this->label_css . ( ! $this->see_label ) ? ' screen-reader-text' : '',
@@ -63,10 +64,10 @@ abstract class WMN_Form_Field_Field {
 		return $this->get_apply_attrs_element( 'label', $attrs, $this->description );
 	}
 
-	protected function add_form_control_css() {
+	protected function add_form_control_css( $new = 'form-control' ) {
 		$css = explode( ' ', $this->field_css );
-		if ( ! in_array( 'form-control', $css ) ) {
-			$css[] = 'form-control';
+		if ( ! in_array( $new, $css ) ) {
+			$css[] = $new;
 		}
 		$this->field_css = implode( ' ', $css );
 	}
