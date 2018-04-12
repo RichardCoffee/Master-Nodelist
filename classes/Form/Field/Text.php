@@ -4,13 +4,15 @@ class WMN_Form_Field_Text extends WMN_Form_Field_Field {
 
 
 	public function text() { ?>
-		<div class="input-group">
-			<span class="input-group-addon"></span>
-<?php
-#			$this->addon();
+		<div class="input-group"><?php
 			$this->label();
+			$this->addon();
 			$this->input(); ?>
 		</div><?php
+	}
+
+	protected function addon() { ?>
+		<span class="input-group-addon"></span><?php
 	}
 
 
