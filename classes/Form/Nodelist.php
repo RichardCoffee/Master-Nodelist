@@ -151,12 +151,12 @@ class WMN_Form_Nodelist {
 			$data[] = $wpdb->get_row( $prep, ARRAY_A, $i );
 		}
 		$this->count = $count;
-wmn(1)->log($this);
 		return $data;
 	}
 
 	public function pick_entry() {
 		check_ajax_referer( __CLASS__, 'security' );
+wmn(1)->log($this);
 		if ( $this->entry ) {
 			$this->edit_entry();
 		}
