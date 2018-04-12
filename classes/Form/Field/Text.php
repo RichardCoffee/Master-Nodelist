@@ -3,9 +3,7 @@
 class WMN_Form_field_Text extends WMN_Form_Field_Field {
 
 
-
-	public function text() {
-		$this->add_form_control_css(); ?>
+	public function text() { ?>
 		<div class="input-group"><?php
 			$this->label();
 			$this->input(); ?>

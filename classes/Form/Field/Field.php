@@ -37,9 +37,14 @@ abstract class WMN_Form_Field_Field {
 		if ( empty( $this->field_id ) ) {
 			$this->field_id = $this->field_name;
 		}
+		$this->add_form_control_css();
 	}
 
 	public function input() {
+		echo $this->get_input();
+	}
+
+	public function get_input() {
 		$attrs = array(
 			'id'          => $this->field_id,
 			'type'        => $this->type,
@@ -48,10 +53,14 @@ abstract class WMN_Form_Field_Field {
 			'value'       => $this->field_value,
 			'placeholder' => $this->placeholder,
 		);
-		$this->apply_attrs_tag( 'input', $attrs );
+		return $this->get_apply_attrs_tag( 'input', $attrs );
 	}
 
 	protected function label() {
+		echo $this->get_label();
+	}
+
+	protected function get_label() {
 		if ( empty( $this->description ) ) {
 			return '';
 		}
@@ -60,9 +69,7 @@ abstract class WMN_Form_Field_Field {
 			'class'      => $this->label_css . ( ! $this->see_label ) ? ' screen-reader-text' : '',
 			'for'        => $this->field_id,
 		);
-		$html = $this->get_apply_attrs_element( 'label', $attrs, $this->description );
-wmn(1)->log($this,$html);
-		return $html;
+		return $this->get_apply_attrs_element( 'label', $attrs, $this->description );
 	}
 
 	protected function add_form_control_css( $new = 'form-control' ) {
