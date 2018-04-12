@@ -241,7 +241,8 @@ class WMN_Form_Nodelist {
 	protected function save_entry_button() {
 		$attrs = array(
 			'type'    => 'button',
-			'class'   => 'btn btn-fluidity centered',
+			'id'      => 'save_entry_button',
+			'class'   => 'btn btn-fluidity pull-right',
 			'onclick' => 'save_entry();',
 			'title'   => __( 'Save this entry', 'wmn-workbook' )
 		);
