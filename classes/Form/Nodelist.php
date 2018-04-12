@@ -220,6 +220,7 @@ class WMN_Form_Nodelist {
 										$input->select();
 										break;
 									case 'complete':
+										$attrs['timestamp'] = false;
 										$input = new WMN_Form_Field_Date( $attrs );
 										$input->date();
 										break;

@@ -2,16 +2,27 @@
 
 class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 
+	protected $timestamp = true;
+	protected $field_css = 'date';
 
 	public function __construct( $args ) {
-		$this->sanitize = array( $this, 'sanitize' );
+		$this->sanitize    = array( $this, 'sanitize_timestamp' );
+		$this->placeholder = 'dd/mm/yyyy';
 		parent::__construct( $args );
+		$this->add_form_control_css( 'date' );
+		if ( ! $this->timestamp && ( $this->sanitize === array( $this, 'sanitize_timestamp' ) ) ) {
+			$this->sanitize = array( $this, 'sanitize_string' );
+		}
 	}
 
 	public function date() { ?>
 		<div class="undef-input-group"><?php
 			$this->label();
-			$this->input(); ?>
+			if ( $this->timestamp ) {
+				$this->input();
+			} else {
+				$this->bare();
+			} ?>
 		</div><?php
 	}
 
@@ -21,7 +32,7 @@ class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 			'id'    => 'visible_' . $this->field_id,
 			'name'  => 'visible_' . $this->field_name,
 			'size'  => 10,
-			'class' => 'form-control inline date',
+			'class' => 'form-control date',
 			'value' => $this->form_date(),
 			'placeholder'   => $this->placeholder,
 			'data-altfield' => $this->field_name,
@@ -51,23 +62,39 @@ class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 	# convert to formatted date
 	public function form_date( $reset = false ) {
 		//  check for unix time before formatting
-		$check = intval($this->value,10);
+		$check = intval( $this->value, 10 );
 		if ( $reset && $check < 3000 ) {
 			$check = strtotime( $this->value );
 		}
-		if ( $check > 3000 ) {  // large year value - assumed unix time
-			$format = get_option( 'date_format' );
-			return date( $format, $check );
+		if ( $check > 3000 ) {  // large year value - assumed unix time stamp
+			return date( self::$date_format, $check );
 		}
 		return $this->value;
 	}
 
-	public function sanitize( $date ) {
-		$format = get_option( 'date_format' );
-		$date_format= DateTime::createFromFormat($format, $date);
+	public function bare() {
+		$attrs = array(
+			'type'  => $this->type,
+			'id'    => $this->field_id,
+			'name'  => $this->field_name,
+			'size'  => 10,
+			'class' => 'form-control date',
+			'value' => $this->form_date(),
+			'placeholder'   => $this->placeholder,
+		);
+		$this->apply_attrs_element( 'input', $attrs );
+	}
+
+	public function sanitize_timestamp( $date ) {
+		$date_format = DateTime::createFromFormat( self::$date_format, $date );
 		if( ! $date_format ) {
 			return false;
 		}
+		return $date;
+	}
+
+	public function sanitize_string( $date ) {
+		$date   = date( self::$date_format, strtotime( $date ) );
 		return $date;
 	}
 
