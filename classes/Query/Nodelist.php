@@ -154,6 +154,7 @@ class WMN_Query_Nodelist {
 	}
 
 	public function retrieve_entry( $id ) {
+		global $wpdb;
 		$entry = array();
 		if ( (int) $id > 0 ) {
 			$sql   = "SELECT * FROM workbook_nodelist WHERE id = %d";
