@@ -251,6 +251,7 @@ class WMN_Form_Nodelist {
 	}
 
 	public function save_entry() {
+		check_ajax_referer( 'master-nodelist-edit-entry' );
 wmn(1)->log($_POST);
 		echo 'Saved Entry';
 		wp_die();

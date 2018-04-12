@@ -78,7 +78,7 @@ class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 			'id'    => $this->field_id,
 			'name'  => $this->field_name,
 			'size'  => 10,
-			'class' => $this->form_css,
+			'class' => $this->field_css,
 			'value' => $this->form_date(),
 			'placeholder'   => $this->placeholder,
 		);
