@@ -213,7 +213,6 @@ class WMN_Form_Nodelist {
 									$input->select();
 									break;
 								case 'complete':
-									$attrs['placeholder'] = get_option( 'date_format' );
 									$input = new WMN_Form_Field_Date( $attrs );
 									$input->date();
 									break;
