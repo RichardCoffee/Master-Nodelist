@@ -113,9 +113,7 @@ class WMN_Form_Nodelist {
 
 	protected function build_nodelist() {
 		$query = new WMN_Query_Nodelist;
-		$input = $query->retrieve_nodelist_data();
-		$data  = $input['data'];
-		$this->count = $input['count'];
+		$data  = $this->retrieve_nodelist_data();
 		ob_start(); ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered"><?php
