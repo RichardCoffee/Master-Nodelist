@@ -55,13 +55,14 @@ abstract class WMN_Form_Field_Field {
 		if ( empty( $this->description ) ) {
 			return '';
 		}
-wmn(1)->log($this);
 		$attrs = array(
 			'id'         => $this->field_id . '_label',
 			'class'      => $this->label_css . ( ! $this->see_label ) ? ' screen-reader-text' : '',
 			'for'        => $this->field_id,
 		);
-		return $this->get_apply_attrs_element( 'label', $attrs, $this->description );
+		$html = $this->get_apply_attrs_element( 'label', $attrs, $this->description );
+wmn(1)->log($this,$html);
+		return $html;
 	}
 
 	protected function add_form_control_css( $new = 'form-control' ) {
