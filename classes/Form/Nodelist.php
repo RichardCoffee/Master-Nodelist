@@ -25,6 +25,7 @@ class WMN_Form_Nodelist {
 		if ( ! empty( $_POST['nodepage'] ) ) { $this->page  = intval( $_POST['nodepage'], 10 ); }
 		$this->ajax = array(
 			'ajaxurl'  => admin_url( 'admin-ajax.php' ),
+			'dateform' => get_option( 'date_format' ),
 			'nodepage' => $this->page,
 			'security' => wp_create_nonce( __CLASS__ )
 		);
@@ -38,9 +39,33 @@ class WMN_Form_Nodelist {
 
 	public function nodelist_scripts() {
 		if ( get_page_slug() === 'master-nodelist' ) {
-			wp_enqueue_style(   'wmn-form-nodelist.css', wmn_paths()->get_plugin_file_uri( 'css/master-nodelist.css' ),                           null, wmn_paths()->version );
-			wp_enqueue_script(  'wmn-form-nodelist.js',  wmn_paths()->get_plugin_file_uri( 'js/master-nodelist.js' ), array( 'jquery', 'tcc-library' ), wmn_paths()->version, true );
-			wp_localize_script( 'wmn-form-nodelist.js', 'nodelist_ajax', $this->ajax );
+			$version = wmn_paths()->version;
+			wp_enqueue_style(
+				'jquery-style',
+				'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css'
+			);
+			wp_enqueue_style(
+				'wmn-form-nodelist.css',
+				wmn_paths()->get_plugin_file_uri( 'css/master-nodelist.css' ),
+				null,
+				$version
+			);
+			wp_enqueue_script(
+				'wmn-form-nodelist.js',
+				wmn_paths()->get_plugin_file_uri( 'js/master-nodelist.js' ),
+				array(
+					'jquery',
+					'jquery-ui-datepicker',
+					'tcc-library'
+				),
+				wmn_paths()->version,
+				true
+			);
+			wp_localize_script(
+				'wmn-form-nodelist.js',
+				'nodelist_ajax',
+				$this->ajax
+			);
 		}
 	}
 
@@ -187,10 +212,10 @@ class WMN_Form_Nodelist {
 									$input = new WMN_Form_Field_Select( $attrs );
 									$input->select();
 									break;
-#								case 'complete':
-#									$input = new WMN_Form_Field_Date( $attrs );
-#									$input->date();
-#									break;
+								case 'complete':
+									$input = new WMN_Form_Field_Date( $attrs );
+									$input->date();
+									break;
 								default:
 									$input = new WMN_Form_Field_Text( $attrs );
 									$input->text();

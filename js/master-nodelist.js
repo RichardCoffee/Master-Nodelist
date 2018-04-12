@@ -1,7 +1,10 @@
 
 
-//jQuery( document ).ready( function( $ ) {
-//} );
+jQuery( document ).ready( function( $ ) {
+	jQuery.datepicker.setDefaults( {
+		dateFormat : nodelist_ajax.dateform
+	} );
+} );
 
 function load_nodelist( page, scroll ) {
 	var outdata = {
@@ -19,7 +22,7 @@ function load_nodelist( page, scroll ) {
 function contact_server( contentDiv, outData, wait ) {
 	var aSync = !wait;
 	var value = false;
-	jQuery.ajax({
+	jQuery.ajax( {
 		url:   nodelist_ajax.ajaxurl,
 		type: 'post',
 		data:  outData,
@@ -36,7 +39,7 @@ function contact_server( contentDiv, outData, wait ) {
 			console.log( nodelist_ajax.ajaxurl );
 			console.log( outData );
 		}
-	});
+	} );
 	return value;
 }
 
@@ -49,4 +52,19 @@ function pick_entry( el, id ) {
 	}
 	contact_server( '#tech-editlist', outData );
 	scrollToElement( '#tech-editlist' );
+	jquery_datepicker( '#tech-editlist .date' );
+}
+
+function jquery_datepicker( selector ) {
+	jQuery( selector ).each( function() {
+		var field = jQuery( this ).attr( 'data-altfield' );
+		if ( field ) {
+			jQuery( this ).datepicker( {
+				altField:  '#'+field,
+				altFormat: '@'
+			} );
+		} else {
+			$( this ).datepicker();
+		}
+	} ); //*/
 }
