@@ -24,6 +24,7 @@ abstract class WMN_Form_Field_Field {
 #	protected $post_id;                 # wordpress post id number
 	protected $sanitize   = 'esc_attr'; # default sanitize method
 	protected $see_label  = true;       # is the label visible?
+	protected $form_control = true;     # add form-control css
 
 	use WMN_Trait_Attributes;
 	use WMN_Trait_Magic;
