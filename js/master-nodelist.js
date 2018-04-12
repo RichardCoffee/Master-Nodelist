@@ -52,7 +52,10 @@ function pick_entry( el, id ) {
 	}
 	contact_server( '#tech-editlist', outData );
 	scrollToElement( '#tech-editlist' );
-	jquery_datepicker( '#tech-editlist .date' );
+//	jquery_datepicker( '#tech-editlist .date' );
+jQuery('.date').datepicker({
+  dateFormat : nodelist_ajax.dateform
+});
 }
 
 function jquery_datepicker( selector ) {
