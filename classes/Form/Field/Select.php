@@ -14,7 +14,7 @@ wmn(1)->log($this);
 
 	public function select() {
 		if ( $this->choices ) {
-			if ( $this->form_control ) {
+			if ( $this->form_control === true ) {
 				$this->add_form_control_css();
 			}
 			$select = array(
