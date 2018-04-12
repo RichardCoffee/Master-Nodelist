@@ -32,7 +32,7 @@ class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 			'id'    => 'visible_' . $this->field_id,
 			'name'  => 'visible_' . $this->field_name,
 			'size'  => 10,
-			'class' => 'form-control date',
+			'class' => $this->field_css,
 			'value' => $this->form_date(),
 			'placeholder'   => $this->placeholder,
 			'data-altfield' => $this->field_name,
@@ -78,7 +78,7 @@ class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 			'id'    => $this->field_id,
 			'name'  => $this->field_name,
 			'size'  => 10,
-			'class' => 'form-control date',
+			'class' => $this->form_css,
 			'value' => $this->form_date(),
 			'placeholder'   => $this->placeholder,
 		);
