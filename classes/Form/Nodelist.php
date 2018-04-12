@@ -35,6 +35,7 @@ class WMN_Form_Nodelist {
 		add_action( 'wp_enqueue_scripts',        array( $this, 'nodelist_scripts' ), 11 );
 		add_action( 'wp_ajax_wmn_show_nodelist', array( $this, 'show_nodelist' ) );
 		add_action( 'wp_ajax_wmn_pick_entry',    array( $this, 'pick_entry' ) );
+		add_action( 'wp_ajax_wmn_save_entry',    array( $this, 'save_entry' ) );
 	}
 
 	public function nodelist_scripts() {
@@ -192,43 +193,62 @@ class WMN_Form_Nodelist {
 	protected function edit_entry() {
 		$query = new WMN_Query_Nodelist;
 		$entry = $query->retrieve_entry( $this->entry );
-		$editus = array( 'viya', 'subscriber', 'install', 'complete', 'comments' ); ?>
+		$editus = array( 'viya', 'subscriber', 'install', 'complete', 'comments','submit' ); ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered">
 				<?php $this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], $entry['address'] ); ?>
 			</div>
 			<div id="edit-entry" class="panel-body">
-				<div class="row"><?php
-					foreach( $editus as $item ) { ?>
-						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><?php
-							$attrs = array(
-								'description' => $query->header_title( $item ),
-								'field_id'    => "wmn_$item",
-								'field_name'  => $item,
-								'field_value' => $entry[ $item ]
-							);
-							switch( $item ) {
-								case 'install':
-									$attrs['description'] = 'Drop Installed';
-									$attrs['choices'] = array( '', 'Yes', 'Not Installed' );
-									$input = new WMN_Form_Field_Select( $attrs );
-									$input->select();
-									break;
-								case 'complete':
-									$input = new WMN_Form_Field_Date( $attrs );
-									$input->date();
-									break;
-								default:
-									$input = new WMN_Form_Field_Text( $attrs );
-									$input->text();
-							} ?>
-						</div><?php
-					}
-
- ?>
+				<div class="row">
+					<form id="edit-entry-form"><?php
+						wp_nonce_field( 'master-nodelist-edit-entry' );
+						foreach( $editus as $item ) { ?>
+							<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><?php
+								$attrs = array(
+									'description' => $query->header_title( $item ),
+									'field_id'    => "wmn_$item",
+									'field_name'  => $item,
+									'field_value' => $entry[ $item ]
+								);
+								switch( $item ) {
+									case 'install':
+										$attrs['description'] = 'Drop Installed';
+										$attrs['choices'] = array( '', 'Yes', 'Not Installed' );
+										$input = new WMN_Form_Field_Select( $attrs );
+										$input->select();
+										break;
+									case 'complete':
+										$input = new WMN_Form_Field_Date( $attrs );
+										$input->date();
+										break;
+									case 'submit':
+										$this->save_entry_button();
+										break;
+									default:
+										$input = new WMN_Form_Field_Text( $attrs );
+										$input->text();
+								} ?>
+							</div><?php
+						} ?>
+					</form>
 				</div>
 			</div>
 		</div><?php
+	}
+
+	protected function save_entry_button() {
+		$attrs = array(
+			'class'   => 'btn btn-fluidity centered',
+			'onclick' => 'save_entry();',
+			'title'   => __( 'Save this entry', 'wmn-workbook' )
+		);
+		$this->apply_attrs_element( 'button', $attrs, __( 'Save', 'wmn-workbook' ) );
+	}
+
+	public function save_entry() {
+wmn(1)->log($_POST);
+		echo 'Saved Entry';
+		wp_die();
 	}
 
 
