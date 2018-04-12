@@ -158,6 +158,7 @@ wmn(1)->log($this);
 	public function pick_entry() {
 		check_ajax_referer( __CLASS__, 'security' );
 		if ( $this->entry ) {
+			$this->edit_entry();
 		}
 		wp_die();
 	}
