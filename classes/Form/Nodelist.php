@@ -185,7 +185,7 @@ wmn(1)->log($this);
 								'field_value' => $entry[ $item ]
 							);
 							$input = new WMN_Form_Field_Text( $attrs );
-							$input->input();
+							$input->text();
 ?>
 						</div>
 <?php
