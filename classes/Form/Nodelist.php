@@ -180,6 +180,7 @@ wmn(1)->log($this);
 						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 <?php
 							$attrs = array(
+								'description' => $query->header_title( $item ),
 								'field_id'    => "wmn_$item",
 								'field_name'  => $item,
 								'field_value' => $entry[ $item ]
