@@ -165,17 +165,34 @@ wmn(1)->log($this);
 
 	protected function edit_entry() {
 		$query = new WMN_Query_Nodelist;
-		$entry = $query->retrieve_entry( $this->entry ); ?>
+		$entry = $query->retrieve_entry( $this->entry );
+		$editus = array( 'viya', 'subscriber', 'install', 'complete', 'comments' );
+ ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered">
 				<?php $this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], $entry['address'] ); ?>
 			</div>
-			<div class="panel-body">
-
-
-<h1>Killroy was here</h1>
-
-
+			<div id="edit-entry" class="panel-body">
+				<div class="row">
+<?php
+					foreach( $editus as $item ) {
+?>
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+<?php
+							$attrs = array(
+								'field_id'    => "wmn_$item",
+								'field_name'  => $item,
+								'field_css'   => 'form-control',
+								'field_value' => $entry[ $item ]
+							);
+							$input = new WMN_Form_Field_Field( $attrs );
+							$input->input();
+?>
+						</div>
+<?php
+					}
+?>
+				</div>
 			</div>
 		</div><?php
 	}
