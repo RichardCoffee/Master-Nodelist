@@ -43,3 +43,4 @@ require_once( 'functions.php' );
 $plugin = WMN_Plugin_Workbook::get_instance( array( 'file' => __FILE__ ) );
 
 register_activation_hook( __FILE__, array( 'WMN_Register_Workbook', 'activate' ) );
+# %2U9(Ne%h&!SfXoJWgEvJCux

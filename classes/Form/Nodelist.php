@@ -38,9 +38,9 @@ class WMN_Form_Nodelist {
 
 	public function nodelist_scripts() {
 		if ( get_page_slug() === 'master-nodelist' ) {
-			wp_enqueue_script( 'tcc-library' );
-			wp_enqueue_script( 'wmn-master-nodelist', wmn_paths()->get_plugin_file_uri( 'js/master-nodelist.js' ), array( 'jquery' ), wmn_paths()->version, true );
-			wp_localize_script( 'wmn-master-nodelist', 'nodelist_ajax', $this->ajax );
+			wp_enqueue_style(   'wmn-form-nodelist.css', wmn_paths()->get_plugin_file_uri( 'css/master-nodelist.css' ),                           null, wmn_paths()->version );
+			wp_enqueue_script(  'wmn-form-nodelist.js',  wmn_paths()->get_plugin_file_uri( 'js/master-nodelist.js' ), array( 'jquery', 'tcc-library' ), wmn_paths()->version, true );
+			wp_localize_script( 'wmn-form-nodelist.js', 'nodelist_ajax', $this->ajax );
 		}
 	}
 
