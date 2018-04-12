@@ -153,5 +153,11 @@ class WMN_Query_Nodelist {
 		return $is_dup;
 	}
 
+	public function retrieve_entry( $id ) {
+		$sql = "SELECT * FROM workbook_nodelist WHERE id = %d";
+		$prep = $wpdb->prepare( $sql, $id );
+		return $wpdb->get_row( $prep, ARRAY_A );
+	}
+
 
 }

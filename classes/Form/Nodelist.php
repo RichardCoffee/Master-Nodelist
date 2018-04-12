@@ -11,6 +11,7 @@ class WMN_Form_Nodelist {
 
 	protected $ajax      = array();
 	protected $count     = 0;
+	protected $entry     = 0;
 	protected $node      = '';
 	protected $page      = 1;
 	protected $page_size = 50;
@@ -19,12 +20,9 @@ class WMN_Form_Nodelist {
 
 	public function __construct() {
 		$this->add_actions();
-		if ( ! empty( $_POST['active'] ) ) {
-			$this->node = $this->node_select_field()->sanitize( $_POST['active'] );
-		}
-		if ( ! empty( $_POST['nodepage'] ) ) {
-			$this->page = intval( $_POST['nodepage'], 10 );
-		}
+		if ( ! empty( $_POST['active'] ) )   { $this->node  = $this->node_select_field()->sanitize( $_POST['active'] ); }
+		if ( ! empty( $_POST['entry'] ) )    { $this->entry = intval( $_POST['entry'],    10 ); }
+		if ( ! empty( $_POST['nodepage'] ) ) { $this->page  = intval( $_POST['nodepage'], 10 ); }
 		$this->ajax = array(
 			'ajaxurl'  => admin_url( 'admin-ajax.php' ),
 			'nodepage' => $this->page,
@@ -75,15 +73,13 @@ class WMN_Form_Nodelist {
 		check_ajax_referer( __CLASS__, 'security' );
 		$html = 'No nodelist received';
 		if ( ! empty( $this->node ) ) {
-			$html = $this->build_nodelist();
-			$html.= $this->build_footer();
+			$this->build_nodelist();
+			$this->build_footer();
 		}
-		echo $html;
 		wp_die();
 	}
 
 	protected function back_button( $scroll = false ) {
-		$html = '';
 		if ( $this->page > 1 ) {
 			$do_scroll = ( $scroll ) ? 'true' : 'false';
 			$attrs = array(
@@ -91,13 +87,11 @@ class WMN_Form_Nodelist {
 				'onclick' => 'load_nodelist(' . ( $this->page - 1 ) . ',' . $do_scroll . ');',
 				'title'   => __( 'go to previous page', 'wmn-workbook' )
 			);
-			$html = $this->get_apply_attrs_element( 'button', $attrs, __( 'Previous', 'wmn-workbook' ) );
+			$this->apply_attrs_element( 'button', $attrs, __( 'Previous', 'wmn-workbook' ) );
 		}
-		return $html;
 	}
 
 	protected function next_button( $scroll = false ) {
-		$html = '';
 		$max_pages = intval( $this->count / $this->page_size ) + 1;
 		if ( $this->page < $max_pages ) {
 			$do_scroll = ( $scroll ) ? 'true' : 'false';
@@ -106,19 +100,17 @@ class WMN_Form_Nodelist {
 				'onclick' => 'load_nodelist(' . ( $this->page + 1 ) . ',' . $do_scroll . ');',
 				'title'   => __( 'go to next page', 'wmn-workbook' )
 			);
-			$html = $this->get_apply_attrs_element( 'button', $attrs, __( 'Next', 'wmn-workbook' ) );
+			$this->apply_attrs_element( 'button', $attrs, __( 'Next', 'wmn-workbook' ) );
 		}
-		return $html;
 	}
 
 	protected function build_nodelist() {
 		$query = new WMN_Query_Nodelist;
-		$data  = $this->retrieve_nodelist_data();
-		ob_start(); ?>
+		$data  = $this->retrieve_nodelist_data(); ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered"><?php
-				echo $this->back_button();
-				echo $this->next_button();
+				$this->back_button();
+				$this->next_button();
 				$this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], sprintf( __( 'Listing for node %s', 'wmn-workbook' ), $this->node ) ); ?>
 			</div>
 			<table class="table">
@@ -137,15 +129,13 @@ class WMN_Form_Nodelist {
 				</tbody>
 			</table>
 		</div><?php
-		return ob_get_clean();
 	}
 
-	protected function build_footer() {
-		$html = '<div class="row">';
-		$html.= $this->back_button( true );
-		$html.= $this->next_button( true );
-		$html.= '</div>';
-		return $html;
+	protected function build_footer() { ?>
+		<div class="row"><?php
+			$this->back_button( true );
+			$this->next_button( true ); ?>
+		</div><?php
 	}
 
 	protected function retrieve_nodelist_data() {
@@ -167,9 +157,27 @@ wmn(1)->log($this);
 
 	public function pick_entry() {
 		check_ajax_referer( __CLASS__, 'security' );
-		$html = '<h1>Tech edit area</h1>';
-		echo $html;
+		if ( $this->entry ) {
+		}
 		wp_die();
 	}
+
+	protected function edit_entry() {
+		$query = new WMN_Query_Nodelist;
+		$entry = $query->retrieve_entry( $this->entry ); ?>
+		<div class="panel panel-fluidity">
+			<div class="panel-heading centered">
+				<?php $this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], $entry['address'] ); ?>
+			</div>
+			<div class="panel-body">
+
+
+<h1>Killroy was here</h1>
+
+
+			</div>
+		</div><?php
+	}
+
 
 }
