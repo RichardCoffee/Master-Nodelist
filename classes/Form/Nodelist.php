@@ -55,6 +55,7 @@ class WMN_Form_Nodelist {
 				wmn_paths()->get_plugin_file_uri( 'js/master-nodelist.js' ),
 				array(
 					'jquery',
+					'jquery-ui-core',
 					'jquery-ui-datepicker',
 					'tcc-library'
 				),
@@ -84,11 +85,12 @@ class WMN_Form_Nodelist {
 		sort( $nodes );
 		array_unshift( $nodes, 'Select Node' );
 		$args  = array(
-			'library'    => 'wmn',
-			'field_name' => 'active_node',
-			'field_css'  => 'pull-left',
-			'choices'    => $nodes,
-			'onchange'   => 'load_nodelist(1);'
+			'library'      => 'wmn',
+			'field_name'   => 'active_node',
+			'field_css'    => 'pull-left',
+			'choices'      => $nodes,
+			'onchange'     => 'load_nodelist(1);',
+			'form_control' => false
 		);
 		$select = new WMN_Form_Field_Select( $args );
 		return $select;

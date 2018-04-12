@@ -4,6 +4,7 @@ class WMN_Form_Field_Select extends WMN_Form_Field_Field {
 
 	protected $choices =  array();
 	protected $type    = 'select';
+	protected $form_control = true;
 
 	public function __construct( $args ) {
 		$this->sanitize = array( $this, 'sanitize' );
@@ -12,7 +13,9 @@ class WMN_Form_Field_Select extends WMN_Form_Field_Field {
 
 	public function select() {
 		if ( $this->choices ) {
-			$this->add_form_control_css();
+			if ( $this->form_control ) {
+				$this->add_form_control_css();
+			}
 			$select = array(
 				'id'    => $this->field_id,
 				'name'  => $this->field_name,
