@@ -9,6 +9,7 @@ class WMN_Form_Field_Select extends WMN_Form_Field_Field {
 	public function __construct( $args ) {
 		$this->sanitize = array( $this, 'sanitize' );
 		parent::__construct( $args );
+wmn(1)->log($this);
 	}
 
 	public function select() {
