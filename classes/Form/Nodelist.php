@@ -182,10 +182,9 @@ wmn(1)->log($this);
 							$attrs = array(
 								'field_id'    => "wmn_$item",
 								'field_name'  => $item,
-								'field_css'   => 'form-control',
 								'field_value' => $entry[ $item ]
 							);
-							$input = new WMN_Form_Field_Field( $attrs );
+							$input = new WMN_Form_Field_Text( $attrs );
 							$input->input();
 ?>
 						</div>

@@ -8,7 +8,7 @@
 
 abstract class WMN_Form_Field_Field {
 
-	protected $field_css  = '';         # field css
+	protected $field_css = 'form-control'; # field css
 	protected $field_default;           # default value
 	protected $field_help = '';         # used for tooltip text
 	protected $field_id;                # field id
