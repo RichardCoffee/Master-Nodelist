@@ -8,7 +8,7 @@
 
 abstract class WMN_Form_Field_Field {
 
-	protected $field_css = 'form-control'; # field css
+	protected $field_css  = '';         # field css
 	protected $field_default;           # default value
 	protected $field_help = '';         # used for tooltip text
 	protected $field_id;                # field id
@@ -61,6 +61,14 @@ abstract class WMN_Form_Field_Field {
 			'for'        => $this->field_id,
 		);
 		return $this->get_apply_attrs_element( 'label', $attrs, $this->description );
+	}
+
+	protected function add_form_control_css() {
+		$css = explode( ' ', $this->field_css );
+		if ( ! in_array( 'form-control', $css ) ) {
+			$css[] = 'form-control';
+		}
+		$this->field_css = implode( ' ', $css );
 	}
 
 	public function sanitize( $input ) {
