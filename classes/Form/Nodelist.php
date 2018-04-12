@@ -33,7 +33,7 @@ class WMN_Form_Nodelist {
 	}
 
 	protected function add_actions() {
-		add_action( 'wp_enqueue_scripts',        array( $this, 'nodelist_scripts' ) );
+		add_action( 'wp_enqueue_scripts',        array( $this, 'nodelist_scripts' ), 11 );
 		add_action( 'wp_ajax_wmn_show_nodelist', array( $this, 'show_nodelist' ) );
 		add_action( 'wp_ajax_wmn_pick_entry',    array( $this, 'pick_entry' ) );
 	}
@@ -80,14 +80,6 @@ class WMN_Form_Nodelist {
 		}
 		echo $html;
 		wp_die();
-	}
-
-	protected function build_footer() {
-		$html = '<div class="row">';
-		$html.= $this->back_button( true );
-		$html.= $this->next_button( true );
-		$html.= '</div>';
-		return $html;
 	}
 
 	protected function back_button( $scroll = false ) {

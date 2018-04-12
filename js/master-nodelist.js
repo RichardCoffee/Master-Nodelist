@@ -48,4 +48,5 @@ function pick_entry( el, id ) {
 		security: nodelist_ajax.security
 	}
 	contact_server( '#tech-editlist', outData );
+	scrollToElement( '#tech-editlist' );
 }
