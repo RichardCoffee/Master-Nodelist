@@ -39,6 +39,7 @@ class WMN_Form_Nodelist {
 
 	public function nodelist_scripts() {
 		if ( get_page_slug() === 'master-nodelist' ) {
+			wp_enqueue_script( 'tcc-library' );
 			wp_enqueue_script( 'wmn-master-nodelist', wmn_paths()->get_plugin_file_uri( 'js/master-nodelist.js' ), array( 'jquery' ), wmn_paths()->version, true );
 			wp_localize_script( 'wmn-master-nodelist', 'nodelist_ajax', $this->ajax );
 		}
@@ -92,18 +93,19 @@ class WMN_Form_Nodelist {
 
 	protected function build_footer() {
 		$html  = '<div class="row">';
-		$html .= $this->back_button();
-		$html .= $this->next_button();
+		$html .= $this->back_button( true );
+		$html .= $this->next_button( true );
 		$html .= '</div>';
 		return $html;
 	}
 
-	protected function back_button() {
+	protected function back_button( $scroll = false ) {
 		$html = '';
 		if ( $this->page > 1 ) {
+			$do_scroll = ( $scroll ) ? 'true' : 'false';
 			$attrs = array(
 				'class'   => 'btn btn-fluidity pull-left previous-nodepage marginb1e',
-				'onclick' => 'load_nodelist(' . ( $this->page - 1 ) . ');',
+				'onclick' => 'load_nodelist(' . ( $this->page - 1 ) . ',' . $do_scroll . ');',
 				'title'   => __( 'go to previous page', 'wmn-workbook' )
 			);
 			$html = $this->get_apply_attrs_element( 'button', $attrs, __( 'Previous', 'wmn-workbook' ) );
@@ -111,13 +113,14 @@ class WMN_Form_Nodelist {
 		return $html;
 	}
 
-	protected function next_button() {
+	protected function next_button( $scroll = false ) {
 		$html = '';
 		$max_pages = intval( $this->count / $this->page_size ) + 1;
 		if ( $this->page < $max_pages ) {
+			$do_scroll = ( $scroll ) ? 'true' : 'false';
 			$attrs = array(
 				'class'   => 'btn btn-fluidity pull-right next-nodepage marginb1e',
-				'onclick' => 'load_nodelist(' . ( $this->page + 1 ) . ');',
+				'onclick' => 'load_nodelist(' . ( $this->page + 1 ) . ',' . $do_scroll . ');',
 				'title'   => __( 'go to next page', 'wmn-workbook' )
 			);
 			$html = $this->get_apply_attrs_element( 'button', $attrs, __( 'Next', 'wmn-workbook' ) );
@@ -143,8 +146,8 @@ class WMN_Form_Nodelist {
 				</thead>
 				<tbody><?php
 					foreach( $data as $entry ) { ?>
-						<tr><?php
-							$this->apply_attrs_element( 'td', [ 'class' => 'hidden' ],  $entry['id'] );
+						<tr onclick="pick_entry(this,<?php echo $entry['id'];?>);"><?php
+#							$this->apply_attrs_element( 'td', [ 'class' => 'hidden' ],  $entry['id'] );
 							$this->apply_attrs_element( 'td', [ 'class' => 'address' ], $entry['address'] ); ?>
 						</tr><?php
 					} ?>
