@@ -27,8 +27,9 @@ class WMN_Query_Nodelist {
 			'address',
 			10 => 'viya',
 			11 => 'subscriber',
-			18 => 'install',
-			19 => 'complete',
+			18 => 'crew',
+			20 => 'install',
+			21 => 'complete',
 			28 => 'comments',
 		);
 		return $base;
@@ -45,7 +46,7 @@ class WMN_Query_Nodelist {
 
 	public function proper_headers() {
 		return array(
-			'Account #',
+			'Account #', // 0
 			'House ID',
 			'Ticket#',
 			'Account Name',
@@ -55,7 +56,7 @@ class WMN_Query_Nodelist {
 			'Node Description',
 			'Service Address',
 			'Island',
-			'Viya Tag',
+			'Viya Tag', // 10
 			'Subscriber GPS Tag',
 			'Tagging Company Assigned To:',
 			'Tagging Crew ID',
@@ -65,7 +66,7 @@ class WMN_Query_Nodelist {
 			'Company Drop Assigned to',
 			'Drop Install Crew ID',
 			'Date: Drop Assigned to Crew',
-			'Drop Installed Yes/ Not Required',
+			'Drop Installed Yes/ Not Required', // 20
 			'Drop Complete Date',
 			'Install Company Assigned',
 			'Install Crew Assigned',
@@ -73,7 +74,7 @@ class WMN_Query_Nodelist {
 			'Install Yes / Not Required',
 			'Install Complete',
 			'Docsis 3.0 Upgrade Y / N',
-			'Comments/Notes',
+			'Comments/Notes', // 28
 		);
 	}
 

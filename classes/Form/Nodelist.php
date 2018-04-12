@@ -141,7 +141,7 @@ class WMN_Form_Nodelist {
 	protected function retrieve_nodelist_data() {
 		global $wpdb;
 		$sql   = "SELECT id, account, house, ticket, address, viya, subscriber, install, complete, comments";
-		$sql  .= " FROM workbook_nodelist WHERE node = %s ORDER BY address";
+		$sql  .= " FROM workbook_nodelist WHERE node = %s AND ( complete IS NULL OR complete = '' ) ORDER BY address";
 		$prep  = $wpdb->prepare( $sql, $this->node );
 		$count = $wpdb->query( $prep );
 		$limit = $this->ajax['nodepage'] * $this->page_size;
@@ -156,7 +156,6 @@ class WMN_Form_Nodelist {
 
 	public function pick_entry() {
 		check_ajax_referer( __CLASS__, 'security' );
-wmn(1)->log($this);
 		if ( $this->entry ) {
 			$this->edit_entry();
 		}
@@ -166,19 +165,15 @@ wmn(1)->log($this);
 	protected function edit_entry() {
 		$query = new WMN_Query_Nodelist;
 		$entry = $query->retrieve_entry( $this->entry );
-		$editus = array( 'viya', 'subscriber', 'install', 'complete', 'comments' );
- ?>
+		$editus = array( 'viya', 'subscriber', 'install', 'complete', 'comments' ); ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered">
 				<?php $this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], $entry['address'] ); ?>
 			</div>
 			<div id="edit-entry" class="panel-body">
-				<div class="row">
-<?php
-					foreach( $editus as $item ) {
-?>
-						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-<?php
+				<div class="row"><?php
+					foreach( $editus as $item ) { ?>
+						<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><?php
 							$attrs = array(
 								'description' => $query->header_title( $item ),
 								'field_id'    => "wmn_$item",
@@ -186,12 +181,11 @@ wmn(1)->log($this);
 								'field_value' => $entry[ $item ]
 							);
 							$input = new WMN_Form_Field_Text( $attrs );
-							$input->text();
-?>
-						</div>
-<?php
+							$input->text(); ?>
+						</div><?php
 					}
-?>
+
+ ?>
 				</div>
 			</div>
 		</div><?php
