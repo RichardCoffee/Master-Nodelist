@@ -42,8 +42,10 @@ function contact_server( contentDiv, outData, wait ) {
 
 function pick_entry( el, id ) {
 	var outData = {
-		action: 'wmn_pick_entry',
+		action:  'wmn_pick_entry',
 		active:   jQuery( "#active_node option:selected" ).val(),
+		entry:    id,
 		security: nodelist_ajax.security
 	}
+	contact_server( '#tech-editlist', outData );
 }

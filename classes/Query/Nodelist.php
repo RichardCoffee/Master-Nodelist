@@ -153,5 +153,20 @@ class WMN_Query_Nodelist {
 		return $is_dup;
 	}
 
+	protected function retrieve_nodelist_data() {
+		global $wpdb;
+		$sql   = "SELECT id, account, house, ticket, address, viya, subscriber, install, complete, comments";
+		$sql  .= " FROM workbook_nodelist WHERE node = %s ORDER BY address";
+		$prep  = $wpdb->prepare( $sql, $this->node );
+		$count = $wpdb->query( $prep );
+		$limit = $this->ajax['nodepage'] * $this->page_size;
+		$start = $limit - $this->page_size;
+		$data  = array();
+		for ( $i = $start ; $i < min( $limit, $count ) ; $i++ ) {
+			$data[] = $wpdb->get_row( $prep, ARRAY_A, $i );
+		}
+wmn(1)->log($this);
+		return compact( 'count', 'data' );
+	}
 
 }

@@ -35,6 +35,7 @@ class WMN_Form_Nodelist {
 	protected function add_actions() {
 		add_action( 'wp_enqueue_scripts',        array( $this, 'nodelist_scripts' ) );
 		add_action( 'wp_ajax_wmn_show_nodelist', array( $this, 'show_nodelist' ) );
+		add_action( 'wp_ajax_wmn_pick_entry',    array( $this, 'pick_entry' ) );
 	}
 
 	public function nodelist_scripts() {
@@ -74,28 +75,18 @@ class WMN_Form_Nodelist {
 		check_ajax_referer( __CLASS__, 'security' );
 		$html = 'No nodelist received';
 		if ( ! empty( $this->node ) ) {
-			$nodes  = $this->build_nodelist();
-			$header = '';//$this->build_header();
-			$footer = $this->build_footer();
-			$html   = $header . $nodes . $footer;
+			$html = $this->build_nodelist();
+			$html.= $this->build_footer();
 		}
 		echo $html;
 		wp_die();
 	}
 
-	protected function build_header() {
-		$html  = '<div class="row">';
-		$html .= $this->back_button();
-		$html .= $this->next_button();
-		$html .= '</div>';
-		return $html;
-	}
-
 	protected function build_footer() {
-		$html  = '<div class="row">';
-		$html .= $this->back_button( true );
-		$html .= $this->next_button( true );
-		$html .= '</div>';
+		$html = '<div class="row">';
+		$html.= $this->back_button( true );
+		$html.= $this->next_button( true );
+		$html.= '</div>';
 		return $html;
 	}
 
@@ -130,7 +121,9 @@ class WMN_Form_Nodelist {
 
 	protected function build_nodelist() {
 		$query = new WMN_Query_Nodelist;
-		$data  = $this->retrieve_nodelist_data();
+		$input = $query->retrieve_nodelist_data();
+		$data  = $input['data'];
+		$this->count = $input['count'];
 		ob_start(); ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered"><?php
@@ -146,7 +139,7 @@ class WMN_Form_Nodelist {
 				</thead>
 				<tbody><?php
 					foreach( $data as $entry ) { ?>
-						<tr onclick="pick_entry(this,<?php echo $entry['id'];?>);"><?php
+						<tr onclick="pick_entry( this, <?php echo $entry['id']; ?> );"><?php
 #							$this->apply_attrs_element( 'td', [ 'class' => 'hidden' ],  $entry['id'] );
 							$this->apply_attrs_element( 'td', [ 'class' => 'address' ], $entry['address'] ); ?>
 						</tr><?php
@@ -155,6 +148,14 @@ class WMN_Form_Nodelist {
 			</table>
 		</div><?php
 		return ob_get_clean();
+	}
+
+	protected function build_footer() {
+		$html = '<div class="row">';
+		$html.= $this->back_button( true );
+		$html.= $this->next_button( true );
+		$html.= '</div>';
+		return $html;
 	}
 
 	protected function retrieve_nodelist_data() {
@@ -170,7 +171,15 @@ class WMN_Form_Nodelist {
 			$data[] = $wpdb->get_row( $prep, ARRAY_A, $i );
 		}
 		$this->count = $count;
+wmn(1)->log($this);
 		return $data;
+	}
+
+	public function pick_entry() {
+		check_ajax_referer( __CLASS__, 'security' );
+		$html = '<h1>Tech edit area</h1>';
+		echo $html;
+		wp_die();
 	}
 
 }
