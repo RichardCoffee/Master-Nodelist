@@ -274,7 +274,7 @@ wmn(1)->log($_POST);
 wmn(1)->log($data);
 		if ( ! empty( $data ) ) {
 			$query = new WMN_Query_Nodelist;
-			$query->save_entry();
+			$query->save_entry( $data );
 		}
 		$this->tech_entries();
 		wp_die();
