@@ -25,7 +25,7 @@ class WMN_Form_Nodelist {
 		if ( ! empty( $_POST['nodepage'] ) ) { $this->page  = intval( $_POST['nodepage'], 10 ); }
 		$this->ajax = array(
 			'ajaxurl'  => admin_url( 'admin-ajax.php' ),
-			'dateform' => get_option( 'date_format' ),
+			'dateform' => 'n/j/y', // get_option( 'date_format' ),
 			'nodepage' => $this->page,
 			'security' => wp_create_nonce( __CLASS__ )
 		);

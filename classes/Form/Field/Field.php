@@ -26,16 +26,16 @@ abstract class WMN_Form_Field_Field {
 	protected $see_label  = true;       # is the label visible?
 	protected $form_control = true;     # add form-control css
 
-	protected static $date_format;
+	protected static $date_format = 'n/j/y';
 
 	use WMN_Trait_Attributes;
 	use WMN_Trait_Magic;
 	use WMN_Trait_ParseArgs;
 
 	public function __construct( $args ) {
-		if ( empty( self::$date_format ) ) {
-			self::$date_format = get_option( 'date_format' );
-		}
+#		if ( empty( self::$date_format ) ) {
+#			self::$date_format = get_option( 'date_format' );
+#		}
 		$this->parse_args( $args );
 		if ( ( empty( $this->placeholder ) ) && ( ! empty( $this->description ) ) ) {
 			$this->placeholder = $this->description;
