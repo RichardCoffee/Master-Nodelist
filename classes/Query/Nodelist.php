@@ -171,8 +171,10 @@ class WMN_Query_Nodelist {
 
 	public function save_entry( $data ) {
 		global $wpdb;
+wmn(1)->log($data);
 		if ( ! empty( $data['id'] ) ) {
 			$id = intval( $data['id'], 10 );
+wmn(1)->log(0,"id:  $id");
 			if ( $id > 0 ) {
 				unset( $data['id'] );
 				$data['crew'] = self::$tech_id;
@@ -180,6 +182,7 @@ class WMN_Query_Nodelist {
 				if ( $update === false ) {
 					wmn(1)->log( 'ERROR occurred updating dbf record', "id: $id", $data );
 				}
+wmn(1)->log(0,"update:  $update");
 			}
 		}
 	}
@@ -189,7 +192,10 @@ class WMN_Query_Nodelist {
 			global $wpdb;
 			$sql  = "SELECT * FROM workbook_nodelist WHERE crew = %s";
 			$prep = $wpdb->prepare( $sql, self::$tech_id );
+			$data = $wpdb->get_results( $prep, ARRAY_A );
+			return $data;
 		}
+		return false;
 	}
 
 
