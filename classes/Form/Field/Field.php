@@ -26,7 +26,7 @@ abstract class WMN_Form_Field_Field {
 	protected $see_label  = true;       # is the label visible?
 	protected $form_control = true;     # add form-control css
 
-	protected static $date_format = 'n/j/y';
+	protected static $date_format = 'm/d/y';
 
 	use WMN_Trait_Attributes;
 	use WMN_Trait_Magic;
@@ -46,6 +46,10 @@ abstract class WMN_Form_Field_Field {
 		if ( $this->form_control ) {
 			$this->add_form_control_css();
 		}
+	}
+
+	public function get_date_format() {
+		return self::$date_format;
 	}
 
 	public function input() {
