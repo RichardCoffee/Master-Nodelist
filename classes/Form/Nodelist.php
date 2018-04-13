@@ -300,7 +300,7 @@ wmn(1)->log(0,"field:  $field");
 						$loop = new WMN_Form_Field_Select( [ 'choices' => array( '', 'Yes', 'Not Installed' ) ] );
 						break;
 					default:
-						$loop = new WMN_Form_Field_Text( [] );
+						$loop = new WMN_Form_Field_Text();
 				}
 				$value = $loop->sanitize( $data[ $field ] );
 wmn(1)->log(0,"value:  $field");

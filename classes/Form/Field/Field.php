@@ -32,7 +32,7 @@ abstract class WMN_Form_Field_Field {
 	use WMN_Trait_Magic;
 	use WMN_Trait_ParseArgs;
 
-	public function __construct( $args ) {
+	public function __construct( $args = array() ) {
 #		if ( empty( self::$date_format ) ) {
 #			self::$date_format = get_option( 'date_format' );
 #		}
