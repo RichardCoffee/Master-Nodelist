@@ -369,6 +369,7 @@ wmn(1)->log(0,$entries);
 	public function export_techlist() {
 wmn(1)->log('export_techlist');
 		echo '<p>Export Tech List</p>';
+		wp_die();
 	}
 
 
