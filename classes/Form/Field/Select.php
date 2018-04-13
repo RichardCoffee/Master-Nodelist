@@ -1,5 +1,6 @@
 <?php
 
+# sanitize requires the attributes choices and field_default
 class WMN_Form_Field_Select extends WMN_Form_Field_Field {
 
 	protected $choices =  array();

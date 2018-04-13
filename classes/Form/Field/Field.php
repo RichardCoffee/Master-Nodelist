@@ -8,15 +8,15 @@
 
 abstract class WMN_Form_Field_Field {
 
-	protected $field_css  = '';         # field css
-	protected $field_default;           # default value
-	protected $field_help = '';         # used for tooltip text
-	protected $field_id;                # field id
-	protected $field_name;              # field name
+	protected $field_css     = '';      # field css
+	protected $field_default = '';      # default value
+	protected $field_help    = '';      # used for tooltip text
+	protected $field_id      = '';      # field id
+	protected $field_name    = '';      # field name
 	protected $field_postext = '';      # text shown below input
 	protected $field_pretext = '';      # text shown above input
 	protected $type          = 'text';  # input type
-	protected $field_value;             # field value
+	protected $field_value = '';        # field value
 	protected $label_css   = '';        # label css
 	protected $description = '';        # label text
 	protected $onchange    = null;      # onchange attribute

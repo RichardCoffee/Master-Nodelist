@@ -72,7 +72,7 @@ console.log('altfield');
 			} );
 		} else {
 console.log('plain');
-			$( this ).datepicker();
+			jQuery( this ).datepicker();
 		}
 	} ); //*/
 }
@@ -85,5 +85,6 @@ function save_entry() {
 	jQuery.each( fields, function( i, field ) {
 		outData[ field.name ] = field.value;
 	} );
-	contact_server('#tech-nodelist', outData );
+	contact_server( '#tech-nodelist', outData );
+	jQuery( '#tech-editlist' ).empty();
 }

@@ -10,8 +10,12 @@
  */
 class WMN_Query_Nodelist {
 
+	protected static $tech_id = null;
+
 	public function __construct() {
-#		global $wpdb;
+		if ( empty( self::$tech_id ) ) {
+			self::$tech_id = get_user_meta( get_current_user_id(), 'tech_id', true );
+		}
 	}
 
 	public function base_headers() {
@@ -163,6 +167,28 @@ class WMN_Query_Nodelist {
 			$entry =  $wpdb->get_row( $prep, ARRAY_A );
 		}
 		return $entry;
+	}
+
+	public function save_entry( $data ) {
+		global $wpdb;
+		if ( ! empty( $data['id'] ) ) {
+			$id = intval( $data['id'], 10 );
+			if ( $id > 0 ) {
+				unset( $data['id'] );
+				$data['crew'] = self::$tech_id;
+				$update = $wpdb->update( 'workbook_nodelist', $data, [ 'id' => $id ] );
+				if ( $update === false ) {
+					wmn(1)->log( 'ERROR occurred updating dbf record', "id: $id", $data );
+				}
+			}
+		}
+	}
+
+	public function retrieve_tech_entries() {
+		if ( ! empty( self::$tech_id ) ) {
+			$sql  = "SELECT * FROM workbook_nodelist WHERE crew = %s";
+			$prep = $wpdb->prepare( $sql, self::$tech_id );
+		}
 	}
 
 

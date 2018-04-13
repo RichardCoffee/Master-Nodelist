@@ -1,5 +1,6 @@
 <?php
 
+# sanitize will require a false timestamp attribute when checking strings
 class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 
 	protected $timestamp = true;
@@ -80,7 +81,7 @@ class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 			'size'  => 10,
 			'class' => $this->field_css,
 			'value' => $this->form_date(),
-			'placeholder'   => $this->placeholder,
+			'placeholder' => $this->placeholder,
 		);
 		$this->apply_attrs_element( 'input', $attrs );
 	}
@@ -94,8 +95,7 @@ class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 	}
 
 	public function sanitize_string( $date ) {
-		$date   = date( self::$date_format, strtotime( $date ) );
-		return $date;
+		return date( self::$date_format, strtotime( $date ) );
 	}
 
 

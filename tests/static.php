@@ -23,3 +23,11 @@ $b = new Two;
 echo "{$b::$courier}\n";
 
 echo "{$a::$courier}\n";
+
+unset( $a, $b );
+
+class Three extends Static_Base {
+}
+
+$c = new Three;
+echo "{$c::$courier}\n";

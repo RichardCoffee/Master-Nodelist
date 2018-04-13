@@ -75,7 +75,9 @@ class WMN_Form_Nodelist {
 		<div class="row marginb1e">
 			<?php $this->node_select_field()->select(); ?>
 		</div>
-		<div id="tech-nodelist"></div>
+		<div id="tech-nodelist">
+			<?php $this->tech_entries(); ?>
+		</div>
 		<div id="tech-editlist"></div>
 		<div id="master-nodelist"></div><?php
 	}
@@ -91,7 +93,7 @@ class WMN_Form_Nodelist {
 			'field_css'    => 'pull-left',
 			'choices'      => $nodes,
 			'onchange'     => 'load_nodelist(1);',
-			'form_control' => false
+			'form_control' =>  false
 		);
 		$select = new WMN_Form_Field_Select( $args );
 		return $select;
@@ -190,10 +192,14 @@ class WMN_Form_Nodelist {
 		wp_die();
 	}
 
+	protected function entry_fields() {
+		return array( 'viya', 'subscriber', 'install', 'complete', 'comments', 'submit' );
+	}
+
 	protected function edit_entry() {
-		$query = new WMN_Query_Nodelist;
-		$entry = $query->retrieve_entry( $this->entry );
-		$editus = array( 'viya', 'subscriber', 'install', 'complete', 'comments','submit' ); ?>
+		$query  = new WMN_Query_Nodelist;
+		$entry  = $query->retrieve_entry( $this->entry );
+		$editus = $this->entry_fields(); ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered">
 				<?php $this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], $entry['address'] ); ?>
@@ -202,16 +208,26 @@ class WMN_Form_Nodelist {
 				<div class="row">
 					<form id="edit-entry-form"><?php
 						wp_nonce_field( 'master-nodelist-edit-entry' );
+						$attrs = array(
+							'type'  => 'hidden',
+							'id'    => 'edit_entry_id',
+							'name'  => 'id',
+							'value' => $entry['id']
+						);
+						$this->apply_attrs_element( 'input', $attrs );
 						foreach( $editus as $item ) { ?>
 							<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><?php
-								if ( $item !== 'submit' ) {
-									$attrs = array(
-										'description' => $query->header_title( $item ),
-										'field_id'    => "wmn_$item",
-										'field_name'  => $item,
-										'field_value' => $entry[ $item ]
-									);
+								if ( $item === 'submit' ) {
+									$this->save_entry_button();
+									echo "</div>"; // ending div
+									continue;
 								}
+								$attrs = array(
+									'description' => $query->header_title( $item ),
+									'field_id'    => "wmn_$item",
+									'field_name'  => $item,
+									'field_value' => $entry[ $item ]
+								);
 								switch( $item ) {
 									case 'install':
 										$attrs['description'] = 'Drop Installed';
@@ -221,17 +237,18 @@ class WMN_Form_Nodelist {
 										break;
 									case 'complete':
 										$attrs['timestamp'] = false;
+										if ( empty( $attrs['field_value'] ) ) {
+											$attrs['field_value'] = date( $this->ajax['dateform'] );
+										}
 										$input = new WMN_Form_Field_Date( $attrs );
 										$input->date();
-										break;
-									case 'submit':
-										$this->save_entry_button();
 										break;
 									default:
 										$input = new WMN_Form_Field_Text( $attrs );
 										$input->text();
 								} ?>
 							</div><?php
+							unset( $attrs, $input );
 						} ?>
 					</form>
 				</div>
@@ -251,10 +268,71 @@ class WMN_Form_Nodelist {
 	}
 
 	public function save_entry() {
-		check_ajax_referer( 'master-nodelist-edit-entry' );
 wmn(1)->log($_POST);
-		echo 'Saved Entry';
+		check_ajax_referer( 'master-nodelist-edit-entry' );
+		$data = $this->sanitize_data( $_POST );
+		if ( ! empty( $data ) ) {
+			$query = new WMN_Query_Nodelist;
+			$query->save_entry();
+		}
+		$this->tech_entries();
 		wp_die();
+	}
+
+	public function sanitize_data( $data ) {
+		$out = array();
+		$fields = $this->entry_fields();
+		foreach( $fields as $field ) {
+			if ( array_key_exists( $field, $data ) ) {
+				switch( $field ) {
+					case 'complete':
+						$loop = new WMN_Form_Field_Date( [ 'timestamp' => false ] );
+					case 'install':
+						$loop = new WMN_Form_Field_Select( [ 'choices' => array( '', 'Yes', 'Not Installed' ) ] );
+						break;
+					default:
+						$loop = new WMN_Form_Field_Text();
+				}
+				$value = $loop->sanitize( $data[ $field ] );
+				if ( ! empty( $value ) ) {
+					$out[ $field ] = $value;
+				}
+			}
+			unset( $loop, $value );
+		}
+	}
+
+	protected function tech_entries() {
+		$fields = $this->entry_fields();
+		$fields = array_diff( $fields, [ 'submit' ] );
+		array_unshift( $fields, 'address' );
+		$query = new WMN_Query_Nodelist();
+		$entries = $query->retrieve_tech_entries();
+		if ( ! empty( $entries ) ) { ?>
+			<div class="panel panel-fluidity">
+				<div class="panel-heading centered">
+					<?php $this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], __( 'Drops of the Day', 'wmn-workbook' ) ); ?>
+				</div>
+				<table class="table">
+					<thead>
+						<tr><?php
+							foreach( $fields as $field ) { ?>
+								<th class="centered"><?php e_esc_html( $query->header_title( $field ) ); ?></tr><?php
+							} ?>
+						</tr>
+					</thead>
+					<tbody><?php
+						foreach( $entries as $entry ) { ?>
+							<tr onclick="edit_entry( this, <?php echo $entry['id']; ?> );"><?php
+								foreach( $fields as $field ) {
+									$this->apply_attrs_element( 'td', [ 'class' => $field ], $entry[ $field ] );
+								} ?>
+							</tr><?php
+						} ?>
+					</tbody>
+				</table>
+			</div><?php
+		}
 	}
 
 
