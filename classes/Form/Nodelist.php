@@ -79,7 +79,9 @@ class WMN_Form_Nodelist {
 			<?php $this->tech_entries(); ?>
 		</div>
 		<div id="tech-editlist"></div>
-		<div id="master-nodelist"></div><?php
+		<div id="master-nodelist">
+			<?php $this->display_nodelist(); ?>
+		</div><?php
 	}
 
 	protected function node_select_field() {
@@ -102,11 +104,15 @@ class WMN_Form_Nodelist {
 	public function show_nodelist() {
 		check_ajax_referer( __CLASS__, 'security' );
 		$html = 'No nodelist received';
+		$this->display_nodelist();
+		wp_die();
+	}
+
+	protected function display_nodelist() {
 		if ( ! empty( $this->node ) ) {
 			$this->build_nodelist();
 			$this->build_footer();
 		}
-		wp_die();
 	}
 
 	protected function back_button( $scroll = false ) {
@@ -268,7 +274,6 @@ class WMN_Form_Nodelist {
 	}
 
 	public function save_entry() {
-wmn(1)->log($_POST);
 		check_ajax_referer( 'master-nodelist-edit-entry' );
 		$data = $this->sanitize_data( $_POST );
 wmn(1)->log($data);
@@ -337,12 +342,17 @@ wmn(1)->log(0,$entries);
 					</thead>
 					<tbody><?php
 						foreach( $entries as $entry ) { ?>
-							<tr onclick="edit_entry( this, <?php echo $entry['id']; ?> );"><?php
+							<tr><?php
+								$attrs = array(
+									'onclick' => "edit_entry(this,{$entry['id']});"
+								);
 								foreach( $fields as $field ) {
-									$this->apply_attrs_element( 'td', [ 'class' => $field ], $entry[ $field ] );
+									$attrs['class'] = $field;
+									$this->apply_attrs_element( 'td', $attrs, $entry[ $field ] );
 								} ?>
 							</tr><?php
-						} ?>
+						}
+						$this->node = $entry['node']; ?>
 					</tbody>
 				</table>
 			</div><?php
