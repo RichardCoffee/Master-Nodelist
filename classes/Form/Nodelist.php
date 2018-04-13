@@ -284,6 +284,7 @@ wmn(1)->log($data);
 wmn(1)->log($data);
 		$out = array();
 		$fields = $this->entry_fields();
+		array_unshift( $fields, 'id' );
 wmn(1)->log($fields);
 		foreach( $fields as $field ) {
 wmn(1)->log(0,"field:  $field");
@@ -291,6 +292,10 @@ wmn(1)->log(0,"field:  $field");
 				switch( $field ) {
 					case 'complete':
 						$loop = new WMN_Form_Field_Date( [ 'timestamp' => false ] );
+						break;
+					case 'id':
+						$loop = new WMN_Form_Field_Integer();
+						break;
 					case 'install':
 						$loop = new WMN_Form_Field_Select( [ 'choices' => array( '', 'Yes', 'Not Installed' ) ] );
 						break;

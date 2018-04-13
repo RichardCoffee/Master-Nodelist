@@ -173,17 +173,14 @@ class WMN_Query_Nodelist {
 		global $wpdb;
 wmn(1)->log($data);
 		if ( ! empty( $data['id'] ) ) {
-			$id = intval( $data['id'], 10 );
-wmn(1)->log(0,"id:  $id");
-			if ( $id > 0 ) {
-				unset( $data['id'] );
-				$data['crew'] = self::$tech_id;
-				$update = $wpdb->update( 'workbook_nodelist', $data, [ 'id' => $id ] );
-				if ( $update === false ) {
-					wmn(1)->log( 'ERROR occurred updating dbf record', "id: $id", $data );
-				}
-wmn(1)->log(0,"update:  $update");
+			$id = $data['id'];
+			unset( $data['id'] );
+			$data['crew'] = self::$tech_id;
+			$update = $wpdb->update( 'workbook_nodelist', $data, [ 'id' => $id ] );
+			if ( $update === false ) {
+				wmn(1)->log( 'ERROR occurred updating dbf record', "id: $id", $data );
 			}
+wmn(1)->log(0,"update:  $update");
 		}
 	}
 
