@@ -92,7 +92,7 @@ class WMN_Query_Nodelist {
 		return $title;
 	}
 
-	public function create( $file = 'workbook__nodelist' ) {
+	public function create( $file = 'workbook_nodelist' ) {
 		global $wpdb;
 		$charset_collate = $wpdb->get_charset_collate();
 		$sql = "CREATE TABLE $file ( id int(11) NOT NULL AUTO_INCREMENT,";
@@ -106,7 +106,7 @@ class WMN_Query_Nodelist {
 		dbDelta( $sql );
 	}
 
-	public function destroy( $file = 'workbook__nodelist' ) {
+	public function destroy( $file = 'workbook_nodelist' ) {
 		global $wpdb;
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '$file'") === $file) {
 			$wpdb->query( "DROP TABLE IF EXISTS $file" );
