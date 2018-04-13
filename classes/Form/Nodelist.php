@@ -281,6 +281,7 @@ wmn(1)->log($data);
 	}
 
 	public function sanitize_data( $data ) {
+wmn(1)->log($data);
 		$out = array();
 		$fields = $this->entry_fields();
 wmn(1)->log($fields);
