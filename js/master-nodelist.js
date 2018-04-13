@@ -13,6 +13,7 @@ function load_nodelist( page, scroll ) {
 		nodepage: page,
 		security: nodelist_ajax.security
 	};
+	jQuery( '#master-nodelist' ).html( '<h1 class="centered"><i class="fa fa-spinner fa-spin"></i>,</h1>' );
 	contact_server( '#master-nodelist', outdata );
 	if ( scroll ) {
 		scrollToElement( '#master-nodelist' );

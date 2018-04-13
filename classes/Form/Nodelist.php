@@ -346,7 +346,7 @@ wmn(1)->log(0,$entries);
 						foreach( $entries as $entry ) { ?>
 							<tr onclick="pick_entry( this, <?php echo $entry['id']; ?> );"><?php
 								foreach( $fields as $field ) {
-									$this->apply_attrs_element( 'td', [ 'class' => $field ], $entry[ $field ] );
+									$this->apply_attrs_element( 'td', [ 'class' => "centered $field" ], $entry[ $field ] );
 								} ?>
 							</tr><?php
 						}
