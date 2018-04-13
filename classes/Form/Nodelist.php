@@ -342,13 +342,9 @@ wmn(1)->log(0,$entries);
 					</thead>
 					<tbody><?php
 						foreach( $entries as $entry ) { ?>
-							<tr><?php
-								$attrs = array(
-									'onclick' => "edit_entry(this,{$entry['id']});"
-								);
+							<tr onclick="pick_entry( this, <?php echo $entry['id']; ?> );"><?php
 								foreach( $fields as $field ) {
-									$attrs['class'] = $field;
-									$this->apply_attrs_element( 'td', $attrs, $entry[ $field ] );
+									$this->apply_attrs_element( 'td', [ 'class' => $field ], $entry[ $field ] );
 								} ?>
 							</tr><?php
 						}
