@@ -316,6 +316,7 @@ wmn(1)->log(0,"value:  $field");
 	protected function tech_entries() {
 		$fields = $this->entry_fields();
 		$fields = array_diff( $fields, [ 'submit' ] );
+		array_unshift( $fields, 'node' );
 		array_unshift( $fields, 'address' );
 wmn(1)->log($fields);
 		$query = new WMN_Query_Nodelist();
@@ -330,7 +331,7 @@ wmn(1)->log(0,$entries);
 					<thead>
 						<tr><?php
 							foreach( $fields as $field ) { ?>
-								<th class="centered"><?php e_esc_html( $query->header_title( $field ) ); ?></tr><?php
+								<th class="centered"><?php e_esc_html( $query->header_title( $field ) ); ?></th><?php
 							} ?>
 						</tr>
 					</thead>
