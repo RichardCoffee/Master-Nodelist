@@ -186,6 +186,7 @@ class WMN_Query_Nodelist {
 
 	public function retrieve_tech_entries() {
 		if ( ! empty( self::$tech_id ) ) {
+			global $wpdb;
 			$sql  = "SELECT * FROM workbook_nodelist WHERE crew = %s";
 			$prep = $wpdb->prepare( $sql, self::$tech_id );
 		}
