@@ -85,7 +85,7 @@ function convertFile( attachment_id, start_index ) {
 		success: function ( response ) {
 			var result = JSON.parse( response );
 			if( ( result['status'] == 'success' ) && ( result['type'] == 'incomplete' ) ) {
-				jQuery( "#file_log" ).html( '<p>' + result['message'] + '</p>' );
+				jQuery( "#file_log" ).append( '<p>' + result['message'] + '</p>' );
 				var index = parseInt( result['index'] );
 				convertFile( attachment_id, index + 1, result['sheet'] );
 				return false;

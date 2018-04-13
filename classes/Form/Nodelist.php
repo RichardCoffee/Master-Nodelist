@@ -271,6 +271,7 @@ class WMN_Form_Nodelist {
 wmn(1)->log($_POST);
 		check_ajax_referer( 'master-nodelist-edit-entry' );
 		$data = $this->sanitize_data( $_POST );
+wmn(1)->log($data);
 		if ( ! empty( $data ) ) {
 			$query = new WMN_Query_Nodelist;
 			$query->save_entry();
@@ -282,7 +283,9 @@ wmn(1)->log($_POST);
 	public function sanitize_data( $data ) {
 		$out = array();
 		$fields = $this->entry_fields();
+wmn(1)->log($fields);
 		foreach( $fields as $field ) {
+wmn(1)->log(0,"field:  $field");
 			if ( array_key_exists( $field, $data ) ) {
 				switch( $field ) {
 					case 'complete':
@@ -294,12 +297,14 @@ wmn(1)->log($_POST);
 						$loop = new WMN_Form_Field_Text( [] );
 				}
 				$value = $loop->sanitize( $data[ $field ] );
+wmn(1)->log(0,"value:  $field");
 				if ( ! empty( $value ) ) {
 					$out[ $field ] = $value;
 				}
 			}
 			unset( $loop, $value );
 		}
+		return $out;
 	}
 
 	protected function tech_entries() {
