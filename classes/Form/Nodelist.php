@@ -291,7 +291,7 @@ wmn(1)->log($_POST);
 						$loop = new WMN_Form_Field_Select( [ 'choices' => array( '', 'Yes', 'Not Installed' ) ] );
 						break;
 					default:
-						$loop = new WMN_Form_Field_Text();
+						$loop = new WMN_Form_Field_Text( [] );
 				}
 				$value = $loop->sanitize( $data[ $field ] );
 				if ( ! empty( $value ) ) {
@@ -306,8 +306,10 @@ wmn(1)->log($_POST);
 		$fields = $this->entry_fields();
 		$fields = array_diff( $fields, [ 'submit' ] );
 		array_unshift( $fields, 'address' );
+wmn(1)->log($fields);
 		$query = new WMN_Query_Nodelist();
 		$entries = $query->retrieve_tech_entries();
+wmn(1)->log(0,$entries);
 		if ( ! empty( $entries ) ) { ?>
 			<div class="panel panel-fluidity">
 				<div class="panel-heading centered">
