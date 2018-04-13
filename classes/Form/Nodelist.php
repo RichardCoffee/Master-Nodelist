@@ -32,10 +32,11 @@ class WMN_Form_Nodelist {
 	}
 
 	protected function add_actions() {
-		add_action( 'wp_enqueue_scripts',        array( $this, 'nodelist_scripts' ), 11 );
-		add_action( 'wp_ajax_wmn_show_nodelist', array( $this, 'show_nodelist' ) );
-		add_action( 'wp_ajax_wmn_pick_entry',    array( $this, 'pick_entry' ) );
-		add_action( 'wp_ajax_wmn_save_entry',    array( $this, 'save_entry' ) );
+		add_action( 'wp_enqueue_scripts',          array( $this, 'nodelist_scripts' ), 11 );
+		add_action( 'wp_ajax_wmn_show_nodelist',   array( $this, 'show_nodelist' ) );
+		add_action( 'wp_ajax_wmn_pick_entry',      array( $this, 'pick_entry' ) );
+		add_action( 'wp_ajax_wmn_save_entry',      array( $this, 'save_entry' ) );
+		add_action( 'wp_ajax_wmn_export_techlist', array( $this, 'export_techlist' ) );
 	}
 
 	public function nodelist_scripts() {
@@ -329,8 +330,9 @@ wmn(1)->log($fields);
 wmn(1)->log(0,$entries);
 		if ( ! empty( $entries ) ) { ?>
 			<div class="panel panel-fluidity">
-				<div class="panel-heading centered">
-					<?php $this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], __( 'Drops of the Day', 'wmn-workbook' ) ); ?>
+				<div class="panel-heading centered"><?php
+					$this->export_button();
+					$this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], __( 'Drops of the Day', 'wmn-workbook' ) ); ?>
 				</div>
 				<table class="table">
 					<thead>
@@ -353,6 +355,20 @@ wmn(1)->log(0,$entries);
 				</table>
 			</div><?php
 		}
+	}
+
+	protected function export_button() {
+		$attrs = array(
+			'class'   => 'btn btn-fluidity pull-right marginb1e',
+			'onclick' => 'export_techlist();',
+			'title'   => __( 'Export nodelist to excel spreadsheet and email to tech', 'wmn-workbook' )
+		);
+		$this->apply_attrs_element( 'button', $attrs, __( 'Export', 'wmn-workbook' ) );
+	}
+
+	public function export_techlist() {
+wmn(1)->log('export_techlist');
+		echo '<p>Export Tech List</p>';
 	}
 
 

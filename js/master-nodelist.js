@@ -80,11 +80,19 @@ console.log('plain');
 function save_entry() {
 	var outData = {
 		action:  "wmn_save_entry"
-	}
+	};
 	var fields = jQuery( "form#edit-entry-form :input" ).serializeArray();
 	jQuery.each( fields, function( i, field ) {
 		outData[ field.name ] = field.value;
 	} );
 	contact_server( '#tech-nodelist', outData );
 	jQuery( '#tech-editlist' ).empty();
+	scrollToElement( '#tech-nodelist' );
+}
+
+function export_techlist() {
+	var outData = {
+		action:  "wmn_export_techlist"
+	};
+	contact_server( '#tech-editlist', outData );
 }
