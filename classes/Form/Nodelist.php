@@ -86,6 +86,7 @@ class WMN_Form_Nodelist {
 			'form_control' =>  false,
 			'field_value'  => $this->node
 		);
+wmn(1)->log($args);
 		$select = new WMN_Form_Field_Select( $args );
 		return $select;
 	}
