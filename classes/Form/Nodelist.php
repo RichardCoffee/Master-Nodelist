@@ -287,13 +287,10 @@ wmn(1)->log($data);
 	}
 
 	public function sanitize_data( $data ) {
-wmn(1)->log($data);
 		$out = array();
 		$fields = $this->entry_fields();
 		array_unshift( $fields, 'id' );
-wmn(1)->log($fields);
 		foreach( $fields as $field ) {
-wmn(1)->log(0,"field:  $field");
 			if ( array_key_exists( $field, $data ) ) {
 				switch( $field ) {
 					case 'complete':
