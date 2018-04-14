@@ -70,7 +70,7 @@ class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 		if ( $check > 3000 ) {  // large year value - assumed unix time stamp
 			return date( self::$date_format, $check );
 		}
-		return $this->field_value;
+		return date( self::$date_format, strtotime( $this->field_value ) );
 	}
 
 	public function bare() {
