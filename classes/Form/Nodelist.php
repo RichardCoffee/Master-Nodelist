@@ -309,7 +309,6 @@ wmn(1)->log(0,"field:  $field");
 						$loop = new WMN_Form_Field_Text();
 				}
 				$value = $loop->sanitize( $data[ $field ] );
-wmn(1)->log(0,"value:  $field");
 				if ( ! empty( $value ) ) {
 					$out[ $field ] = $value;
 				}
@@ -324,10 +323,8 @@ wmn(1)->log(0,"value:  $field");
 		$fields = array_diff( $fields, [ 'submit' ] );
 		array_unshift( $fields, 'node' );
 		array_unshift( $fields, 'address' );
-wmn(1)->log($fields);
 		$query = new WMN_Query_Nodelist();
 		$entries = $query->retrieve_tech_entries();
-wmn(1)->log(0,$entries);
 		if ( ! empty( $entries ) ) { ?>
 			<div class="panel panel-fluidity">
 				<div class="panel-heading centered"><?php

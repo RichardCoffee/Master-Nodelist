@@ -28,7 +28,6 @@ abstract class WMN_Form_Field_Field {
 
 	protected static $date_format = 'm/d/y';
 
-	use WMN_Trait_Attributes;
 	use WMN_Trait_Magic;
 	use WMN_Trait_ParseArgs;
 
@@ -77,9 +76,9 @@ abstract class WMN_Form_Field_Field {
 			return '';
 		}
 		$attrs = array(
-			'id'         => $this->field_id . '_label',
-			'class'      => $this->label_css . ( ! $this->see_label ) ? ' screen-reader-text' : '',
-			'for'        => $this->field_id,
+			'id'    => $this->field_id . '_label',
+			'class' => $this->label_css . ( ! $this->see_label ) ? ' screen-reader-text' : '',
+			'for'   => $this->field_id,
 		);
 		return $this->get_apply_attrs_element( 'label', $attrs, $this->description );
 	}
