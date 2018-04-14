@@ -55,13 +55,17 @@ class WMN_Form_Nodelist {
 		}
 	}
 
-	public function nodelist_form() { ?>
+	public function nodelist_form() {
+		ob_start();
+			# sets $this->node value, needed for select field ?>
+			<div id="tech-nodelist">
+				<?php $this->tech_entries(); ?>
+			</div><?php
+		$html = ob_get_clean(); ?>
 		<div class="row marginb1e">
 			<?php $this->node_select_field()->select(); ?>
 		</div>
-		<div id="tech-nodelist">
-			<?php $this->tech_entries(); ?>
-		</div>
+		<?php echo $html; ?>
 		<div id="tech-editlist"></div>
 		<div id="master-nodelist">
 			<?php $this->display_nodelist(); ?>
@@ -79,7 +83,8 @@ class WMN_Form_Nodelist {
 			'field_css'    => 'pull-left',
 			'choices'      => $nodes,
 			'onchange'     => 'load_nodelist(1);',
-			'form_control' =>  false
+			'form_control' =>  false,
+			'field_value'  => $this->node
 		);
 		$select = new WMN_Form_Field_Select( $args );
 		return $select;
