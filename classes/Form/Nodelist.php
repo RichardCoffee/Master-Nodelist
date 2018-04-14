@@ -42,33 +42,16 @@ class WMN_Form_Nodelist {
 	public function nodelist_scripts() {
 		if ( get_page_slug() === 'master-nodelist' ) {
 			$version = wmn_paths()->version;
-			wp_enqueue_style(
-				'jquery-style',
-				'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css'
+			$prereq  = array(
+				'jquery',
+				'jquery-ui-core',
+				'jquery-ui-datepicker',
+				'tcc-library'
 			);
-			wp_enqueue_style(
-				'wmn-form-nodelist.css',
-				wmn_paths()->get_plugin_file_uri( 'css/master-nodelist.css' ),
-				null,
-				$version
-			);
-			wp_enqueue_script(
-				'wmn-form-nodelist.js',
-				wmn_paths()->get_plugin_file_uri( 'js/master-nodelist.js' ),
-				array(
-					'jquery',
-					'jquery-ui-core',
-					'jquery-ui-datepicker',
-					'tcc-library'
-				),
-				wmn_paths()->version,
-				true
-			);
-			wp_localize_script(
-				'wmn-form-nodelist.js',
-				'nodelist_ajax',
-				$this->ajax
-			);
+			wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
+			wp_enqueue_style( 'wmn-form-nodelist.css', wmn_paths()->get_plugin_file_uri( 'css/master-nodelist.css' ), null, $version );
+			wp_enqueue_script( 'wmn-form-nodelist.js', wmn_paths()->get_plugin_file_uri( 'js/master-nodelist.js' ), $prereq, $version, true );
+			wp_localize_script( 'wmn-form-nodelist.js', 'nodelist_ajax', $this->ajax );
 		}
 	}
 
@@ -176,6 +159,7 @@ class WMN_Form_Nodelist {
 	}
 
 	protected function retrieve_nodelist_data() {
+wmn(1)->log($this);
 		global $wpdb;
 		$sql   = "SELECT id, account, house, ticket, address, viya, subscriber, install, complete, comments";
 		$sql  .= " FROM workbook_nodelist WHERE node = %s AND ( complete IS NULL OR complete = '' ) ORDER BY address";
