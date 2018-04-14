@@ -28,6 +28,7 @@ abstract class WMN_Form_Field_Field {
 
 	protected static $date_format = 'm/d/y';
 
+	use WMN_Trait_Attributes;
 	use WMN_Trait_Magic;
 	use WMN_Trait_ParseArgs;
 
