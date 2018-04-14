@@ -51,26 +51,19 @@ class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 
 	# convert to unix timestamp
 	public function deform_date() {
-		$check = intval( $this->field_value, 10 );
-		if ( $check < 3000 ) { // probably a date string
-			if ( $unix = strtotime( $this->field_value ) ) {
-				return $unix;
-			}
+		if ( is_string( $this->field_value ) ) {
+			return strtotime( $this->field_value );
 		}
 		return $this->field_value;
 	}
 
 	# convert to formatted date
 	public function form_date( $reset = false ) {
-		//  check for unix time before formatting
-		$check = intval( $this->field_value, 10 );
-		if ( $reset && $check < 3000 ) {
-			$check = strtotime( $this->field_value );
+		if ( is_string( $this->field_value ) ) {
+			return date( self::$date_format, strtotime( $this->field_value ) );
+		} else {
+			return date( self::$date_format, $this->field_value );
 		}
-		if ( $check > 3000 ) {  // large year value - assumed unix time stamp
-			return date( self::$date_format, $check );
-		}
-		return date( self::$date_format, strtotime( $this->field_value ) );
 	}
 
 	public function bare() {
