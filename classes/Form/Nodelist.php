@@ -93,7 +93,6 @@ wmn(1)->log($args);
 
 	public function show_nodelist() {
 		check_ajax_referer( __CLASS__, 'security' );
-		$html = 'No nodelist received';
 		$this->display_nodelist();
 		wp_die();
 	}
