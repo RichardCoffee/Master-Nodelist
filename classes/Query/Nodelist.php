@@ -187,7 +187,7 @@ wmn(1)->log(0,"update:  $update");
 	public function retrieve_tech_entries() {
 		if ( ! empty( self::$tech_id ) ) {
 			global $wpdb;
-			$sql  = "SELECT * FROM workbook_nodelist WHERE crew = %s";
+			$sql  = "SELECT * FROM workbook_nodelist WHERE crew = %s ORDER BY node";
 			$prep = $wpdb->prepare( $sql, self::$tech_id );
 			$data = $wpdb->get_results( $prep, ARRAY_A );
 			return $data;

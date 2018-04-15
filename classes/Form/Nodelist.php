@@ -89,7 +89,6 @@ class WMN_Form_Nodelist {
 			'form_control' =>  false,
 			'field_value'  => $this->node
 		);
-wmn(1)->log($args);
 		$select = new WMN_Form_Field_Select( $args );
 		return $select;
 	}
@@ -198,6 +197,7 @@ wmn(1)->log($this);
 	protected function edit_entry() {
 		$query  = new WMN_Query_Nodelist;
 		$entry  = $query->retrieve_entry( $this->entry );
+		$entry  = $query->check_duplicate( $entry );
 		$editus = $this->entry_fields(); ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered">
