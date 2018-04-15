@@ -57,24 +57,19 @@ class WMN_Form_Nodelist {
 		}
 	}
 
-	public function nodelist_form() {
-		ob_start();
-			# sets $this->node value, needed for select field ?>
-			<div id="tech-nodelist">
-				<?php $this->tech_entries(); ?>
-			</div><?php
-		$html = ob_get_clean(); ?>
+	public function nodelist_form() { ?>
 		<div class="row marginb1e">
 			<?php $this->node_select_field()->select(); ?>
 		</div>
-		<?php echo $html; ?>
+		<div id="tech-nodelist">
+			<?php $this->tech_entries(); ?>
+		</div>
 		<div id="tech-editlist"></div>
 		<div id="master-nodelist">
 			<?php $this->display_nodelist(); ?>
 		</div><?php
 		$this->ajax['active'] = $this->node;
 		wp_localize_script( 'wmn-form-nodelist.js', 'nodelist_ajax', $this->ajax );
-
 	}
 
 	protected function node_select_field() {
@@ -137,8 +132,8 @@ class WMN_Form_Nodelist {
 		$data  = $this->retrieve_nodelist_data(); ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered"><?php
-				$this->back_button();
-				$this->next_button();
+				$this->back_button(1);
+				$this->next_button(1);
 				$this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], sprintf( __( 'Listing for node %s', 'wmn-workbook' ), $this->node ) ); ?>
 			</div>
 			<table class="table">
@@ -167,7 +162,6 @@ class WMN_Form_Nodelist {
 	}
 
 	protected function retrieve_nodelist_data() {
-wmn(1)->log($this);
 		global $wpdb;
 		$sql   = "SELECT id, account, house, ticket, address, viya, subscriber, install, complete, comments";
 		$sql  .= " FROM workbook_nodelist WHERE node = %s AND ( complete IS NULL OR complete = '' ) ORDER BY address";

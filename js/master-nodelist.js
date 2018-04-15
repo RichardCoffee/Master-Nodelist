@@ -10,6 +10,7 @@ jQuery( document ).ready( function( $ ) {
 } );
 
 function load_nodelist( page, scroll ) {
+	nodelist_ajax.page = page;
 	var outdata = {
 		action:  "wmn_show_nodelist",
 		active:   jQuery( "#active_node option:selected" ).val(),
@@ -90,6 +91,7 @@ function save_entry() {
 		outData[ field.name ] = field.value;
 	} );
 	contact_server( '#tech-nodelist', outData );
+	load_nodelist( nodelist_ajax.page, false );
 	jQuery( '#tech-editlist' ).empty();
 	scrollToElement( '#tech-nodelist' );
 }
