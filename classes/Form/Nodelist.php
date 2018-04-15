@@ -190,15 +190,12 @@ wmn(1)->log($this);
 		wp_die();
 	}
 
-	protected function entry_fields() {
-		return array( 'viya', 'subscriber', 'install', 'complete', 'comments', 'submit' );
-	}
-
 	protected function edit_entry() {
 		$query  = new WMN_Query_Nodelist;
 		$entry  = $query->retrieve_entry( $this->entry );
 		$entry  = $query->check_duplicate( $entry );
-		$editus = $this->entry_fields(); ?>
+		$editus = $query->entry_fields();
+		$editus[] = 'submit'; ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered">
 				<?php $this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], $entry['address'] ); ?>
@@ -309,7 +306,6 @@ wmn(1)->log($data);
 
 	protected function tech_entries() {
 		$fields = $this->entry_fields();
-		$fields = array_diff( $fields, [ 'submit' ] );
 		array_unshift( $fields, 'node' );
 		array_unshift( $fields, 'address' );
 		$query = new WMN_Query_Nodelist();

@@ -39,6 +39,10 @@ class WMN_Query_Nodelist {
 		return $base;
 	}
 
+	public function entry_fields() {
+		return array( 'viya', 'subscriber', 'install', 'complete', 'comments' );
+	}
+
 	public function subscript( $search ) {
 		$fields = $this->base_headers();
 		return array_search( $search, $fields, true );
@@ -201,7 +205,14 @@ wmn(1)->log(0,"update:  $update");
 		$prep = $wpdb->prepare( $sql, self::$tech_id, $entry['address'] );
 		$data = $wpdb->get_results( $prep, ARRAY_A );
 		if ( ! empty( $data ) ) {
-wmn(1)->log($data);
+			$cols = $this->entry_fields();
+			foreach( $data as $item ) {
+				foreach( $cols as $col ) {
+					if ( empty( $entry[ $col ] ) && ! empty( $item[ $col ] ) ) {
+						$entry[ $col ] = $item[ $col ];
+					}
+				}
+			}
 		}
 		return $entry;
 	}
