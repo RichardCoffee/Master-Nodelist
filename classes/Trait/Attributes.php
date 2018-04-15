@@ -48,7 +48,7 @@ trait WMN_Trait_Attributes {
 	 */
 	public function get_apply_attrs( $attrs ) {
 
-		$is_allowed_no_value = array( 'itemscope', 'value' );
+		$is_allowed_no_value = array( 'itemscope', 'selected', 'value' );
 /*		static $is_allowed_no_value;
 		if ( ! $is_allowed_no_value ) {
 			$is_allowed_no_value = apply_filters( 'fluid_attr_is_allowed_no_value', array( 'itemscope', 'value' ) );

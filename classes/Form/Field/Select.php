@@ -39,11 +39,10 @@ class WMN_Form_Field_Select extends WMN_Form_Field_Field {
 						foreach( $this->choices as $key => $text ) {
 							$attrs = array(
 								'value'    => ( $assoc ) ? $key : $text,
-								'selected' => ( $assoc )
-									? ( (  $key === $this->field_value ) ? 'selected' : '' )
-									: ( ( $text === $this->field_value ) ? 'selected' : '' )
 							);
-wmn(1)->log( $key, $text, $this->field_value, $attrs );
+							if ( ( $assoc && ( $key === $this->field_value ) ) || ( $text === $this->field_value ) ) {
+								$attrs['selected'] = '';
+							}
 							$this->apply_attrs_element( 'option', $attrs, ' ' . $text . ' ' );
 						}
 					} ?>
