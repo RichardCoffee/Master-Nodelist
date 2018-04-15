@@ -24,6 +24,7 @@ class WMN_Form_Nodelist {
 		if ( ! empty( $_POST['entry'] ) )    { $this->entry = intval( $_POST['entry'],    10 ); }
 		if ( ! empty( $_POST['nodepage'] ) ) { $this->page  = intval( $_POST['nodepage'], 10 ); }
 		$this->ajax = array(
+			'active'   => $this->node,
 			'ajaxurl'  => admin_url( 'admin-ajax.php' ),
 			'dateform' => 'n/j/y', // get_option( 'date_format' ),
 			'nodepage' => $this->page,
@@ -51,7 +52,6 @@ class WMN_Form_Nodelist {
 			wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
 			wp_enqueue_style( 'wmn-form-nodelist.css', wmn_paths()->get_plugin_file_uri( 'css/master-nodelist.css' ), null, $version );
 			wp_enqueue_script( 'wmn-form-nodelist.js', wmn_paths()->get_plugin_file_uri( 'js/master-nodelist.js' ), $prereq, $version, true );
-			wp_localize_script( 'wmn-form-nodelist.js', 'nodelist_ajax', $this->ajax );
 		}
 	}
 
@@ -70,6 +70,9 @@ class WMN_Form_Nodelist {
 		<div id="master-nodelist">
 			<?php $this->display_nodelist(); ?>
 		</div><?php
+		$this->ajax['active'] = $this->node;
+		wp_localize_script( 'wmn-form-nodelist.js', 'nodelist_ajax', $this->ajax );
+
 	}
 
 	protected function node_select_field() {

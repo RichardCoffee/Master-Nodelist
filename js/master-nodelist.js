@@ -4,6 +4,9 @@ jQuery( document ).ready( function( $ ) {
 	jQuery.datepicker.setDefaults( {
 		dateFormat : nodelist_ajax.dateform
 	} );
+	// https://stackoverflow.com/questions/10911526/how-do-i-change-an-html-selected-option-using-javascript
+//	document.getElementById('personlist').value=Person_ID;
+	jQuery( '#active_nodelist' ).val( nodelist_ajax.active );
 } );
 
 function load_nodelist( page, scroll ) {
