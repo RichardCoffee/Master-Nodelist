@@ -195,5 +195,16 @@ wmn(1)->log(0,"update:  $update");
 		return false;
 	}
 
+	public function check_duplicate( $entry ) {
+		global $wpdb;
+		$sql = "SELECT * FROM workbook_nodelist WHERE crew = %s AND address = %s ORDER BY node";
+		$prep = $wpdb->prepare( $sql, self::$tech_id, $entry['address'] );
+		$data = $wpdb->get_results( $prep, ARRAY_A );
+		if ( ! empty( $data ) ) {
+wmn(1)->log($data);
+		}
+		return $entry;
+	}
+
 
 }
