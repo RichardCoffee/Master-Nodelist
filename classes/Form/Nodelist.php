@@ -276,7 +276,7 @@ wmn(1)->log($data);
 			if ( array_key_exists( $field, $data ) ) {
 				switch( $field ) {
 					case 'complete':
-						$loop = new WMN_Form_Field_Date( [ 'timestamp' => false ] );
+						$loop = new WMN_Form_Field_Date();
 						break;
 					case 'id':
 						$loop = new WMN_Form_Field_Integer();

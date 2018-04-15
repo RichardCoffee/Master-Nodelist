@@ -3,7 +3,7 @@
 # sanitize will require a false timestamp attribute when checking strings
 class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 
-	protected $timestamp = true;
+	protected $type      = 'date';
 	protected $field_css = 'date';
 
 	public function __construct( $args ) {
@@ -11,9 +11,6 @@ class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 		$this->placeholder = 'dd/mm/yyyy';
 		parent::__construct( $args );
 		$this->add_form_control_css( 'date' );
-		if ( ! $this->timestamp && ( $this->sanitize === array( $this, 'sanitize_timestamp' ) ) ) {
-			$this->sanitize = array( $this, 'sanitize_string' );
-		}
 	}
 
 	public function date() { ?>
@@ -79,16 +76,16 @@ class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 		$this->apply_attrs_element( 'input', $attrs );
 	}
 
-	public function sanitize_timestamp( $date ) {
-		$date_format = DateTime::createFromFormat( self::$date_format, $date );
-		if( ! $date_format ) {
-			return false;
+	public function sanitize( $date ) {
+		if ( is_string( $date ) ) {
+			return date( self::$date_format, strtotime( $date ) );
+		} else {
+			$formatted = date( self::$date_format, $date );
+			if( ! $formatted ) {
+				return false;
+			}
 		}
 		return $date;
-	}
-
-	public function sanitize_string( $date ) {
-		return date( self::$date_format, strtotime( $date ) );
 	}
 
 
