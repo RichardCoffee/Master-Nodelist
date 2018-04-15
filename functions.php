@@ -57,7 +57,7 @@ function wmn_plugin_load_first() {
 add_action( 'activated_plugin', 'wmn_plugin_load_first' );
 
 function wmn_form_nodelist_css() {
-	$size = tcc_design( 'size' );
+	$size = tcc_design( 'size', 18 );
 	$resize = intval( $size * 2 / 3, 10 );
 	echo ".reduced-font {\n\tfont-size: {$resize}px;\n}\n";
 }
