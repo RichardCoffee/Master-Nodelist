@@ -15,6 +15,7 @@ class WMN_Form_Nodelist {
 	protected $node      = '';
 	protected $page      = 1;
 	protected $page_size = 50;
+	protected $query;
 
 	use WMN_Trait_Attributes;
 
@@ -30,6 +31,7 @@ class WMN_Form_Nodelist {
 			'nodepage' => $this->page,
 			'security' => wp_create_nonce( __CLASS__ )
 		);
+		$this->query = new WMN_Query_Nodelist();
 	}
 
 	protected function add_actions() {
@@ -132,7 +134,6 @@ class WMN_Form_Nodelist {
 	}
 
 	protected function build_nodelist() {
-		$query = new WMN_Query_Nodelist;
 		$data  = $this->retrieve_nodelist_data(); ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered"><?php
@@ -143,7 +144,7 @@ class WMN_Form_Nodelist {
 			<table class="table">
 				<thead>
 					<tr>
-						<th class="centered"><?php e_esc_html( $query->header_title( 'address' ) ); ?></tr>
+						<th class="centered"><?php e_esc_html( $this->query->header_title( 'address' ) ); ?></tr>
 					</tr>
 				</thead>
 				<tbody><?php
@@ -191,10 +192,9 @@ wmn(1)->log($this);
 	}
 
 	protected function edit_entry() {
-		$query  = new WMN_Query_Nodelist;
-		$entry  = $query->retrieve_entry( $this->entry );
-		$entry  = $query->check_duplicate( $entry );
-		$editus = $query->entry_fields();
+		$entry  = $this->query->retrieve_entry( $this->entry );
+		$entry  = $this->query->check_duplicate( $entry );
+		$editus = $this->query->entry_fields();
 		$editus[] = 'submit'; ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered">
@@ -219,7 +219,7 @@ wmn(1)->log($this);
 									continue;
 								}
 								$attrs = array(
-									'description' => $query->header_title( $item ),
+									'description' => $this->query->header_title( $item ),
 									'field_id'    => "wmn_$item",
 									'field_name'  => $item,
 									'field_value' => $entry[ $item ]
@@ -268,16 +268,15 @@ wmn(1)->log($this);
 		$data = $this->sanitize_data( $_POST );
 wmn(1)->log($data);
 		if ( ! empty( $data ) ) {
-			$query = new WMN_Query_Nodelist;
-			$query->save_entry( $data );
+			$this->query->save_entry( $data );
 		}
 		$this->tech_entries();
 		wp_die();
 	}
 
 	public function sanitize_data( $data ) {
-		$out = array();
-		$fields = $this->entry_fields();
+		$out    = array();
+		$fields = $this->query->entry_fields();
 		array_unshift( $fields, 'id' );
 		foreach( $fields as $field ) {
 			if ( array_key_exists( $field, $data ) ) {
@@ -305,11 +304,10 @@ wmn(1)->log($data);
 	}
 
 	protected function tech_entries() {
-		$fields = $this->entry_fields();
+		$fields = $this->query->entry_fields();
 		array_unshift( $fields, 'node' );
 		array_unshift( $fields, 'address' );
-		$query = new WMN_Query_Nodelist();
-		$entries = $query->retrieve_tech_entries();
+		$entries = $this->query->retrieve_tech_entries();
 		if ( ! empty( $entries ) ) { ?>
 			<div class="panel panel-fluidity">
 				<div class="panel-heading centered"><?php
@@ -320,7 +318,7 @@ wmn(1)->log($data);
 					<thead>
 						<tr><?php
 							foreach( $fields as $field ) { ?>
-								<th class="centered"><?php e_esc_html( $query->header_title( $field ) ); ?></th><?php
+								<th class="centered"><?php e_esc_html( $this->query->header_title( $field ) ); ?></th><?php
 							} ?>
 						</tr>
 					</thead>
