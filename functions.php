@@ -56,6 +56,13 @@ function wmn_plugin_load_first() {
 }
 add_action( 'activated_plugin', 'wmn_plugin_load_first' );
 
+function wmn_form_nodelist_css() {
+	$size = tcc_design( 'size' );
+	$resize = intval( $size * 2 / 3, 10 );
+	echo ".reduced-font {\n\tfont-size: {$resize}px;\n}\n";
+}
+add_action( 'tcc_custom_css', 'wmn_form_nodelist_css' );
+
 function required_form() {
 	if ( wmn_current() ) {
 		return new WMN_Form_Nodelist;

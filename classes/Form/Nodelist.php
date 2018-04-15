@@ -308,7 +308,7 @@ wmn(1)->log($data);
 					$this->export_button();
 					$this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], __( 'Drops of the Day', 'wmn-workbook' ) ); ?>
 				</div>
-				<table class="table">
+				<table class="table reduced-font">
 					<thead>
 						<tr><?php
 							foreach( $fields as $field ) { ?>
