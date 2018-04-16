@@ -6,7 +6,7 @@ class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 	protected $type      = 'date';
 	protected $field_css = 'date';
 
-	public function __construct( $args ) {
+	public function __construct( $arg = array() ) {
 		$this->sanitize    = array( $this, 'sanitize_timestamp' );
 		$this->placeholder = 'dd/mm/yyyy';
 		parent::__construct( $args );
@@ -55,7 +55,7 @@ class WMN_Form_Field_Date extends WMN_Form_Field_Field {
 	}
 
 	# convert to formatted date
-	public function form_date( $reset = false ) {
+	public function form_date() {
 		if ( is_string( $this->field_value ) ) {
 			return date( self::$date_format, strtotime( $this->field_value ) );
 		} else {
