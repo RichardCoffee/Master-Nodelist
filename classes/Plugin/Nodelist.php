@@ -36,7 +36,7 @@ class WMN_Plugin_Nodelist {
 		if ( ! empty( $data ) ) {
 			$count = count( $data );
 			wmn(1)->log("data count: $count");
-			$this->generate_filename( $data[ --$count ][21] ); // TODO: extract index from TCC_Query_Nodelist
+			$this->generate_filename( $data[ --$count ]['complete'] ); // TODO: extract index from TCC_Query_Nodelist
 			$this->write_spreadsheet( $data );
 			$this->email_spreadsheet();
 		}
@@ -44,6 +44,7 @@ class WMN_Plugin_Nodelist {
 
 # https://wordpress.stackexchange.com/questions/243261/right-way-to-download-file-from-source-to-destination
 	protected function generate_filename( $date ) {
+wmn(1)->log("date:  $date");
 		$template  = WP_CONTENT_DIR . $this->file_template;
 		$tech_data = array(
 			WMN_Query_Nodelist::$tech_id, // get_user_meta( get_current_user_id(), 'tech_id', true ),
@@ -66,7 +67,7 @@ class WMN_Plugin_Nodelist {
 
 		$worksheet = $spreadsheet->getActiveSheet();
 
-
+wmn(1)->log( $data );
 
 #		$worksheet->getCell('A1')->setValue('John');
 #		$worksheet->getCell('A2')->setValue('Smith');
