@@ -215,5 +215,20 @@ class WMN_Query_Nodelist {
 		return $entry;
 	}
 
+	public function remove_tech_entries( $data ) {
+		$removals = $this->extract_field( 'id', $data );
+wmn(1)->log($removals);
+	}
+
+	protected function extract_field( $field, $data ) {
+		$extracted = array();
+		foreach( $data as $item ) {
+			if ( ! empty( $item[ $field ] ) ) {
+				$extracted[] = $item[ $field ];
+			}
+		}
+		return $extracted;
+	}
+
 
 }

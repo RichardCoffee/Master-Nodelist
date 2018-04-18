@@ -186,65 +186,69 @@ class WMN_Form_Nodelist {
 		wp_die();
 	}
 
-	protected function edit_entry() {
-		$entry  = $this->query->retrieve_entry( $this->entry );
-		$entry  = $this->query->check_duplicate( $entry );
-		$editus = $this->query->entry_fields();
-		$editus[] = 'submit'; ?>
+	protected function edit_entry() { ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered">
 				<?php $this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], $entry['address'] ); ?>
 			</div>
 			<div id="edit-entry" class="panel-body">
 				<div class="row">
-					<form id="edit-entry-form"><?php
-						wp_nonce_field( 'master-nodelist-edit-entry' );
-						$attrs = array(
-							'type'  => 'hidden',
-							'id'    => 'edit_entry_id',
-							'name'  => 'id',
-							'value' => $entry['id']
-						);
-						$this->apply_attrs_element( 'input', $attrs );
-						foreach( $editus as $item ) { ?>
-							<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><?php
-								if ( $item === 'submit' ) {
-									$this->save_entry_button();
-									echo "</div>"; // ending div
-									continue;
-								}
-								$attrs = array(
-									'description' => $this->query->header_title( $item ),
-									'field_id'    => "wmn_$item",
-									'field_name'  => $item,
-									'field_value' => $entry[ $item ]
-								);
-								switch( $item ) {
-									case 'install':
-										$attrs['description'] = 'Drop Installed';
-										$attrs['choices'] = $this->select_opts;
-										$input = new WMN_Form_Field_Select( $attrs );
-										$input->select();
-										break;
-									case 'complete':
-										$attrs['timestamp'] = false;
-										if ( empty( $attrs['field_value'] ) ) {
-											$attrs['field_value'] = date( $this->ajax['dateform'] );
-										}
-										$input = new WMN_Form_Field_Date( $attrs );
-										$input->date();
-										break;
-									default:
-										$input = new WMN_Form_Field_Text( $attrs );
-										$input->text();
-								} ?>
-							</div><?php
-							unset( $attrs, $input );
-						} ?>
-					</form>
+					<?php $this->edit_entry_form(); ?>
 				</div>
 			</div>
 		</div><?php
+	}
+
+	protected function edit_entry_form() {
+		$entry  = $this->query->retrieve_entry( $this->entry );
+		$entry  = $this->query->check_duplicate( $entry );
+		$editus = $this->query->entry_fields();
+		$editus[] = 'submit'; ?>
+		<form id="edit-entry-form"><?php
+			wp_nonce_field( 'master-nodelist-edit-entry' );
+			$attrs = array(
+				'type'  => 'hidden',
+				'id'    => 'edit_entry_id',
+				'name'  => 'id',
+				'value' => $entry['id']
+			);
+			$this->apply_attrs_element( 'input', $attrs );
+			foreach( $editus as $item ) { ?>
+				<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><?php
+					if ( $item === 'submit' ) {
+						$this->save_entry_button();
+						echo "</div>"; // ending div
+						continue;
+					}
+					$attrs = array(
+						'description' => $this->query->header_title( $item ),
+						'field_id'    => "wmn_$item",
+						'field_name'  => $item,
+						'field_value' => $entry[ $item ]
+					);
+					switch( $item ) {
+						case 'install':
+							$attrs['description'] = 'Drop Installed';
+							$attrs['choices'] = $this->select_opts;
+							$input = new WMN_Form_Field_Select( $attrs );
+							$input->select();
+							break;
+						case 'complete':
+							$attrs['timestamp'] = false;
+							if ( empty( $attrs['field_value'] ) ) {
+								$attrs['field_value'] = date( $this->ajax['dateform'] );
+							}
+							$input = new WMN_Form_Field_Date( $attrs );
+							$input->date();
+							break;
+						default:
+							$input = new WMN_Form_Field_Text( $attrs );
+							$input->text();
+					} ?>
+				</div><?php
+				unset( $attrs, $input );
+			} ?>
+		</form><?php
 	}
 
 	protected function save_entry_button() {

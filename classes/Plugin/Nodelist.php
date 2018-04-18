@@ -39,6 +39,7 @@ class WMN_Plugin_Nodelist {
 			$this->generate_filename( $data[ --$count ]['complete'] );
 			$this->write_spreadsheet( $data );
 			$this->email_spreadsheet();
+			$this->query->remove_tech_entries( $data );
 		}
 	}
 
@@ -48,7 +49,7 @@ class WMN_Plugin_Nodelist {
 		$tech_data = array(
 			WMN_Query_Nodelist::$tech_id, // get_user_meta( get_current_user_id(), 'tech_id', true ),
 			'ROOM203', // get_user_meta( get_current_user_id(), 'tech_location', true ),
-			date( 'm-d-y' ) // TODO: extract date from nodelist data
+			date( 'm-d-y', strtotime( $date ) ) // TODO: extract date from nodelist data
 		);
 		$this->filename = get_temp_dir() . str_replace( [ '%tech', '%loca', '%date' ], $tech_data, $this->name_template );
 
@@ -62,17 +63,15 @@ class WMN_Plugin_Nodelist {
 		$template    = WP_CONTENT_DIR . $this->file_template;
 		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load( $template );
 		$worksheet   = $spreadsheet->getActiveSheet();
-#wmn(1)->log( $data );
-		$base_ref  = $this->query->base_headers();
-		$fields    = $this->query->entry_fields();
-		$excel_row = 3;
+		$base_ref    = $this->query->base_headers();
+		$fields      = $this->query->entry_fields();
+		$excel_row   = 3;
 		foreach( $data as $entry ) {
 			foreach( $entry as $key => $value ) {
 				if ( ! empty( $value ) ) {
 					$column = array_search( $key, $base_ref, true );
 					if ( $column !== false ) {
 						$cell = $this->determine_column( $column ) . $excel_row;
-wmn(1)->log("cell: $cell = $key / $value");
 						$worksheet->setCellValue( $cell, $value );
 					}
 				}
