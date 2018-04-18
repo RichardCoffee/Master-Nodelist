@@ -5,45 +5,56 @@
  */
 class WMN_Plugin_Nodelist {
 
-	protected $template = '/uploads/2018/04/export-template.xlsx';
-	protected $writer; # \PhpOffice\PhpSpreadsheet\Writer\Xlsx
+	protected $file_template = '/uploads/2018/04/export-template.xlsx';
+	protected $name_template = 'St. Croix_Daily_Crew%tech-%loca_%date.xlsx';
+	protected $writer;       # \PhpOffice\PhpSpreadsheet\Writer\Xlsx
 
 	public function __construct() {
-#		$this->query = new WMN_Query_Nodelist();
+		$this->query = new WMN_Query_Nodelist();
 	}
 
 	public function export_nodelist() {
-#		$data = $this->query->retrieve_tech_entries();
-#		if ( ! empty( $data ) ) {
+		$data = $this->query->retrieve_tech_entries();
+		if ( ! empty( $data ) ) {
 			$this->create_spreadsheet();
 #			$this->write_spreadsheet( $data );
 #			$this->save_spreadsheet();
 #			$this->email_spreadsheet();
-#		}
+		}
 	}
 
 	protected function create_spreadsheet() {
 
-
-		$location = 'ROOM203';
-
-		$tmp = get_temp_dir();
-		$template = WP_CONTENT_DIR . $this->template;
-		$name_template = 'St. Croix_Daily_Crew%tech-%loca_%date.xlsx';
-		$list_name = 'St. Croix_Daily_Crew' . WMN_Query_Nodelist::$tech_id . '-' . $location . '_' . date( 'm-d-y' ) . '.xlsx';
-
-		$filename = str_replace( [ '%tech', '%loca', '%date' ], [ WMN_Query_Nodelist::$tech_id, $location, date( 'm-d-y' ) ], $name_template );
+		$tmp           = get_temp_dir();
+		$template      = WP_CONTENT_DIR . $this->file_template;
+		$tech_data     = array(
+			WMN_Query_Nodelist::$tech_id,
+			'ROOM203', // get_user_meta( get_current_user_id(), 'tech_location', true ),
+			$location,
+			date( 'm-d-y' )
+		);
+		$filename = $tmp . str_replace( [ '%tech', '%loca', '%date' ], $tech_data, $his->name_template );
 
 		echo "<p>template: $template</p>";
-		echo "<p>temp dir: $tmp</p>";
-		echo "<p>export name: $list_name</p>";
 		echo "<p>filename: $filename</p>";
 
+#		copy $template to $filename;
+
+	}
+
+	protected function write_spreadsheet( $data ) {
+#		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load('template.xlsx');
+
+#		$worksheet = $spreadsheet->getActiveSheet();
+
+#		$worksheet->getCell('A1')->setValue('John');
+#		$worksheet->getCell('A2')->setValue('Smith');
+
 #		$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx( $spreadsheet );
+#		$writer->setPreCalculateFormulas(false);
 #		$writer->save("05featuredemo.xlsx");
 	}
 
-	protected function write_spreadsheet( $data ) { }
 	protected function save_spreadsheet() { }
 	protected function email_spreadsheet() { }
 
