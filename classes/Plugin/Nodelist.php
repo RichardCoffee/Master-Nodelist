@@ -71,8 +71,8 @@ wmn(1)->log( $data );
 		foreach( $data as $entry ) {
 			foreach( $entry as $key => $value ) {
 				$column = array_search( $key, $base_ref );
-				$cell   = chr( ord('A') + $key ) . $excel_row;
-wmn(1)->log("cell: $cell = $value");
+				$cell   = chr( ord('A') + $column ) . $excel_row;
+wmn(1)->log("cell: $cell = $key / $value");
 				$worksheet->getCell( $cell )->setValue( $value );
 			}
 			$excel_row++;
