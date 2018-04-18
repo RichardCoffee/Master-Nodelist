@@ -23,6 +23,7 @@ class WMN_Plugin_Nodelist {
 		}
 	}
 
+# https://wordpress.stackexchange.com/questions/243261/right-way-to-download-file-from-source-to-destination
 	protected function create_spreadsheet() {
 
 		$template      = WP_CONTENT_DIR . $this->file_template;
@@ -35,7 +36,9 @@ class WMN_Plugin_Nodelist {
 
 		echo "<p>template: $template</p>";
 		echo "<p>filename: $filename</p>";
-		$system = new WP_Filesystem_Direct;
+		require_once( ABSPATH . '/wp-admin/includes/class-wp-filesystem-base.php' );
+		require_once( ABSPATH . '/wp-admin/includes/class-wp-filesystem-direct.php' );
+		$system = new WP_Filesystem_Direct( array() );
 		$system->copy( $template, $filename, true );
 #		copy $template to $filename;
 
