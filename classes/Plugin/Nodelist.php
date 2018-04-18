@@ -24,19 +24,19 @@ class WMN_Plugin_Nodelist {
 	public function __construct() {
 		$this->query = new WMN_Query_Nodelist;
 		add_action( 'wp_mail_failed',       [ $this, 'wp_mail_failed' ] );
-		add_filter( 'wp_mail',              [ $this, 'wp_mail' ] );
-		add_filter( 'wp_mail_from',         [ $this, 'wp_mail' ] );
-		add_filter( 'wp_mail_from_name',    [ $this, 'wp_mail' ] );
-#		add_filter( 'wp_mail_content_type', [ $this, 'wp_mail' ] );
-#		add_filter( 'wp_mail_charset',      [ $this, 'wp_mail' ] );
+		add_filter( 'wp_mail',              [ $this, 'wp_mail_filter' ] );
+		add_filter( 'wp_mail_from',         [ $this, 'wp_mail_filter' ] );
+		add_filter( 'wp_mail_from_name',    [ $this, 'wp_mail_filter' ] );
+#		add_filter( 'wp_mail_content_type', [ $this, 'wp_mail_filter' ] );
+#		add_filter( 'wp_mail_charset',      [ $this, 'wp_mail_filter' ] );
+		# TODO: check transient for files left from botched runs
 	}
 
 	public function export_nodelist() {
 		$data = $this->query->retrieve_tech_entries();
 		if ( ! empty( $data ) ) {
 			$count = count( $data );
-			wmn(1)->log("data count: $count");
-			$this->generate_filename( $data[ --$count ]['complete'] ); // TODO: extract index from TCC_Query_Nodelist
+			$this->generate_filename( $data[ --$count ]['complete'] );
 			$this->write_spreadsheet( $data );
 			$this->email_spreadsheet();
 		}
@@ -44,7 +44,6 @@ class WMN_Plugin_Nodelist {
 
 # https://wordpress.stackexchange.com/questions/243261/right-way-to-download-file-from-source-to-destination
 	protected function generate_filename( $date ) {
-wmn(1)->log("date:  $date");
 		$template  = WP_CONTENT_DIR . $this->file_template;
 		$tech_data = array(
 			WMN_Query_Nodelist::$tech_id, // get_user_meta( get_current_user_id(), 'tech_id', true ),
@@ -56,25 +55,31 @@ wmn(1)->log("date:  $date");
 		echo "<p>template: $template</p>";
 		echo "<p>filename: {$this->filename}</p>";
 
-#		$system = new WP_Filesystem_Direct( array() );
-#		$system->copy( $template, $this->filename, true );
 	}
 
 	protected function write_spreadsheet( $data ) {
 		require_once( wmn_paths()->dir . 'vendor/autoload.php' );
-		$template  = WP_CONTENT_DIR . $this->file_template;
+		$template    = WP_CONTENT_DIR . $this->file_template;
 		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load( $template );
-
-		$worksheet = $spreadsheet->getActiveSheet();
+		$worksheet   = $spreadsheet->getActiveSheet();
 
 wmn(1)->log( $data );
 
-#		$worksheet->getCell('A1')->setValue('John');
-#		$worksheet->getCell('A2')->setValue('Smith');
-
+		$base_ref  = $this->query->base_header();
+		$fields    = $this->query->entry_fields();
+		$excel_row = 3;
+		foreach( $data as $entry ) {
+			foreach( $entry as $key => $value ) {
+				$column = array_search( $key, $base_ref );
+				$cell   = chr( ord('A') + $key ) . $excel_row;
+wmn(1)->log("cell: $cell = $value");
+				$worksheet->getCell( $cell )->setValue( $value );
+			}
+			$excel_row++;
+		}
 		$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx( $spreadsheet );
-#		$writer->setPreCalculateFormulas(false);
 		$writer->save( $this->filename );
+		# TODO: set file transient
 	}
 
 	protected function email_spreadsheet() {
@@ -87,6 +92,7 @@ wmn(1)->log( $data );
 		if ( wp_mail( $to, $this->subject, $this->message, $headers, [ $this->filename ] ) ) {
 			$system = new WP_Filesystem_Direct( array() );
 			$system->delete( $this->filename );
+			# TODO: remove file transient
 		}
 	}
 
@@ -94,7 +100,7 @@ wmn(1)->log( $data );
 		wmn(1)->log( $err );
 	}
 
-	public function wp_mail( $args ) {
+	public function wp_mail_filter( $args ) {
 		static $track = false;
 		if ( $track && is_string( $args ) ) {
 			if ( $args === 'wordpress@workbook.jamesgaither.online' ) {
@@ -108,7 +114,6 @@ wmn(1)->log( $data );
 		if ( is_array( $args ) && isset( $args['subject'] ) && ( $args['subject'] === $this->subject ) ) {
 			$track = true;
 		}
-		wmn(1)->log( $track, $args );
 		return $args;
 	}
 
