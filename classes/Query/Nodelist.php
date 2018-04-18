@@ -10,7 +10,7 @@
  */
 class WMN_Query_Nodelist {
 
-	protected static $tech_id = null;
+	public static $tech_id = null;
 
 	public function __construct() {
 		if ( empty( self::$tech_id ) ) {
@@ -175,7 +175,6 @@ class WMN_Query_Nodelist {
 
 	public function save_entry( $data ) {
 		global $wpdb;
-wmn(1)->log($data);
 		if ( ! empty( $data['id'] ) ) {
 			$id = $data['id'];
 			unset( $data['id'] );
@@ -184,7 +183,6 @@ wmn(1)->log($data);
 			if ( $update === false ) {
 				wmn(1)->log( 'ERROR occurred updating dbf record', "id: $id", $data );
 			}
-wmn(1)->log(0,"update:  $update");
 		}
 	}
 

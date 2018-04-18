@@ -20,6 +20,13 @@ function wmn_wpfep_tech_tab_meta_fields( $fields = array() ) {
 		'type'    => 'text',
 		'classes' => 'tech-id-field'
 	);
+	$fields[] = array(
+		'id'      => 'tech_location',
+		'label'   => __('Tech Location','wmn-workbook'),
+		'desc'    => __('Your location as it will appear in the exported spreadsheet filename.  example:  ROOM203','wmn-workbook'),
+		'type'    => 'text',
+		'classes' => 'tech-location-field'
+	);
 	return $fields;
 }
 add_filter('wpfep_fields_tech_tab','wmn_wpfep_tech_tab_meta_fields');

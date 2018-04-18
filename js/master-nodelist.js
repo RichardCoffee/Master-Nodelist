@@ -100,5 +100,5 @@ function export_techlist() {
 	var outData = {
 		action:  "wmn_export_techlist"
 	};
-	contact_server( '#tech-editlist', outData );
+	contact_server( '#tech-nodelist', outData );
 }

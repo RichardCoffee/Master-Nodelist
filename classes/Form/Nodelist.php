@@ -341,8 +341,9 @@ wmn(1)->log($data);
 	}
 
 	public function export_techlist() {
-wmn(1)->log('export_techlist');
-		echo '<p>Export Tech List</p>';
+		$export = new WMN_Plugin_Nodelist;
+		$export->export_nodelist();
+		echo '<p>Tech List has been exported, and emailed to you.  Please verify.</p>';
 		wp_die();
 	}
 
