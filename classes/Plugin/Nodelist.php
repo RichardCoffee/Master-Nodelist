@@ -15,7 +15,9 @@ class WMN_Plugin_Nodelist {
 	protected $filename;
 	protected $from_email    = 'nodelist@workbook.jamesgaither.online';
 	protected $from_name     = 'Nodelist Online';
+	protected $message       = 'Enclosed:  One spreadsheet';
 	protected $name_template = 'St. Croix_Daily_Crew%tech-%loca_%date.xlsx';
+	protected $reply_to      = 'richard.coffee@gmail.com';
 	protected $subject       = 'Daily';
 	protected $writer;       # \PhpOffice\PhpSpreadsheet\Writer\Xlsx
 
@@ -74,12 +76,11 @@ class WMN_Plugin_Nodelist {
 	protected function email_spreadsheet() {
 		$tech = get_userdata( get_current_user_id() );
 		$to   = $tech->user_email;
-		$message = 'Enclosed:  One spreadsheet';
 		$headers = array(
 			'From' => "{$this->from_name} <{$this->from_email}>", // get_bloginfo('admin_email'),
-			'Reply-To' => 'richard.coffee@gmail.com'
+			'Reply-To' => $this->reply_to
 		);
-		if ( wp_mail( $to, $this->subject, $message, $headers, [ $this->filename ] ) ) {
+		if ( wp_mail( $to, $this->subject, $this->message, $headers, [ $this->filename ] ) ) {
 			$system = new WP_Filesystem_Direct( array() );
 			$system->delete( $this->filename );
 		}
@@ -90,19 +91,19 @@ class WMN_Plugin_Nodelist {
 	}
 
 	public function wp_mail( $args ) {
-/*		static $track = false;
-		if ( $track ) {
+		static $track = false;
+		if ( $track && is_string( $args ) ) {
 			if ( $args === 'wordpress@workbook.jamesgaither.online' ) {
-				return 'nodelist@workbook.jamesgaither.online';
+				$args = $this->from_email;
 			}
 			if ( $args === 'WordPress' ) {
 				$track = false;
-				return 'Nodelist Online';
+				$args = $this->from_name;
 			}
 		}
 		if ( is_array( $args ) && isset( $args['subject'] ) && ( $args['subject'] === $this->subject ) ) {
 			$track = true;
-		} //*/
+		}
 		wmn(1)->log( $track, $args );
 		return $args;
 	}
