@@ -12,8 +12,11 @@ require_once( ABSPATH . '/wp-admin/includes/class-wp-filesystem-direct.php' );
 class WMN_Plugin_Nodelist {
 
 	protected $file_template = '/uploads/2018/04/export-template.xlsx';
-	protected $name_template = 'St. Croix_Daily_Crew%tech-%loca_%date.xlsx';
 	protected $filename;
+	protected $from_email    = 'nodelist@workbook.jamesgaither.online';
+	protected $from_name     = 'Nodelist Online';
+	protected $name_template = 'St. Croix_Daily_Crew%tech-%loca_%date.xlsx';
+	protected $subject       = 'Daily';
 	protected $writer;       # \PhpOffice\PhpSpreadsheet\Writer\Xlsx
 
 	public function __construct() {
@@ -22,8 +25,8 @@ class WMN_Plugin_Nodelist {
 		add_filter( 'wp_mail',              [ $this, 'wp_mail' ] );
 		add_filter( 'wp_mail_from',         [ $this, 'wp_mail' ] );
 		add_filter( 'wp_mail_from_name',    [ $this, 'wp_mail' ] );
-		add_filter( 'wp_mail_content_type', [ $this, 'wp_mail' ] );
-		add_filter( 'wp_mail_charset',      [ $this, 'wp_mail' ] );
+#		add_filter( 'wp_mail_content_type', [ $this, 'wp_mail' ] );
+#		add_filter( 'wp_mail_charset',      [ $this, 'wp_mail' ] );
 	}
 
 	public function export_nodelist() {
@@ -73,10 +76,10 @@ class WMN_Plugin_Nodelist {
 		$to   = $tech->user_email;
 		$message = 'Enclosed:  One spreadsheet';
 		$headers = array(
-			'from' => get_bloginfo('admin_email'),
-			'reply-to' => 'richard.coffee@gmail.com'
+			'From' => "{$this->from_name} <{$this->from_email}>", // get_bloginfo('admin_email'),
+			'Reply-To' => 'richard.coffee@gmail.com'
 		);
-		if ( wp_mail( $to, 'Daily', $message, $headers, [ $this->filename ] ) ) {
+		if ( wp_mail( $to, $this->subject, $message, $headers, [ $this->filename ] ) ) {
 			$system = new WP_Filesystem_Direct( array() );
 			$system->delete( $this->filename );
 		}
@@ -87,7 +90,20 @@ class WMN_Plugin_Nodelist {
 	}
 
 	public function wp_mail( $args ) {
-		wmn(1)->log( $args );
+/*		static $track = false;
+		if ( $track ) {
+			if ( $args === 'wordpress@workbook.jamesgaither.online' ) {
+				return 'nodelist@workbook.jamesgaither.online';
+			}
+			if ( $args === 'WordPress' ) {
+				$track = false;
+				return 'Nodelist Online';
+			}
+		}
+		if ( is_array( $args ) && isset( $args['subject'] ) && ( $args['subject'] === $this->subject ) ) {
+			$track = true;
+		} //*/
+		wmn(1)->log( $track, $args );
 		return $args;
 	}
 
