@@ -30,7 +30,6 @@ class WMN_Plugin_Nodelist {
 		$tech_data     = array(
 			WMN_Query_Nodelist::$tech_id,
 			'ROOM203', // get_user_meta( get_current_user_id(), 'tech_location', true ),
-			$location,
 			date( 'm-d-y' )
 		);
 		$filename = $tmp . str_replace( [ '%tech', '%loca', '%date' ], $tech_data, $his->name_template );
