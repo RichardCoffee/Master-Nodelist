@@ -29,11 +29,15 @@ class WMN_Plugin_Nodelist {
 
 		$tmp = get_temp_dir();
 		$template = WP_CONTENT_DIR . $this->template;
+		$name_template = 'St. Croix_Daily_Crew%tech-%loca_%date.xlsx';
 		$list_name = 'St. Croix_Daily_Crew' . WMN_Query_Nodelist::$tech_id . '-' . $location . '_' . date( 'm-d-y' ) . '.xlsx';
+
+		$filename = str_replace( [ '%tech', '%loca', '%date' ], [ WMN_Query_Nodelist::$tech_id, $location, date( 'm-d-y' ) ], $name_template );
 
 		echo "<p>template: $template</p>";
 		echo "<p>temp dir: $tmp</p>";
 		echo "<p>export name: $list_name</p>";
+		echo "<p>filename: $filename</p>";
 
 #		$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx( $spreadsheet );
 #		$writer->save("05featuredemo.xlsx");
