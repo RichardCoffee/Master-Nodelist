@@ -39,7 +39,7 @@ class WMN_Plugin_Nodelist {
 			$this->generate_filename( $data[ --$count ]['complete'] );
 			$this->write_spreadsheet( $data );
 			$this->email_spreadsheet();
-			$this->query->remove_tech_entries( $data );
+#			$this->query->remove_tech_entries();
 		}
 	}
 

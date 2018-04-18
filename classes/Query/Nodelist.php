@@ -215,20 +215,28 @@ class WMN_Query_Nodelist {
 		return $entry;
 	}
 
-	public function remove_tech_entries( $data ) {
-		$removals = $this->extract_field( 'id', $data );
-wmn(1)->log($removals);
-	}
-
-	protected function extract_field( $field, $data ) {
-		$extracted = array();
-		foreach( $data as $item ) {
-			if ( ! empty( $item[ $field ] ) ) {
-				$extracted[] = $item[ $field ];
-			}
+	public function remove_tech_entries() {
+		global $wpdb;
+		$sql = "DELETE FROM workbook_nodelist WHERE crew = %s";
+		$prep = $wpdb->prepare( $sql, self::$tech_id );
+		if ( ! empty( $prep ) ) {
+			$wpdb->query( $sql );
 		}
-		return $extracted;
 	}
 
 
+}
+
+if ( ! function_exists( 'escape_array' ) ) {
+	function escape_array($arr){
+		global $wpdb;
+		$escaped = array();
+		foreach($arr as $k => $v){
+			if(is_numeric($v))
+				$escaped[] = $wpdb->prepare('%d', $v);
+			else
+				$escaped[] = $wpdb->prepare('%s', $v);
+			}
+		return implode(',', $escaped);
+	}
 }
