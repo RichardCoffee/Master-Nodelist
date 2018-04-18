@@ -102,3 +102,10 @@ function export_techlist() {
 	};
 	contact_server( '#tech-nodelist', outData );
 }
+
+function verify_export() {
+	var outData = {
+		action: "wmn_verify_export"
+	};
+	contact_server( '#tech-nodelist', outData );
+}

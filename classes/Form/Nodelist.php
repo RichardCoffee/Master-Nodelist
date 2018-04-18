@@ -41,6 +41,7 @@ class WMN_Form_Nodelist {
 		add_action( 'wp_ajax_wmn_pick_entry',      array( $this, 'pick_entry' ) );
 		add_action( 'wp_ajax_wmn_save_entry',      array( $this, 'save_entry' ) );
 		add_action( 'wp_ajax_wmn_export_techlist', array( $this, 'export_techlist' ) );
+		add_action( 'wp_ajax_wmn_verify_export',   array( $this, 'verify_export' ) );
 	}
 
 	public function nodelist_scripts() {
@@ -265,7 +266,6 @@ class WMN_Form_Nodelist {
 	public function save_entry() {
 		check_ajax_referer( 'master-nodelist-edit-entry' );
 		$data = $this->sanitize_data( $_POST );
-wmn(1)->log($data);
 		if ( ! empty( $data ) ) {
 			$this->query->save_entry( $data );
 		}
@@ -349,6 +349,21 @@ wmn(1)->log($data);
 		$export = new WMN_Plugin_Nodelist;
 		$export->export_nodelist();
 		echo '<p>Tech List has been exported, and emailed to you.  Please verify.</p>';
+		$attrs = array(
+			'class'   => 'btn btn-fluidity pull-right marginb1e',
+			'onclick' => 'verify_export();',
+			'title'   => __( 'Please verify that the export to the excel spreadsheet has completed successfully', 'wmn-workbook' )
+		);
+		$this->apply_attrs_element( 'button', $attrs, __( 'Verify', 'wmn-workbook' ) );
+		$contact = $this->get_apply_attrs_element( 'a', [ 'href' => 'mailto:richard.coffee@gmail.com' ], 'Richard Coffee' );
+		echo '<p>If you are unable to verify the successful completion of the export, please contact ' . $contact . '</p>';
+		wp_die();
+	}
+
+	public function verify_export() {
+		$this->query->remove_tech_entries();
+		echo '<p>Thank you for verifying that the export was successful.</p>';
+		echo '<p>Your daily nodelist has been reset.</p>';
 		wp_die();
 	}
 
