@@ -71,7 +71,7 @@ wmn(1)->log( $data );
 		foreach( $data as $entry ) {
 			foreach( $entry as $key => $value ) {
 				$column = array_search( $key, $base_ref );
-				$cell   = chr( ord('A') + $column ) . $excel_row;
+				$cell   = $this->determine_column( $column ) . $excel_row;
 wmn(1)->log("cell: $cell = $key / $value");
 				$worksheet->getCell( $cell )->setValue( $value );
 			}
@@ -80,6 +80,15 @@ wmn(1)->log("cell: $cell = $key / $value");
 		$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx( $spreadsheet );
 		$writer->save( $this->filename );
 		# TODO: set file transient
+	}
+
+	protected function determine_column( $offset ) {
+		$col = ord('A') + $offset;
+		if ( $col > ord('Z') ) {
+			$offset = $offset - ( ord('Z') - ord('A') );
+			return 'A' . $this->determine_column( $offset );
+		}
+		return chr( $col );
 	}
 
 	protected function email_spreadsheet() {
