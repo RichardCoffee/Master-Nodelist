@@ -82,7 +82,7 @@ class WMN_Plugin_Nodelist {
 		);
 		if ( wp_mail( $to, $this->subject, $this->message, $headers, [ $this->filename ] ) ) {
 			$system = new WP_Filesystem_Direct( array() );
-			$system->delete( $this->filename );
+#			$system->delete( $this->filename );
 		}
 	}
 
