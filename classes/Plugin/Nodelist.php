@@ -36,15 +36,14 @@ class WMN_Plugin_Nodelist {
 		if ( ! empty( $data ) ) {
 			$count = count( $data );
 			wmn(1)->log("data count: $count");
-			$this->create_spreadsheet( $data[ --$count ][21] ); // TODO: extract index from TCC_Query_Nodelist
+			$this->generate_filename( $data[ --$count ][21] ); // TODO: extract index from TCC_Query_Nodelist
 			$this->write_spreadsheet( $data );
-#			$this->save_spreadsheet();
 			$this->email_spreadsheet();
 		}
 	}
 
 # https://wordpress.stackexchange.com/questions/243261/right-way-to-download-file-from-source-to-destination
-	protected function create_spreadsheet( $date ) {
+	protected function generate_filename( $date ) {
 		$template  = WP_CONTENT_DIR . $this->file_template;
 		$tech_data = array(
 			WMN_Query_Nodelist::$tech_id, // get_user_meta( get_current_user_id(), 'tech_id', true ),
@@ -53,28 +52,28 @@ class WMN_Plugin_Nodelist {
 		);
 		$this->filename = get_temp_dir() . str_replace( [ '%tech', '%loca', '%date' ], $tech_data, $this->name_template );
 
-
 		echo "<p>template: $template</p>";
 		echo "<p>filename: {$this->filename}</p>";
 
-		$system = new WP_Filesystem_Direct( array() );
-		$system->copy( $template, $this->filename, true );
+#		$system = new WP_Filesystem_Direct( array() );
+#		$system->copy( $template, $this->filename, true );
 	}
 
 	protected function write_spreadsheet( $data ) {
-#		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load( $this->filename );
+		$template  = WP_CONTENT_DIR . $this->file_template;
+		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load( $template );
 
-#		$worksheet = $spreadsheet->getActiveSheet();
+		$worksheet = $spreadsheet->getActiveSheet();
+
+
 
 #		$worksheet->getCell('A1')->setValue('John');
 #		$worksheet->getCell('A2')->setValue('Smith');
 
-#		$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx( $spreadsheet );
+		$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx( $spreadsheet );
 #		$writer->setPreCalculateFormulas(false);
-#		$writer->save("05featuredemo.xlsx");
+		$writer->save( $this->filename );
 	}
-
-#	protected function save_spreadsheet() { }
 
 	protected function email_spreadsheet() {
 		$tech = get_userdata( get_current_user_id() );
