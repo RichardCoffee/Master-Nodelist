@@ -34,7 +34,9 @@ class WMN_Plugin_Nodelist {
 	public function export_nodelist() {
 		$data = $this->query->retrieve_tech_entries();
 		if ( ! empty( $data ) ) {
-			$this->create_spreadsheet( $data[ ( count( $data ) -1 ) ][21] ); // TODO: extract index from TCC_Query_Nodelist
+			$count = count( $data );
+			wmn(1)->log("data count: $count");
+			$this->create_spreadsheet( $data[ --$count ][21] ); // TODO: extract index from TCC_Query_Nodelist
 			$this->write_spreadsheet( $data );
 #			$this->save_spreadsheet();
 			$this->email_spreadsheet();
@@ -43,19 +45,20 @@ class WMN_Plugin_Nodelist {
 
 # https://wordpress.stackexchange.com/questions/243261/right-way-to-download-file-from-source-to-destination
 	protected function create_spreadsheet( $date ) {
-		$template      = WP_CONTENT_DIR . $this->file_template;
-		$tech_data     = array(
+		$template  = WP_CONTENT_DIR . $this->file_template;
+		$tech_data = array(
 			WMN_Query_Nodelist::$tech_id, // get_user_meta( get_current_user_id(), 'tech_id', true ),
 			'ROOM203', // get_user_meta( get_current_user_id(), 'tech_location', true ),
 			date( 'm-d-y' ) // TODO: extract date from nodelist data
 		);
 		$this->filename = get_temp_dir() . str_replace( [ '%tech', '%loca', '%date' ], $tech_data, $this->name_template );
 
+
 		echo "<p>template: $template</p>";
 		echo "<p>filename: {$this->filename}</p>";
 
 		$system = new WP_Filesystem_Direct( array() );
-		$system->copy( $template, $filename, true );
+		$system->copy( $template, $this->filename, true );
 	}
 
 	protected function write_spreadsheet( $data ) {
@@ -82,7 +85,7 @@ class WMN_Plugin_Nodelist {
 		);
 		if ( wp_mail( $to, $this->subject, $this->message, $headers, [ $this->filename ] ) ) {
 			$system = new WP_Filesystem_Direct( array() );
-#			$system->delete( $this->filename );
+			$system->delete( $this->filename );
 		}
 	}
 
