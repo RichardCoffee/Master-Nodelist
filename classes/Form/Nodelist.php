@@ -16,6 +16,7 @@ class WMN_Form_Nodelist {
 	protected $page      = 1;
 	protected $page_size = 50;
 	protected $query;
+	protected $select_opts = array( '', 'Yes', 'Not Installed' );
 
 	use WMN_Trait_Attributes;
 
@@ -221,7 +222,7 @@ class WMN_Form_Nodelist {
 								switch( $item ) {
 									case 'install':
 										$attrs['description'] = 'Drop Installed';
-										$attrs['choices'] = array( '', 'Yes', 'Not Installed' );
+										$attrs['choices'] = $this->select_opts;
 										$input = new WMN_Form_Field_Select( $attrs );
 										$input->select();
 										break;
@@ -282,7 +283,7 @@ wmn(1)->log($data);
 						$loop = new WMN_Form_Field_Integer();
 						break;
 					case 'install':
-						$loop = new WMN_Form_Field_Select( [ 'choices' => array( '', 'Yes', 'Not Installed' ) ] );
+						$loop = new WMN_Form_Field_Select( [ 'choices' => $this->select_opts ] );
 						break;
 					default:
 						$loop = new WMN_Form_Field_Text();
