@@ -62,17 +62,19 @@ class WMN_Plugin_Nodelist {
 		$template    = WP_CONTENT_DIR . $this->file_template;
 		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load( $template );
 		$worksheet   = $spreadsheet->getActiveSheet();
-wmn(1)->log( $data );
+#wmn(1)->log( $data );
 		$base_ref  = $this->query->base_headers();
 		$fields    = $this->query->entry_fields();
 		$excel_row = 3;
 		foreach( $data as $entry ) {
 			foreach( $entry as $key => $value ) {
-				$column = array_search( $key, $base_ref, true );
-				if ( $column !== false ) {
-					$cell = $this->determine_column( $column ) . $excel_row;
+				if ( ! empty( $value ) ) {
+					$column = array_search( $key, $base_ref, true );
+					if ( $column !== false ) {
+						$cell = $this->determine_column( $column ) . $excel_row;
 wmn(1)->log("cell: $cell = $key / $value");
-					$worksheet->setCellValue( $cell, $value );
+						$worksheet->setCellValue( $cell, $value );
+					}
 				}
 			}
 			$excel_row++;
