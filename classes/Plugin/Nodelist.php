@@ -65,7 +65,7 @@ class WMN_Plugin_Nodelist {
 
 wmn(1)->log( $data );
 
-		$base_ref  = $this->query->base_header();
+		$base_ref  = $this->query->base_headers();
 		$fields    = $this->query->entry_fields();
 		$excel_row = 3;
 		foreach( $data as $entry ) {
