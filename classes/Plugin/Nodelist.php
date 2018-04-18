@@ -39,7 +39,6 @@ class WMN_Plugin_Nodelist {
 			$this->generate_filename( $data[ --$count ]['complete'] );
 			$this->write_spreadsheet( $data );
 			$this->email_spreadsheet();
-#			$this->query->remove_tech_entries();
 		}
 	}
 
@@ -52,10 +51,6 @@ class WMN_Plugin_Nodelist {
 			date( 'm-d-y', strtotime( $date ) ) // TODO: extract date from nodelist data
 		);
 		$this->filename = get_temp_dir() . str_replace( [ '%tech', '%loca', '%date' ], $tech_data, $this->name_template );
-
-		echo "<p>template: $template</p>";
-		echo "<p>filename: {$this->filename}</p>";
-
 	}
 
 	protected function write_spreadsheet( $data ) {
