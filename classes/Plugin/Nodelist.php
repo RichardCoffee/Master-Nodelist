@@ -35,7 +35,8 @@ class WMN_Plugin_Nodelist {
 
 		echo "<p>template: $template</p>";
 		echo "<p>filename: $filename</p>";
-
+		$system = new WP_Filesystem_Direct;
+		$system->copy( $template, $filename, true );
 #		copy $template to $filename;
 
 	}
