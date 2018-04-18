@@ -60,6 +60,7 @@ class WMN_Plugin_Nodelist {
 	}
 
 	protected function write_spreadsheet( $data ) {
+		require_once( wmn_paths()->dir . 'vendor/autoload.php' );
 		$template  = WP_CONTENT_DIR . $this->file_template;
 		$spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load( $template );
 
