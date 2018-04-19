@@ -357,7 +357,7 @@ class WMN_Form_Nodelist {
 		echo "<p>Tech List has been exported, and emailed to you.  Please verify. $button</p>";
 		$mailto  = 'mailto:richard.coffee@gmail.com?Subject=Export%20Failed';
 		$contact = $this->get_apply_attrs_element( 'a', [ 'href' => $mailto ], 'Richard Coffee' );
-		echo "<p>If you are unable to verify the successful completion of the export, please contact $contact</p>";
+		echo "<p>If you are unable to verify the successful completion of the export, please contact $contact.</p>";
 		wp_die();
 	}
 
