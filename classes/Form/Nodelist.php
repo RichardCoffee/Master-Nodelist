@@ -187,22 +187,22 @@ class WMN_Form_Nodelist {
 		wp_die();
 	}
 
-	protected function edit_entry() { ?>
+	protected function edit_entry() {
+		$entry  = $this->query->retrieve_entry( $this->entry );
+		$entry  = $this->query->check_duplicate( $entry ); ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered">
 				<?php $this->apply_attrs_element( 'h4', [ 'class' => 'centered' ], $entry['address'] ); ?>
 			</div>
 			<div id="edit-entry" class="panel-body">
 				<div class="row">
-					<?php $this->edit_entry_form(); ?>
+					<?php $this->edit_entry_form( $entry ); ?>
 				</div>
 			</div>
 		</div><?php
 	}
 
-	protected function edit_entry_form() {
-		$entry  = $this->query->retrieve_entry( $this->entry );
-		$entry  = $this->query->check_duplicate( $entry );
+	protected function edit_entry_form( $entry ) {
 		$editus = $this->query->entry_fields();
 		$editus[] = 'submit'; ?>
 		<form id="edit-entry-form"><?php
