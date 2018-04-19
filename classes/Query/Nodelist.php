@@ -217,10 +217,10 @@ class WMN_Query_Nodelist {
 
 	public function remove_tech_entries() {
 		global $wpdb;
-		$sql = "DELETE FROM workbook_nodelist WHERE crew = %s;";
-		$prep = $wpdb->prepare( $sql, (string)self::$tech_id );
+		$sql = "DELETE FROM workbook_nodelist WHERE crew = %s";
+		$prep = $wpdb->prepare( $sql, self::$tech_id );
 		if ( ! empty( $prep ) ) {
-			$wpdb->query( $sql );
+			$wpdb->query( $prep );
 		}
 	}
 
