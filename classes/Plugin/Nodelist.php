@@ -15,7 +15,7 @@ class WMN_Plugin_Nodelist {
 	protected $filename;
 	protected $from_email    = 'nodelist@workbook.jamesgaither.online';
 	protected $from_name     = 'Nodelist Online';
-	protected $message       = 'Enclosed:  One spreadsheet';
+	protected $message       = 'Enclosed:  One tech nodelist spreadsheet for %date';
 	protected $name_template = 'St. Croix_Daily_Crew%tech-%loca_%date.xlsx';
 	protected $reply_to      = 'richard.coffee@gmail.com';
 	protected $subject       = 'Daily';
@@ -51,6 +51,7 @@ class WMN_Plugin_Nodelist {
 			date( 'm-d-y', strtotime( $date ) ) // TODO: extract date from nodelist data
 		);
 		$this->filename = get_temp_dir() . str_replace( [ '%tech', '%loca', '%date' ], $tech_data, $this->name_template );
+		$this->message  = str_replace( '%date', $tech_data[2], $this->message );
 	}
 
 	protected function write_spreadsheet( $data ) {

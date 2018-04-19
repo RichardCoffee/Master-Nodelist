@@ -348,15 +348,16 @@ class WMN_Form_Nodelist {
 	public function export_techlist() {
 		$export = new WMN_Plugin_Nodelist;
 		$export->export_nodelist();
-		echo '<p>Tech List has been exported, and emailed to you.  Please verify.</p>';
 		$attrs = array(
-			'class'   => 'btn btn-fluidity pull-right marginb1e',
+			'class'   => 'btn btn-fluidity',
 			'onclick' => 'verify_export();',
 			'title'   => __( 'Please verify that the export to the excel spreadsheet has completed successfully', 'wmn-workbook' )
 		);
-		$this->apply_attrs_element( 'button', $attrs, __( 'Verify', 'wmn-workbook' ) );
-		$contact = $this->get_apply_attrs_element( 'a', [ 'href' => 'mailto:richard.coffee@gmail.com' ], 'Richard Coffee' );
-		echo '<p>If you are unable to verify the successful completion of the export, please contact ' . $contact . '</p>';
+		$button = $this->get_apply_attrs_element( 'button', $attrs, __( 'Verify', 'wmn-workbook' ) );
+		echo "<p>Tech List has been exported, and emailed to you.  Please verify. $button</p>";
+		$mailto  = 'mailto:richard.coffee@gmail.com?Subject=Export%20Failed';
+		$contact = $this->get_apply_attrs_element( 'a', [ 'href' => $mailto ], 'Richard Coffee' );
+		echo "<p>If you are unable to verify the successful completion of the export, please contact $contact</p>";
 		wp_die();
 	}
 
