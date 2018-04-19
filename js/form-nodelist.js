@@ -108,4 +108,5 @@ function verify_export() {
 		action: "wmn_verify_export"
 	};
 	contact_server( '#tech-nodelist', outData );
+	jQuery( '#master-nodelist' ).empty();
 }

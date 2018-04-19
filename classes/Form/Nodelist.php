@@ -54,8 +54,8 @@ class WMN_Form_Nodelist {
 				'tcc-library'
 			);
 			wp_enqueue_style( 'jquery-style', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/jquery-ui.css' );
-			wp_enqueue_style( 'wmn-form-nodelist.css', wmn_paths()->get_plugin_file_uri( 'css/master-nodelist.css' ), null, $version );
-			wp_enqueue_script( 'wmn-form-nodelist.js', wmn_paths()->get_plugin_file_uri( 'js/master-nodelist.js' ), $prereq, $version, true );
+			wp_enqueue_style( 'wmn-form-nodelist.css', wmn_paths()->get_plugin_file_uri( 'css/form-nodelist.css' ), null, $version );
+			wp_enqueue_script( 'wmn-form-nodelist.js', wmn_paths()->get_plugin_file_uri( 'js/form-nodelist.js' ), $prereq, $version, true );
 		}
 	}
 
