@@ -12,6 +12,7 @@ class WMN_Form_Nodelist {
 	protected $ajax      = array();
 	protected $count     = 0;
 	protected $entry     = 0;
+	protected $insert    = 'Select Node';
 	protected $node      = '';
 	protected $page      = 1;
 	protected $page_size = 50;
@@ -28,6 +29,7 @@ class WMN_Form_Nodelist {
 		$this->ajax = array(
 			'active'   => $this->node,
 			'ajaxurl'  => admin_url( 'admin-ajax.php' ),
+			'avoid'    => $this->insert,
 			'dateform' => 'n/j/y', // get_option( 'date_format' ),
 			'nodepage' => $this->page,
 			'security' => wp_create_nonce( __CLASS__ )
@@ -78,7 +80,7 @@ class WMN_Form_Nodelist {
 		global $wpdb;
 		$nodes = $wpdb->get_col( 'SELECT DISTINCT(node) FROM workbook_nodelist' );
 		sort( $nodes );
-		array_unshift( $nodes, 'Select Node' );
+		array_unshift( $nodes, $this->insert );
 		$args  = array(
 			'library'      => 'wmn',
 			'field_name'   => 'active_node',

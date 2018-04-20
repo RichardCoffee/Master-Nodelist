@@ -11,9 +11,10 @@ jQuery( document ).ready( function( $ ) {
 
 function load_nodelist( page, scroll ) {
 	nodelist_ajax.page = page;
+	var node = jQuery( "#active_node option:selected" ).val();
 	var outdata = {
 		action:  "wmn_show_nodelist",
-		active:   jQuery( "#active_node option:selected" ).val(),
+		active:   ( node === nodelist_ajax.avoid ) ? nodelist_ajax.active : node,
 		nodepage: page,
 		security: nodelist_ajax.security
 	};
@@ -49,18 +50,19 @@ function contact_server( contentDiv, outData, wait ) {
 }
 
 function pick_entry( el, id ) {
+	var node = jQuery( "#active_node option:selected" ).val();
 	var outData = {
 		action:  'wmn_pick_entry',
-		active:   jQuery( "#active_node option:selected" ).val(),
+		active:   ( node === nodelist_ajax.avoid ) ? nodelist_ajax.active : node,
 		entry:    id,
 		security: nodelist_ajax.security
 	}
 	contact_server( '#tech-editlist', outData );
 	scrollToElement( '#tech-editlist' );
 //	jquery_datepicker( '#tech-editlist .date' );
-jQuery('.date').datepicker({
-  dateFormat : nodelist_ajax.dateform
-});
+	jQuery('.date').datepicker({
+		dateFormat : nodelist_ajax.dateform
+	} );
 }
 
 function jquery_datepicker( selector ) {
