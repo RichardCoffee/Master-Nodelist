@@ -145,12 +145,12 @@ class WMN_Form_Nodelist {
 					<tr>
 						<th class="centered"><?php e_esc_html( $this->query->header_title( 'address' ) ); ?></tr>
 					</tr>
-				</thead>
+	 			</thead>
 				<tbody><?php
 					foreach( $data as $entry ) { ?>
 						<tr onclick="pick_entry( this, <?php echo $entry['id']; ?> );"><?php
 #							$this->apply_attrs_element( 'td', [ 'class' => 'hidden' ],  $entry['id'] );
-wmn()->logging_write_entry($entry);
+wmn(1)->log($entry);
 							$key = ( empty( $entry['address'] ) ) ? 'descrip' : 'address';
 							$this->apply_attrs_element( 'td', [ 'class' => $key ], $entry[ $key ] ); ?>
 						</tr><?php
@@ -169,7 +169,7 @@ wmn()->logging_write_entry($entry);
 
 	protected function retrieve_nodelist_data() {
 		global $wpdb;
-		$sql   = "SELECT id, account, house, ticket, address, viya, subscriber, install, complete, comments";
+		$sql   = "SELECT id, account, house, ticket, descrip, address, viya, subscriber, install, complete, comments";
 		$sql  .= " FROM workbook_nodelist WHERE node = %s AND ( complete IS NULL OR complete = '' ) ORDER BY address";
 		$prep  = $wpdb->prepare( $sql, $this->node );
 		$count = $wpdb->query( $prep );
