@@ -143,14 +143,13 @@ class WMN_Form_Nodelist {
 			<table class="table">
 				<thead>
 					<tr>
-						<th class="centered"><?php e_esc_html( $this->query->header_title( 'address' ) ); ?></tr>
+						<th class="centered"><?php e_esc_html( $this->query->header_title( 'address' ) ); ?></th>
 					</tr>
-	 			</thead>
+				</thead>
 				<tbody><?php
 					foreach( $data as $entry ) { ?>
 						<tr onclick="pick_entry( this, <?php echo $entry['id']; ?> );"><?php
 #							$this->apply_attrs_element( 'td', [ 'class' => 'hidden' ],  $entry['id'] );
-wmn(1)->log($entry);
 							$key = ( empty( $entry['address'] ) ) ? 'descrip' : 'address';
 							$this->apply_attrs_element( 'td', [ 'class' => $key ], $entry[ $key ] ); ?>
 						</tr><?php
