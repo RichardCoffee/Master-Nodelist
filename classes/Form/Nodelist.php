@@ -133,7 +133,8 @@ class WMN_Form_Nodelist {
 	}
 
 	protected function build_nodelist() {
-		$data  = $this->retrieve_nodelist_data(); ?>
+		$data = $this->retrieve_nodelist_data();
+		$key  = ( empty( $data[0]['address'] ) ) ? 'descrip' : 'address'; ?>
 		<div class="panel panel-fluidity">
 			<div class="panel-heading centered"><?php
 				$this->back_button(1);
@@ -143,14 +144,13 @@ class WMN_Form_Nodelist {
 			<table class="table">
 				<thead>
 					<tr>
-						<th class="centered"><?php e_esc_html( $this->query->header_title( 'address' ) ); ?></th>
+						<th class="centered"><?php e_esc_html( $this->query->header_title( $key ) ); ?></th>
 					</tr>
 				</thead>
 				<tbody><?php
 					foreach( $data as $entry ) { ?>
 						<tr onclick="pick_entry( this, <?php echo $entry['id']; ?> );"><?php
 #							$this->apply_attrs_element( 'td', [ 'class' => 'hidden' ],  $entry['id'] );
-							$key = ( empty( $entry['address'] ) ) ? 'descrip' : 'address';
 							$this->apply_attrs_element( 'td', [ 'class' => $key ], $entry[ $key ] ); ?>
 						</tr><?php
 					} ?>
@@ -169,7 +169,7 @@ class WMN_Form_Nodelist {
 	protected function retrieve_nodelist_data() {
 		global $wpdb;
 		$sql   = "SELECT id, account, house, ticket, descrip, address, viya, subscriber, install, complete, comments";
-		$sql  .= " FROM workbook_nodelist WHERE node = %s AND ( complete IS NULL OR complete = '' ) ORDER BY address";
+		$sql  .= " FROM workbook_nodelist WHERE node = %s AND ( complete IS NULL OR complete = '' ) ORDER BY address, descrip";
 		$prep  = $wpdb->prepare( $sql, $this->node );
 		$count = $wpdb->query( $prep );
 		$limit = $this->ajax['nodepage'] * $this->page_size;
