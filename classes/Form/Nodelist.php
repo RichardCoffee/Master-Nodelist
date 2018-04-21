@@ -150,7 +150,8 @@ class WMN_Form_Nodelist {
 					foreach( $data as $entry ) { ?>
 						<tr onclick="pick_entry( this, <?php echo $entry['id']; ?> );"><?php
 #							$this->apply_attrs_element( 'td', [ 'class' => 'hidden' ],  $entry['id'] );
-							$this->apply_attrs_element( 'td', [ 'class' => 'address' ], $entry['address'] ); ?>
+							$key = ( empty( $entry['address'] ) ) ? 'descrip' : 'address';
+							$this->apply_attrs_element( 'td', [ 'class' => $key ], $entry[ $key ] ); ?>
 						</tr><?php
 					} ?>
 				</tbody>

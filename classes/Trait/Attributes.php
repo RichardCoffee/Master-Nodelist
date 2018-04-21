@@ -155,5 +155,14 @@ trait WMN_Trait_Attributes {
 		return $html;
 	}
 
+	// gives the option of typing a little less, I suppose...
+	public function attributes_register__call() {
+		if ( method_exists( $this, 'register__call' ) ) {
+			$this->register__call( array( $this, 'apply_attrs_element' ),     'element' );
+			$this->register__call( array( $this, 'apply_attrs_tag' ),         'tag' );
+			$this->register__call( array( $this, 'get_apply_attrs_tag' ),     'get_tag' );
+			$this->register__call( array( $this, 'get_apply_attrs_element' ), 'get_element' );
+		}
+	}
 
 }

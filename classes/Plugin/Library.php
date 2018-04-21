@@ -12,9 +12,8 @@ class WMN_Plugin_Library {
 	}
 
 	protected function initialize() {
-		$this->register__call( array( $this, 'logging_calling_location' ),          'debug_calling_function' );
-		$this->register__call( array( $this, 'logging_get_calling_function_name' ), 'get_calling_function' );
-		$this->register__call( array( $this, 'logging_was_called_by' ),             'was_called_by' );
+		$this->attributes_register__call();
+		$this->logging_register__call();
 		if ( WP_DEBUG && function_exists( 'add_action' ) ) {
 			add_action( 'deprecated_function_run',    array( $this, 'logging_log_deprecated' ), 10, 3 );
 			add_action( 'deprecated_constructor_run', array( $this, 'logging_log_deprecated' ), 10, 3 );
