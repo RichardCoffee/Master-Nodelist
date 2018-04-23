@@ -49,7 +49,7 @@ trait WMN_Trait_Logging {
 			'call_user_func',
 			'call_user_func_array',
 			'debug_calling_function',
-			'log_entry',
+			'get_calling_function',
 			'log',
 			'logg',
 			'logging'
@@ -147,14 +147,6 @@ trait WMN_Trait_Logging {
 		}
 		$message = date( '[d-M-Y H:i:s e] ' ) . $message . "\n";
 		error_log( $message, 3, $destination );
-	}
-
-	public function logging_register__call() {
-		if ( method_exists( $this, 'register__call' ) ) {
-			$this->register__call( array( $this, 'logging_calling_location' ),          'debug_calling_function' );
-			$this->register__call( array( $this, 'logging_get_calling_function_name' ), 'get_calling_function' );
-			$this->register__call( array( $this, 'logging_was_called_by' ),             'was_called_by' );
-		}
 	}
 
 

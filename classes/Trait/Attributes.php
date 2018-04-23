@@ -20,28 +20,6 @@ trait WMN_Trait_Attributes {
 	}
 
 	/**
-	 * echo the generated html
-	 *
-	 * @since 20180408
-	 * @param string $element
-	 * @param array $attrs
-	 * @param string $text
-	 */
-	public function apply_attrs_element( $element, $attrs, $text = '' ) {
-		echo $this->get_apply_attrs_element( $element, $attrs, $text );
-	}
-
-	/**
-	 * echo the generated tag html
-	 *
-	 * @param string $html_tag the tag to be generated
-	 * @param array $attrs an associative array containing the attribute keys and values
-	 */
-	public function apply_attrs_tag( $html_tag, $attrs ) {
-		echo $this->get_apply_attrs_tag( $html_tag, $attrs );
-	}
-
-	/**
 	 * generates the html for the tag attributes
 	 *
 	 * @param array $attrs contains attribute/value pairs
@@ -107,6 +85,16 @@ trait WMN_Trait_Attributes {
 	}
 
 	/**
+	 * echo the generated tag html
+	 *
+	 * @param string $html_tag the tag to be generated
+	 * @param array $attrs an associative array containing the attribute keys and values
+	 */
+	public function apply_attrs_tag( $html_tag, $attrs ) {
+		echo $this->get_apply_attrs_tag( $html_tag, $attrs );
+	}
+
+	/**
 	 * generates the initial html for the desired tag and attributes
 	 *
 	 * @param string $html_tag tag to be generated
@@ -136,6 +124,18 @@ trait WMN_Trait_Attributes {
 	}
 
 	/**
+	 * echo the generated html
+	 *
+	 * @since 20180408
+	 * @param string $element
+	 * @param array $attrs
+	 * @param string $text
+	 */
+	public function apply_attrs_element( $element, $attrs, $text = '' ) {
+		echo $this->get_apply_attrs_element( $element, $attrs, $text );
+	}
+
+	/**
 	 * generates the html for the element with enclosed content
 	 *
 	 * @since 20180408
@@ -155,14 +155,5 @@ trait WMN_Trait_Attributes {
 		return $html;
 	}
 
-	// gives the option of typing a little less, I suppose...
-	public function attributes_register__call() {
-		if ( method_exists( $this, 'register__call' ) ) {
-			$this->register__call( array( $this, 'apply_attrs_element' ),     'element' );
-			$this->register__call( array( $this, 'apply_attrs_tag' ),         'tag' );
-			$this->register__call( array( $this, 'get_apply_attrs_tag' ),     'get_tag' );
-			$this->register__call( array( $this, 'get_apply_attrs_element' ), 'get_element' );
-		}
-	}
 
 }
