@@ -19,7 +19,7 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 		register_uninstall_hook(    $this->paths->file, array( 'WMN_Register_Workbook', 'uninstall'  ) );
 		$this->add_actions();
 		$this->add_filters();
-		$form = required_form();
+		$form = new WMN_Form_Nodelist;
 		if ( is_admin() ) {
 			new WMN_Form_Workbook;
 		} else {
