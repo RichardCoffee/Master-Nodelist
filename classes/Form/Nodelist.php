@@ -47,7 +47,7 @@ class WMN_Form_Nodelist {
 	}
 
 	public function nodelist_scripts() {
-		if ( get_page_slug() === 'master-nodelist' ) {
+		if ( $this->get_page_slug() === 'master-nodelist' ) {
 			$version = wmn_paths()->version;
 			$prereq  = array(
 				'jquery',
@@ -368,6 +368,13 @@ class WMN_Form_Nodelist {
 		echo '<p>Thank you for verifying that the export was successful.</p>';
 		echo '<p>Your daily nodelist has been reset.</p>';
 		wp_die();
+	}
+
+	private function get_page_slug() {
+		if ( ! function_exists( 'get_page_slug' ) ) {
+			include_once( WMN_WORKBOOK_DIR . '/includes/standalone.php' );
+		}
+		return get_page_slug();
 	}
 
 
