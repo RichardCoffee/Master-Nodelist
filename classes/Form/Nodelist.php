@@ -372,7 +372,7 @@ class WMN_Form_Nodelist {
 
 	private function get_page_slug() {
 		if ( ! function_exists( 'get_page_slug' ) ) {
-			include_once( WMN_WORKBOOK_DIR . '/includes/standalone.php' );
+			include_once( WMN_WORKBOOK_DIR . 'includes/stand-alone.php' );
 		}
 		return get_page_slug();
 	}
