@@ -98,13 +98,13 @@ class WMN_Query_Nodelist {
 
 	public function create( $file = 'workbook_nodelist' ) {
 		global $wpdb;
-		$charset_collate = $wpdb->get_charset_collate();
 		$sql = "CREATE TABLE $file ( id int(11) NOT NULL AUTO_INCREMENT,";
 		$headers = $this->base_headers();
 		foreach( $headers as $header ) {
 			$sql .= "`$header` text,";
 		}
 		$sql .= "`insertionDate` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP, PRIMARY KEY (id)";
+		$charset_collate = $wpdb->get_charset_collate();
 		$sql .= " ) $charset_collate;";
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		dbDelta( $sql );

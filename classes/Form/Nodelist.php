@@ -216,20 +216,16 @@ class WMN_Form_Nodelist {
 				'name'  => 'id',
 				'value' => $entry['id']
 			);
-			$this->apply_attrs_element( 'input', $attrs );
-			foreach( $editus as $item ) { ?>
+			$this->element( 'input', $attrs );
+			foreach( $editus as $item ) {
+				$attrs = array(
+					'description' => $this->query->header_title( $item ),
+					'field_id'    => "wmn_$item",
+					'field_name'  => $item,
+					'field_value' => $entry[ $item ]
+				);
+				$input = null; ?>
 				<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12"><?php
-					if ( $item === 'submit' ) {
-						$this->save_entry_button();
-						echo "</div>"; // ending div
-						continue;
-					}
-					$attrs = array(
-						'description' => $this->query->header_title( $item ),
-						'field_id'    => "wmn_$item",
-						'field_name'  => $item,
-						'field_value' => $entry[ $item ]
-					);
 					switch( $item ) {
 						case 'install':
 							$attrs['description'] = 'Drop Installed';
@@ -244,6 +240,9 @@ class WMN_Form_Nodelist {
 							}
 							$input = new WMN_Form_Field_Date( $attrs );
 							$input->date();
+							break;
+						case 'submit':
+							$this->save_entry_button();
 							break;
 						default:
 							$input = new WMN_Form_Field_Text( $attrs );
