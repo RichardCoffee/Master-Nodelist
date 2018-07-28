@@ -33,14 +33,14 @@ class WMN_Form_Baselist {
 	}
 
 	protected function add_actions() {
-		add_action( 'wp_enqueue_scripts',        array( $this, 'nodelist_scripts' ) );
-		add_action( 'wp_ajax_wmn_show_nodelist', array( $this, 'show_nodelist' ) );
-		add_action( 'wp_ajax_nopriv_wmn_show_nodelist', array( $this, 'show_nodelist' ) );
+		add_action( 'wp_enqueue_scripts',        [ $this, 'nodelist_scripts' ] );
+		add_action( 'wp_ajax_wmn_show_nodelist', [ $this, 'show_nodelist' ] );
+		add_action( 'wp_ajax_nopriv_wmn_show_nodelist', [ $this, 'show_nodelist' ] );
 	}
 
 	public function nodelist_scripts() {
 		if ( get_page_slug() === 'master-nodelist' ) {
-			wp_enqueue_script( 'wmn-master-nodelist', wmn_paths()->get_plugin_file_uri( 'js/form-nodelist.js' ), array( 'jquery' ), wmn_paths()->version, true );
+			wp_enqueue_script( 'wmn-master-nodelist', wmn_paths()->get_plugin_file_uri( 'js/form-nodelist.js' ), [ 'jquery' ], wmn_paths()->version, true );
 			wp_localize_script( 'wmn-master-nodelist', 'nodelist_ajax', $this->ajax );
 		}
 	}

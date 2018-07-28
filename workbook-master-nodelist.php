@@ -40,7 +40,7 @@ define( 'WMN_WORKBOOK_DIR' , plugin_dir_path( __FILE__ ) );
 
 require_once( 'functions.php' );
 
-$plugin = WMN_Plugin_Workbook::get_instance( array( 'file' => __FILE__ ) );
+$plugin = WMN_Plugin_Workbook::get_instance( [ 'file' => __FILE__ ] );
 
-register_activation_hook( __FILE__, array( 'WMN_Register_Workbook', 'activate' ) );
+register_activation_hook( __FILE__, [ 'WMN_Register_Workbook', 'activate' ] );
 # %2U9(Ne%h&!SfXoJWgEvJCux

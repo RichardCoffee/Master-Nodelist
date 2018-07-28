@@ -15,15 +15,15 @@ class WMN_Plugin_Workbook extends WMN_Plugin_Plugin {
 		if ( ( ! WMN_Register_Workbook::php_version_check() ) || ( ! WMN_Register_Workbook::wp_version_check() ) ) {
 			return;
 		}
-		register_deactivation_hook( $this->paths->file, array( 'WMN_Register_Workbook', 'deactivate' ) );
-		register_uninstall_hook(    $this->paths->file, array( 'WMN_Register_Workbook', 'uninstall'  ) );
+		register_deactivation_hook( $this->paths->file, [ 'WMN_Register_Workbook', 'deactivate' ] );
+		register_uninstall_hook(    $this->paths->file, [ 'WMN_Register_Workbook', 'uninstall'  ] );
 		$this->add_actions();
 		$this->add_filters();
 		$form = new WMN_Form_Nodelist;
 		if ( is_admin() ) {
 			new WMN_Form_Workbook;
 		} else {
-			add_shortcode( 'wmn-nodelist', array( $form, 'nodelist_form' ) );
+			add_shortcode( 'wmn-nodelist', [ $form, 'nodelist_form' ] );
 		}
 	}
 

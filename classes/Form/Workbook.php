@@ -8,10 +8,10 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 
 
 	public function __construct() {
-		add_action( 'admin_enqueue_scripts',       array( $this, 'admin_enqueue_scripts' ) );
-		add_action( 'admin_menu',                  array( $this, 'add_menu_option' ) );
-		add_action( 'wp_ajax_wmn_import_nodelist', array( $this, 'import_nodelist' ) );
-		add_action( 'wp_ajax_wmn_reset_nodelist',  array( $this, 'reset_nodelist' ) );
+		add_action( 'admin_enqueue_scripts',       [ $this, 'admin_enqueue_scripts' ] );
+		add_action( 'admin_menu',                  [ $this, 'add_menu_option' ] );
+		add_action( 'wp_ajax_wmn_import_nodelist', [ $this, 'import_nodelist' ] );
+		add_action( 'wp_ajax_wmn_reset_nodelist',  [ $this, 'reset_nodelist' ] );
 	}
 
 	public function add_menu_option() {
@@ -26,8 +26,8 @@ class WMN_Form_Workbook extends WMN_Form_Admin {
 	public function admin_enqueue_scripts( $hook ) {
 		$paths = wmn_paths();
 		wp_enqueue_media();
-		wp_enqueue_style(  'wmn-form-workbook.css', $paths->get_plugin_file_uri( 'css/form-workbook.css' ),            null, $paths->version );
-		wp_enqueue_script( 'wmn-form-workbook.js',  $paths->get_plugin_file_uri( 'js/form-workbook.js' ), array( 'jquery' ), $paths->version, true );
+		wp_enqueue_style(  'wmn-form-workbook.css', $paths->get_plugin_file_uri( 'css/form-workbook.css' ),       null, $paths->version );
+		wp_enqueue_script( 'wmn-form-workbook.js',  $paths->get_plugin_file_uri( 'js/form-workbook.js' ), [ 'jquery' ], $paths->version, true );
 	}
 
 	protected function form_layout( $form = array() ) {

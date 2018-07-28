@@ -38,12 +38,12 @@ class WMN_Form_Nodelist {
 	}
 
 	protected function add_actions() {
-		add_action( 'wp_enqueue_scripts',          array( $this, 'nodelist_scripts' ), 11 );
-		add_action( 'wp_ajax_wmn_show_nodelist',   array( $this, 'show_nodelist' ) );
-		add_action( 'wp_ajax_wmn_pick_entry',      array( $this, 'pick_entry' ) );
-		add_action( 'wp_ajax_wmn_save_entry',      array( $this, 'save_entry' ) );
-		add_action( 'wp_ajax_wmn_export_techlist', array( $this, 'export_techlist' ) );
-		add_action( 'wp_ajax_wmn_verify_export',   array( $this, 'verify_export' ) );
+		add_action( 'wp_enqueue_scripts',          [ $this, 'nodelist_scripts' ], 11 );
+		add_action( 'wp_ajax_wmn_show_nodelist',   [ $this, 'show_nodelist' ] );
+		add_action( 'wp_ajax_wmn_pick_entry',      [ $this, 'pick_entry' ] );
+		add_action( 'wp_ajax_wmn_save_entry',      [ $this, 'save_entry' ] );
+		add_action( 'wp_ajax_wmn_export_techlist', [ $this, 'export_techlist' ] );
+		add_action( 'wp_ajax_wmn_verify_export',   [ $this, 'verify_export' ] );
 	}
 
 	public function nodelist_scripts() {
